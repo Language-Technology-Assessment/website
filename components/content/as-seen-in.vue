@@ -8,7 +8,7 @@
         <NuxtLink :to="item.url" v-for="item in list.items" target="_blank" class="flex">
           <div class="image">
             <NuxtImg
-              :src="`https://github.com/Language-Technology-Assessment/European-open-AI-index/blob/main/${item.image}?raw=true`"
+              :src="`https://raw.githubusercontent.com/Language-Technology-Assessment/European-open-AI-index/main/${item.image}`"
               sizes="300px"></NuxtImg>
           </div>
         </NuxtLink>
