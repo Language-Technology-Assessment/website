@@ -7,7 +7,7 @@
       <div class="images" v-visiblecontainer>
         <NuxtLink :to="item.url" v-for="item in list.items" target="_blank" class="flex">
           <div class="image">
-            <NuxtImg :src="`${item.image}`" sizes="300px"></NuxtImg>
+            <NuxtImg :src="`/${item.image}`" sizes="300px"></NuxtImg>
           </div>
         </NuxtLink>
       </div>
@@ -17,7 +17,6 @@
 
 <script lang="ts" setup>
 import list from "@/repos/website/as-seen-in.yml"
-
 </script>
 
 <style lang="less" scoped>
