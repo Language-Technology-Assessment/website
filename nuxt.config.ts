@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   }]
     }], '@nuxt/content', '@pinia/nuxt', '@nuxt/image', '@nuxtjs/i18n', '@nuxtjs/sitemap'],
   image: {
-    dir: 'repos/website',
+    dir: resolve(__dirname, 'repos/website'),
   },
   sitemap: {
     urls: async () => {
