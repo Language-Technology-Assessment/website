@@ -1,1 +1,1 @@
-# UI for https://github.com/opening-up-chatgpt/opening-up-chatgpt.github.io/
+# UI for https://github.com/Language-Technology-Assessment/main-database
