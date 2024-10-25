@@ -2,9 +2,9 @@ import { defineNuxtModule, createResolver, extendPages } from '@nuxt/kit'
 import { Octokit } from 'octokit'
 import { pipeline } from "node:stream/promises";
 import fs from "fs";
-import path from 'path'
 import * as tar from 'tar'
 import dotenv from 'dotenv';
+import { resolve } from "node:path";
 dotenv.config();
 
 
@@ -44,9 +44,9 @@ async function getRepo({ owner, repo, local, name }: { owner: string, repo: stri
   }
   
   const githubtoken = process.env.githubtoken;
-  const rootdir = `./repos`
-  const dir = `${rootdir}/${name}`
-  const infoPath = `${dir}/.info.json`
+  const rootdir = resolve(__dirname, '../repos')
+  const dir = resolve(rootdir, name)
+  const infoPath = resolve(dir, '.info.json')
   const octokit = new Octokit({ auth: githubtoken })
 
   // check if update is needed
