@@ -7,7 +7,9 @@
       <div class="images" v-visiblecontainer>
         <NuxtLink :to="item.url" v-for="item in list.items" target="_blank" class="flex">
           <div class="image">
-            <NuxtImg :src="`${item.image}`" sizes="300px"></NuxtImg>
+            <NuxtImg
+              :src="`https://github.com/Language-Technology-Assessment/European-open-AI-index/blob/main/${item.image}?raw=true`"
+              sizes="300px"></NuxtImg>
           </div>
         </NuxtLink>
       </div>
