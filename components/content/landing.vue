@@ -1,9 +1,7 @@
 <template>
   <div class="landing" ref="mainelement">
     <div class="frame" :style="{ transform: `translateY(${y / 2}px)`, opacity: 1 - (y / height) }">
-      <NuxtImg
-        src="https://github.com/Language-Technology-Assessment/European-open-AI-index/blob/main/images/sphere.png?raw=true"
-        class="sphere"></NuxtImg>
+      <NuxtImg src="/images/sphere.png" class="sphere"></NuxtImg>
       <div class="animation-frame">
         <div class="slot">
           <slot></slot>
