@@ -1,6 +1,6 @@
 <template>
-  <div class="page" ref="element" :class="{ loaded }">
-    <ContentDoc :path="finalPath" v-if="finalPath">
+  <div class="page" ref="element" :class="{ loaded, finalpath: !!finalPath }">
+    <ContentDoc :path="finalPath">
       <template #not-found>
         <div class="not-found">Page not found.</div>
       </template>
@@ -47,7 +47,7 @@ definePageMeta({
 .page {
   opacity: 0;
 
-  &.loaded {
+  &.loaded.finalpath {
     opacity: 1;
   }
 
