@@ -1,6 +1,6 @@
 <template>
   <div class="page" ref="element" :class="{ loaded }">
-    <ContentDoc :path="finalPath">
+    <ContentDoc :path="finalPath" v-if="finalPath">
       <template #not-found>
         <div class="not-found">Page not found.</div>
       </template>
