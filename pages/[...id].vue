@@ -1,5 +1,5 @@
 <template>
-  <div class="page" ref="element" v-if="loaded">
+  <div class="page" ref="element" :class="{ loaded }">
     <ContentDoc :path="finalPath">
       <template #not-found>
         <div class="not-found">Page not found.</div>
@@ -45,6 +45,12 @@ definePageMeta({
 
 <style lang="less">
 .page {
+  opacity: 0;
+
+  &.loaded {
+    opacity: 1;
+  }
+
   :root:not([path='/']) & {
 
     margin-top: 14rem !important;
