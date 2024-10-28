@@ -51,7 +51,7 @@ export default defineNuxtConfig({
     urls: async () => {
       const urls:Array<string> = []
       fs.readdirSync('./repos/data/').forEach(file => {
-        if (!file.match('a_submission_template.yaml') && !file.match('_parameters.yml')) {
+        if (!file.match('a_submission_template.yaml') && !file.match(/^_parameters/)) {
           const filename = file.replace('.yaml', '')
           // extendPages
           urls.push(`/model/${filename}`)

@@ -22,7 +22,7 @@ for (const path in projectsList) {
   const project = projectsList[path].default
   project.path = path
   project.filename = path.split('/').pop()?.replace('.yaml', '')
-  if (!path.match("a_submission_template.yaml") && !path.match("_parameters.yml")) latestProjects.value.push(project)
+  if (!path.match("a_submission_template.yaml") && !path.match(/^_parameters/)) latestProjects.value.push(project)
 }
 
 const latestModels: Ref<Array[any]> = ref()
@@ -105,7 +105,7 @@ async function downloadData(version: string) {
   
   const downloadProjectsList = []
   for (let i in data) {
-    if (data[i].name !== 'a_submission_template.yaml' && data[i].name !== "_parameters.yml" && data[i].name.match(/\.yaml$/)) {
+    if (data[i].name !== 'a_submission_template.yaml' && !data[i].name.match(/^_parameters/) && data[i].name.match(/\.yaml$/)) {
       const rawYaml = await fetch(data[i].download_url).then(x => x.text())
       const projectData = yaml.load(rawYaml)
       projectData.path = data[i].name
