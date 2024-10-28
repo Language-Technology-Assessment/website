@@ -37,7 +37,7 @@ const { height } = useWindowSize()
 
 .landing {
   height: calc(100vh - 4rem);
-  min-height: 45rem;
+  min-height: 38rem;
   margin-bottom: 4rem;
   position: relative;
   background: var(--bg2);
@@ -47,6 +47,10 @@ const { height } = useWindowSize()
   // align-items: center;
   justify-content: center;
   padding-top: 8rem;
+
+  @media (orientation: portrait) {
+    min-height: 45rem;
+  }
 
   .frame {
     display: block;
