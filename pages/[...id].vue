@@ -1,8 +1,11 @@
 <template>
-  <div class="page" ref="element">
+  <div class="page" ref="element" v-if="loaded">
     <ContentDoc :path="finalPath">
       <template #not-found>
         <div class="not-found">Page not found.</div>
+      </template>
+      <template #empty>
+        <div class="empty"></div>
       </template>
     </ContentDoc>
   </div>
@@ -11,6 +14,7 @@
 <script lang="ts" setup>
 import { asyncComputed } from '@vueuse/core'
 const route = useRoute()
+const loaded = ref(false)
 const pageKey = computed(() => {
   return Array.isArray(route.params) ? route.params.join('') : route.params
 })
@@ -24,6 +28,7 @@ const finalPath = asyncComputed(async () => {
 
 onMounted(() => {
   document.documentElement.setAttribute('path', route.path)
+  loaded.value = true
 })
 
 definePageMeta({

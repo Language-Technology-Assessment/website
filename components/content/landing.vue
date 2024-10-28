@@ -10,7 +10,7 @@
         </div>
         <div class="notesframe" :style="{ opacity: 1 - (y / height * 2) }">
           <div class="notes">
-            <ContentSlot :use="$slots.notes"></ContentSlot>
+            <ContentSlot :use="$slots.notes" v-if="$slots.notes"></ContentSlot>
           </div>
         </div>
       </div>
