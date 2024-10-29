@@ -7,16 +7,12 @@
         <scorebar :score="model.score" v-if="model?.score" :style="{ '--fg': color(model.score) }"></scorebar>
       </div>
       <ModelInfoFold :filename="route.params.model" :models="models" :categories="props.categories"></ModelInfoFold>
-      <div class="contribute">
-        <p>Is this information not up to date?</p>
-        <NuxtLink :to="`https://github.com/${info.owner}/${info.repo}`" target="_blank">Contribute here -></NuxtLink>
-      </div>
+      <contribute></contribute>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import info from '@/repos/data/.info.json'
 const { color } = useModels()
 const props = defineProps(['models', 'categories'])
 const models = computed(() => {
@@ -72,23 +68,6 @@ onMounted(async () => {
     text-align: center;
     color: var(--fg2);
     font-size: 0.75rem;
-  }
-}
-
-.contribute {
-  padding: 4rem 0;
-  margin: 0 auto;
-  text-align: center;
-
-  a {
-    background: var(--bg2);
-    padding: 0.5rem 1.5rem;
-    text-decoration: none;
-
-    &:hover {
-      color: var(--link);
-      background: var(--bg3);
-    }
   }
 }
 

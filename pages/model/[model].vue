@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page loaded finalpath">
     <ModelInfo :models="models" :categories="categories"></ModelInfo>
   </div>
 </template>
@@ -8,7 +8,6 @@
 const route = useRoute()
 
 const { categories, models } = useModels(String(route.query?.version))
-
 definePageMeta({
   pageTransition: {
     name: "page",

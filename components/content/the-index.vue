@@ -8,7 +8,9 @@
     <div class="meta">
       <div></div>
       <NuxtLink target="_blank" :to="url" class="source" v-if="!loading">
-        <div><span class='not-latest' v-if="props.version && props.version !== latestInfo.hash">⚠️</span> {{ date }}
+        <div><span class='not-latest' v-if="props.version && props.version !== latestInfo.hash">⚠️</span>Last updated
+          {{
+            date }}
         </div>
         <Icon icon="iconamoon:link-external-fill"></Icon>
       </NuxtLink>
@@ -17,7 +19,6 @@
     <div class="context" v-if="!props.hideFilters">
 
       <div class="types">
-        <button :class="{ active: !filters.type }" @click="delete filters.type">All</button>
         <button :class="{ active: filters.type === 'text' }" @click="filters.type = 'text'">Text</button>
         <button :class="{ active: filters.type === 'image' }" @click="filters.type = 'image'">Image</button>
         <button :class="{ active: filters.type === 'video' }" @click="filters.type = 'video'">Video</button>
@@ -121,6 +122,7 @@
 </template>
 
 <script lang="ts" setup>
+import isEmpty from 'lodash/isEmpty'
 import openIcon from '@/assets/icons/open.svg?raw'
 import closedIcon from '@/assets/icons/closed.svg?raw'
 import partialIcon from '@/assets/icons/partial.svg?raw'
@@ -140,7 +142,7 @@ onClickOutside(clickoutsidetarget, event => {
   open.value = false
 })
 
-const filters = ref({})
+const filters = ref({ type: "text" })
 const filterscreenOpen = ref(false)
 
 const { loading, date, url, error, models: originalModels, color, params, categories, latestInfo } = useModels(props.version)
@@ -219,9 +221,11 @@ function clearSelection() {
 
 onMounted(() => {
   if (props.filters) {
+    console.log('replace with props.filters')
     filters.value = props.filters
   }
-  if (!props.hideFilters && route.query) {
+  if (!props.hideFilters && route.query && !isEmpty(route.query)) {
+    console.log('replace with query', route.query)
     filters.value = JSON.parse(JSON.stringify(route.query))
   }
 })
@@ -925,7 +929,7 @@ div.stickycompare {
     border-right: 0;
     border-left: 0;
     border-radius: 0;
-    border-top: 1px solid var(--bg3) !important;
+    // border-top: 1px solid var(--bg3) !important;
 
     .context {
       margin: 0;
