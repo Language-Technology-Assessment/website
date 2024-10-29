@@ -8,8 +8,8 @@
       <div class="group">
         <label><span>Model type:</span><button @click="delete filters.type">clear</button></label>
         <div class="types multibutton">
-          <!-- <button class="filterbutton" :class="{ active: !('type' in filters) || filters.type === '' }"
-            @click="delete filters.type">All</button> -->
+          <button class="filterbutton" :class="{ active: !('type' in filters) || filters.type === '' }"
+            @click="delete filters.type">All</button>
           <button class="filterbutton" :class="{ active: filters?.type === 'text' }"
             @click="filters.type = 'text'">Text</button>
           <button class="filterbutton" :class="{ active: filters?.type === 'image' }"
@@ -134,7 +134,7 @@ function toggleModel(modelfilename: string) {
     top: 0;
     right: 0;
     z-index: 1000;
-    width: 20rem;
+    width: 24rem;
     z-index: 999;
     margin: 0 auto;
     height: 100vh;
