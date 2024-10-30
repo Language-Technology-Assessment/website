@@ -1,20 +1,29 @@
-import categories from '@/repos/data/_parameters.yml'
+import categories_current from '@/repos/data/_parameters.yml'
+import descriptions_current from '@/repos/data/_parameters-descriptions.yml'
 import info from '@/repos/data/.info.json'
 import { Octokit } from 'octokit'
 import yaml from 'js-yaml'
 import { useDateFormat } from '@vueuse/core'
+import isEmpty from 'lodash/isEmpty'
 
 const cache = {}
 
 const models: Ref<Array[any]> = ref([])
 
-const params: Array<any> = []
-categories.map(x => {
-  x.params.map(xx => {
-    xx.category = x.ref
-    return params.push(xx)
+const categories = ref(categories_current)
+const params: Ref<Array<any>> = ref(getParams(categories.value))
+const descriptions = ref(descriptions_current)
+
+function getParams(cats:Array<any>) {
+  let ps = []
+  cats.map(x => {
+    x.params.map(xx => {
+      xx.category = x.ref
+      return ps.push(xx)
+    })
   })
-})
+  return ps
+}
 
 const projectsList = import.meta.glob(['@/repos/data/*.yaml','!@/repos/data/a_submission_template.yaml'], { eager: true })
 let latestProjects = ref<Array<any>>([])
@@ -50,7 +59,7 @@ function sortModels(ppp: any) {
     x.categories = {}
     x.params = {}
     const type = x.system.type
-    categories.map(cat => {
+    categories.value.map(cat => {
       x.categories[cat.ref] = 0
       cat.params.filter(c => c.types.includes(type)).map(param => {
         let weight = 0
@@ -104,6 +113,9 @@ async function downloadData(version: string) {
   if (!Array.isArray(data)) throw Error('Not a file list.')
   
   const downloadProjectsList = []
+  let downloaded_categories = {}
+  let downloaded_params = []
+  let downloaded_descriptions = {}
   for (let i in data) {
     if (data[i].name !== 'a_submission_template.yaml' && !data[i].name.match(/^_parameters/) && data[i].name.match(/\.yaml$/)) {
       const rawYaml = await fetch(data[i].download_url).then(x => x.text())
@@ -112,11 +124,36 @@ async function downloadData(version: string) {
       projectData.filename = data[i].name
       downloadProjectsList.push(projectData)
     }
+    const found_parameters_descriptions = data.find(x => x.name === '_parameters-descriptions.yml')
+    if (found_parameters_descriptions) {
+      const rawYaml = await fetch(found_parameters_descriptions.download_url).then(x => x.text()).catch(console.warn)
+      if (rawYaml) {
+        const loadedYaml = yaml.load(rawYaml)
+        downloaded_descriptions = loadedYaml
+      }
+    }
+    const found_parameters = data.find(x => x.name === '_parameters.yml')
+    if (found_parameters_descriptions) {
+      const rawYaml = await fetch(found_parameters.download_url).then(x => x.text()).catch(console.warn)
+      if (rawYaml) {
+        const loadedYaml = yaml.load(rawYaml)
+        downloaded_params = []
+        loadedYaml.map(x => {
+          x.params.map(xx => {
+            xx.category = x.ref
+            return downloaded_params.push(xx)
+          })
+        })
+      }
+    }
   }
   // get commit date
   var { data: metadata } = await octokit.rest.repos.getCommit({ owner: info.owner, repo: info.repo, ref: version });
   const collectedData = {
     data: sortModels(downloadProjectsList),
+    params: downloaded_params,
+    categories: downloaded_categories,
+    descriptions: downloaded_descriptions,
     version,
     date: metadata.commit.author?.date,
     url: `https://github.com/${info.owner}/${info.repo}/${version}`
@@ -138,6 +175,10 @@ export const useModels = (version?: string) => {
     downloadData(version).then(result => {
       models.value = result.data
       loading.value = false
+      descriptions.value = !isEmpty(result.descriptions) ? result.descriptions : descriptions_current
+      categories.value = !isEmpty(result.categories) ? result.categories : categories_current
+      if (result.params.length > 0) params: result.params
+      else { params.value = getParams(categories.value) }
       date.value = unref(useDateFormat(result.date, 'DD MMM YYYY'))
       url.value = result
       error.value = ''
@@ -165,6 +206,7 @@ export const useModels = (version?: string) => {
     categories,
     bg,
     color,
-    params
+    params,
+    descriptions
   }
 }

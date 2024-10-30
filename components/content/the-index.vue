@@ -4,6 +4,8 @@
     <FilterMenu v-model:open="filterscreenOpen" v-model:filters="filters" v-model:models="models"
       :originalModels="originalModels" :categories="categories">
     </FilterMenu>
+    <!-- parameters descriptions -->
+    <ParametersDescriptions :descriptions="descriptions" :params="params"></ParametersDescriptions>
     <!-- metadata -->
     <div class="meta">
       <div></div>
@@ -89,6 +91,9 @@
                   <div class="name">
                     <div class="cat-name">{{ getCatName() }}:</div>
                     <div class="param-name">{{ params.find(x => x.ref === openParam).name }}</div>
+                    <button @click="bus.emit(openParam)" class="reference">
+                      <Icon icon="mage:question-mark-circle-fill"></Icon>
+                    </button>
                   </div>
                   <div class="param-notes" v-if="item[openParam] && item[openParam].notes">{{ item[openParam].notes }}
                   </div>
@@ -127,8 +132,9 @@ import openIcon from '@/assets/icons/open.svg?raw'
 import closedIcon from '@/assets/icons/closed.svg?raw'
 import partialIcon from '@/assets/icons/partial.svg?raw'
 import cloneDeep from 'lodash/cloneDeep'
-import { useElementBounding, onClickOutside } from '@vueuse/core'
+import { useElementBounding, onClickOutside, useEventBus } from '@vueuse/core'
 import { Icon } from '@iconify/vue'
+const bus = useEventBus('description')
 const props = defineProps(['filters', 'version', 'hideFilters'])
 const open = ref()
 const openParam = ref()
@@ -145,7 +151,7 @@ onClickOutside(clickoutsidetarget, event => {
 const filters = ref({ type: "text" })
 const filterscreenOpen = ref(false)
 
-const { loading, date, url, error, models: originalModels, color, params, categories, latestInfo } = useModels(props.version)
+const { loading, date, url, error, models: originalModels, color, params, categories, latestInfo, descriptions } = useModels(props.version)
 
 watch(filters, (val) => {
   if (!props.hideFilters) {
@@ -205,8 +211,8 @@ const searchQuery = ref('')
 const searchFocus = ref(false)
 const store = useMyComparisonStore()
 function getCatName() {
-  const catref = params.find(x => x.ref === openParam.value).category
-  return categories.find(x => x.ref === catref).name
+  const catref = params.value.find(x => x.ref === openParam.value).category
+  return categories.value.find(x => x.ref === catref).name
 }
 
 function openComparison() {
@@ -221,11 +227,9 @@ function clearSelection() {
 
 onMounted(() => {
   if (props.filters) {
-    console.log('replace with props.filters')
     filters.value = props.filters
   }
   if (!props.hideFilters && route.query && !isEmpty(route.query)) {
-    console.log('replace with query', route.query)
     filters.value = JSON.parse(JSON.stringify(route.query))
   }
 })
@@ -806,6 +810,8 @@ button.filterbutton {
     font-size: 0.75rem;
     width: 100%;
 
+
+
     .name {
       font-weight: 600;
       margin-bottom: 0.25em;
@@ -816,6 +822,25 @@ button.filterbutton {
       }
 
       .param-name {}
+
+      .reference {
+        // position: absolute;
+        // right: 0;
+        // top: 0;
+        padding: 0;
+        margin: 0;
+        color: var(--fg2);
+
+        :deep(svg) {
+          margin: 0;
+          vertical-align: baseline;
+        }
+
+        &:hover {
+          background: transparent;
+          color: var(--link);
+        }
+      }
     }
 
     .param-notes {

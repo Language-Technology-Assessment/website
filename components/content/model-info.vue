@@ -1,5 +1,6 @@
 <template>
   <div class="model-info">
+    <ParametersDescriptions></ParametersDescriptions>
     <div class="frame">
       <div class="top-info">
         <h1 v-if="model?.org">{{ model.org.name || '(undefined)' }}</h1>

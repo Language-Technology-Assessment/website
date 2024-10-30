@@ -15,7 +15,11 @@
           </div>
         </div>
         <div class="param-info">
-          <div class="param-name">{{ param.name }} <Icon icon="mage:tag-question-mark-fill"></Icon>
+          <div class="param-name">
+            <div class="name">
+              {{ param.name }}
+            </div>
+            <Icon @click="bus.emit(param.ref)" icon="mage:question-mark-circle-fill"></Icon>
           </div>
           <div class='notes' v-html="model[param.ref].notes" v-if="model[param.ref]?.notes">
           </div>
@@ -32,11 +36,13 @@
 </template>
 
 <script lang="ts" setup>
+import { useEventBus } from '@vueuse/core'
 import { Icon } from '@iconify/vue'
 import openIcon from '@/assets/icons/open.svg?raw'
 import closedIcon from '@/assets/icons/closed.svg?raw'
 import partialIcon from '@/assets/icons/partial.svg?raw'
 
+const bus = useEventBus('description')
 const { color } = useModels()
 const { model, category } = defineProps(['model', 'category'])
 </script>
@@ -108,6 +114,7 @@ h2 {
   margin-bottom: 0rem;
 
   .param-info {
+    width: 100%;
 
     &:hover {
       .param-name {
@@ -135,11 +142,19 @@ h2 {
   .param-name {
     font-weight: 600;
     margin-bottom: 0.5rem;
+    display: flex;
+    flex: 1;
+    width: 100%;
+
+    .name {
+      flex: 1;
+    }
 
     :deep(svg) {
       transition: 0.2s ease;
       color: var(--fg2);
-      opacity: 0;
+      opacity: 0.5;
+      cursor: pointer;
     }
   }
 

@@ -1,14 +1,14 @@
 <template>
-  <div class="compare">
+  <div class="compare loaded finalpath">
     <ClientOnly>
       <div class="frame">
         <div class="names">
-          <div class="model-name" v-for="(model, k) in modelsList">
+          <NuxtLink :to="`/model/${model.filename}`" class="model-name" v-for="(model, k) in modelsList">
+            <div class="org" v-if="model?.org">{{ model.org.name || '(undefined)' }}</div>
+            <div class="name" v-if="model?.system">{{ model.system.name ||
+              '(undefined)' }}</div>
             <div class="count">{{ k + 1 }}/{{ modelsList.length }}</div>
-            <NuxtLink :to="`/model/${model.filename}`" class="name" v-if="model?.system">{{ model.system.name ||
-              '(undefined)' }}</NuxtLink>
-            <div class="org" v-if="model?.org">by {{ model.org.name || '(undefined)' }}</div>
-          </div>
+          </NuxtLink>
         </div>
         <div class="category" v-for="cat in categories">
           <category class="model-category" :category="cat" :model="model" v-for="model in modelsList"></category>
@@ -61,7 +61,7 @@ useHead({
     gap: 2rem;
     margin-bottom: 1rem;
 
-    >div {
+    >a {
       width: 20rem;
       flex: 1;
     }
@@ -89,6 +89,9 @@ useHead({
   border-bottom: 2px solid var(--bg);
   font-size: 1.25rem;
   position: relative;
+  text-align: center;
+  display: block;
+  text-decoration: none;
 
   .count {
     float: right;
@@ -100,17 +103,16 @@ useHead({
     padding: 0.25rem 0.75rem;
   }
 
-  a {
-    text-decoration: none;
-    font-weight: 600;
+  &:hover {
 
-    &:hover {
+    .org {
       text-decoration: underline;
     }
   }
 
-  .org {
+  .name {
     font-size: 0.75rem;
+    color: var(--fg2);
   }
 }
 

@@ -7,6 +7,16 @@ import { resolve } from "node:path";
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
+  app: {
+    head: {
+      link: [
+        { rel: "icon", href: '/logo.svg', media: "(prefers-color-scheme: light)" },
+        { rel: "icon", href: '/logo.png', media: "(prefers-color-scheme: light)" },
+        { rel: "icon", href: '/logo-dark.svg', media: "(prefers-color-scheme: dark)" },
+        { rel: "icon", href: '/logo-dark.png', media: "(prefers-color-scheme: dark)" }
+      ]
+    }
+  },
   i18n: {
     baseUrl: 'https://language-technology-assessment.github.com/website/',
     strategy: 'no_prefix',
