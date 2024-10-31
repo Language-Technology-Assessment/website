@@ -1,5 +1,5 @@
 <template>
-  <div class="mainfooter">
+  <div class="mainfooter" :class="{ loaded }">
     <div class="frame">
       <ContentRendererMarkdown :value="data" v-if="data && status !== 'pending'">
         <template #empty></template>
@@ -12,11 +12,23 @@
 import markdownParser from "@nuxt/content/transformers/markdown";
 import footer from '@/repos/website/footer.md?raw'
 const { data, error, status } = await useAsyncData(() => markdownParser.parse('footer.md', footer))
-
+const loaded = ref(false)
+onMounted(() => {
+  setTimeout(() => {
+    loaded.value = true
+  }, 500)
+})
 </script>
 
 <style lang="less" scoped>
 .mainfooter {
+  opacity: 0;
+  transition: all 1s ease;
+
+  &.loaded {
+    opacity: 1;
+  }
+
   .frame {
     .row();
 
