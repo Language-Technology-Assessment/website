@@ -4,14 +4,12 @@
       <div class="context">
         <label>News</label>
       </div>
-      <div class="content" v-visiblecontainer>
-        <ContentList :query="query" v-slot="{ list }">
-          <NuxtLink :to="article._path" v-for="article in list" :key="article._path">
-            <div class="date">{{ toDate(article.date) }}</div>
-            <div class="title">{{ article.title }}</div>
-            <!-- <div class="description">{{ article.description }}</div> -->
-          </NuxtLink>
-        </ContentList>
+      <div class="content" v-visiblecontainer v-if="data && status === 'success'">
+        <NuxtLink :to="data[k]._path" v-for="(v, k) in limit" :key="data[k]._path">
+          <div class="date">{{ toDate(data[k].date) }}</div>
+          <div class="title">{{ data[k].title }}</div>
+        </NuxtLink>
+        <button class="showmore" @click="limit = limit + perpage" v-if="limit < data.length">Show more</button>
       </div>
     </div>
   </section>
@@ -20,8 +18,14 @@
 <script lang="ts" setup>
 import { useDateFormat } from '@vueuse/core'
 
-import type { QueryBuilderParams } from '@nuxt/content/dist/runtime/types'
-const query: QueryBuilderParams = { path: '/news', limit: 10, sort: [{ date: -1 }] }
+const props = defineProps(['perpage'])
+const limit = ref(props.perpage || 3)
+const perpage = computed(() => {
+  return props.perpage || 3
+})
+
+const { data, status } = await useAsyncData('news', () => queryContent('/news').find())
+
 function toDate(time: string) {
   // return time
   const rep = time.split('-').reverse().join('-')

@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import { useDark, useToggle } from '@vueuse/core'
-import logo from '@/repos/website/images/logo.svg?component'
+import logo from '@/repos/website/images/logo-dark.svg?component'
 import logoname from '@/repos/website/images/logo2-name-c.svg?component';
 import { Icon } from '@iconify/vue'
 import menu from '@/repos/website/menu.yml'
@@ -190,7 +190,13 @@ watch(menuopen, (val) => {
       transition-delay: 0.3s;
 
       :deep(path) {
-        fill: var(--fg2);
+        fill: var(--fg);
+      }
+
+      &:hover {
+        :deep(path) {
+          fill: var(--link);
+        }
       }
     }
 
