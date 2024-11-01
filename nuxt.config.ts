@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     }
   },
   i18n: {
-    baseUrl: 'https://language-technology-assessment.github.com/website/',
+    baseUrl: 'https://www.osai-index.eu',
     strategy: 'no_prefix',
     defaultLocale: 'en',
     locales: [
