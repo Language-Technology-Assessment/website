@@ -48,8 +48,10 @@ const { height } = useWindowSize()
   justify-content: center;
   padding-top: 8rem;
 
-  @media (orientation: portrait) {
+  @media (orientation: portrait),
+  (min-width: 1600px) {
     min-height: 45rem;
+    max-height: 45rem;
   }
 
   .frame {
