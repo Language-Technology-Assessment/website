@@ -41,12 +41,10 @@ export default defineNuxtConfig({
       }
     }
   },
-  modules: [// './modules/extend-pages-module/extendpages.ts',
+  modules: [
   ['./modules/github.module', {
     repositories: [{
     name: 'data',
-    // owner: 'opening-up-chatgpt',
-    // repo: 'opening-up-chatgpt.github.io',
     owner: 'Language-Technology-Assessment',
     repo: 'main-database',
     }, {
@@ -56,7 +54,7 @@ export default defineNuxtConfig({
   }]
     }], '@nuxt/content', '@pinia/nuxt', '@nuxt/image', '@nuxtjs/i18n', '@nuxtjs/sitemap'],
   image: {
-    dir: './repos/website',
+    dir: resolve(__dirname, 'repos/website/'),
     domains: ['raw.githubusercontent.com'],
   },
   sitemap: {
