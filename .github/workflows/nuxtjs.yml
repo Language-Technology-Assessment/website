@@ -65,7 +65,7 @@ jobs:
         run: yarn run generate
         env: 
           githubtoken: ${{ secrets.GITHUB_TOKEN }}
-          NUXT_APP_BASE_URL: /website/
+          NUXT_APP_BASE_URL: /
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
