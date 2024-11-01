@@ -3,7 +3,8 @@ import ViteYaml from '@modyfi/vite-plugin-yaml';
 import ViteMarkdown from 'vite-plugin-markdown';
 import svgLoader from 'vite-svg-loader'
 import fs from 'fs'
-import { resolve } from "node:path";
+import { resolve, basename, join, dirname, parse } from "node:path";
+import glob from 'fast-glob'
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -59,9 +60,23 @@ export default defineNuxtConfig({
   },
   sitemap: {
     urls: async () => {
-      const urls:Array<string> = []
+      const urls: Array<string> = []
+      const pages = await glob('./repos/website/pages/**/*.md')
+      pages.map(x => {
+        let dir = basename(dirname(x))
+        let p = parse(x)
+        let fromroot = x.split('pages')[1]
+        if (dir !== 'guides' && dir !== 'news') {
+          const name = fromroot.replace(/\.md$/, '')
+          if (p.name === 'index') {
+            urls.push(parse(fromroot).dir)
+          } else {
+            urls.push(fromroot.replace(/\.md$/, ''))
+          }
+        }
+      })
       fs.readdirSync('./repos/data/').forEach(file => {
-        if (!file.match('a_submission_template.yaml') && !file.match(/^_parameters/)) {
+        if (!file.match(/(a_submission_template\.yaml|^_parameters|^readme\.md|^\.github|^\.info)/)) {
           const filename = file.replace('.yaml', '')
           // extendPages
           urls.push(`/model/${filename}`)
