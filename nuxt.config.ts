@@ -74,6 +74,12 @@ export default defineNuxtConfig({
             urls.push(fromroot.replace(/\.md$/, ''))
           }
         }
+        if (dir === 'guides') {
+          urls.push(`/guides/${p.name}`)
+        }
+        if (dir === 'news') {
+          urls.push(`/news/${p.name}`)
+        }
       })
       fs.readdirSync('./repos/data/').forEach(file => {
         if (!file.match(/(a_submission_template\.yaml|^_parameters|^readme\.md|^\.github|^\.info)/)) {
