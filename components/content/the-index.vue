@@ -522,7 +522,7 @@ button.filterbutton {
 
 .models {
   margin: 0 auto;
-  padding: 0 3rem 8rem;
+  padding: 0 3rem 2rem;
   flex: 1;
 }
 
