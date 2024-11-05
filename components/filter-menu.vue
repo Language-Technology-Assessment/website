@@ -25,7 +25,7 @@
         <div class="categories">
           <div class="category" v-for="cat in props.categories">
             <div class="cat-name">{{ cat.name }}</div>
-            <div class="param" v-for="param in cat.params" @click="toggleParam(param.ref)"
+            <div class="param" v-for="param in filterActiveParams(cat.params)" @click="toggleParam(param.ref)"
               :class="{ active: param.ref in filters }">
               <div class="param-name">{{ param.name }}</div>
               <div class="icons">
@@ -52,10 +52,14 @@ import { onKeyStroke } from '@vueuse/core'
 import openIcon from '@/assets/icons/open.svg?raw'
 import closedIcon from '@/assets/icons/closed.svg?raw'
 import partialIcon from '@/assets/icons/partial.svg?raw'
-import xor from 'lodash/xor'
 const filteredmodels = defineModel('models')
 const props = defineProps(['categories', 'originalModels'])
 const open = defineModel('open')
+
+function filterActiveParams(paramslist) {
+  if (!(filters.value?.type) || filters.value?.type === 'all') { return paramslist }
+  return paramslist.filter(x => x.types.includes(filters.value.type))
+}
 
 onKeyStroke('Escape', () => {
   open.value = false

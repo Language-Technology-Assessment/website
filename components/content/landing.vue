@@ -19,10 +19,8 @@
 </template>
 
 <script lang="ts" setup>
-import logoname from '@/repos/website/images/logo2-name-c.svg?component';
 import { useWindowScroll, useWindowSize } from '@vueuse/core'
 const mainelement = ref(null)
-const top = ref(0)
 const { y } = useWindowScroll()
 const { height } = useWindowSize()
 </script>
