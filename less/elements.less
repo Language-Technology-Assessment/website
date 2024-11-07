@@ -151,11 +151,9 @@ label {
   }
   ul {
     list-style: disc;
-    // list-style-position: inside;
   }
   ol {
     list-style: decimal;
-    // list-style-position: inside;
   }
   strong, b {
     font-weight: 700;
@@ -167,6 +165,12 @@ label {
     color: var(--fg2);
     + .bars {
       margin-top: 4rem;
+    }
+  }
+  blockquote {
+    p {
+      border-left: 2px solid var(--bc);
+      padding-left: 2rem;
     }
   }
 }
