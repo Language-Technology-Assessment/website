@@ -9,7 +9,7 @@
           <div class="date">{{ toDate(data[k].date) }}</div>
           <div class="title">{{ data[k].title }}</div>
         </NuxtLink>
-        <button class="showmore" @click="limit = limit + perpage" v-if="limit < data.length">Show more</button>
+        <button class="showmore" @click="showMore()" v-if="limit < data.length">Show more</button>
       </div>
     </div>
   </section>
@@ -24,7 +24,14 @@ const perpage = computed(() => {
   return props.perpage || 3
 })
 
-const { data, status } = await useAsyncData('news', () => queryContent('/news').find())
+function showMore() {
+  limit.value = limit.value + perpage.value
+  if (limit.value > data.value.length) {
+    limit.value = data.value.length
+  }
+}
+
+const { data, status } = await useAsyncData('news', () => queryContent('/news').sort({ date: -1 }).find())
 
 function toDate(time: string) {
   // return time

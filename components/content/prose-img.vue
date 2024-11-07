@@ -13,5 +13,6 @@ const src = computed(() => {
 .inline-image {
   display: block;
   margin: 1rem auto 2rem;
+  max-width: 100%;
 }
 </style>
