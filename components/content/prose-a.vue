@@ -9,7 +9,7 @@ import type { PropType } from 'vue'
 
 const customTarget = computed(() => {
   if (props.target) return props.target
-  if (props.href.startsWith('http')) return '_blank'
+  if (props.href.startsWith('http') && !props.href.match(/^(?:https?:\/\/)?(?:[^.]+\.)?osai-index\.eu(\/.*)?$/)) return '_blank'
 })
 
 const props = defineProps({
