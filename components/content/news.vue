@@ -4,10 +4,10 @@
       <div class="context">
         <label>News</label>
       </div>
-      <div class="content" v-visiblecontainer v-if="data && status === 'success'">
-        <NuxtLink :to="data[k]._path" v-for="(v, k) in limit" :key="data[k]._path">
-          <div class="date">{{ toDate(data[k].date) }}</div>
-          <div class="title">{{ data[k].title }}</div>
+      <div class="content" v-visiblecontainer v-if="visibleData && status === 'success'">
+        <NuxtLink :to="item._path" v-for="item in visibleData" :key="item._path">
+          <div class="date">{{ toDate(item.date) }}</div>
+          <div class="title">{{ item.title }}</div>
         </NuxtLink>
         <button class="showmore" @click="showMore()" v-if="limit < data.length">Show more</button>
       </div>
@@ -32,6 +32,10 @@ function showMore() {
 }
 
 const { data, status } = await useAsyncData('news', () => queryContent('/news').sort({ date: -1 }).find())
+
+const visibleData = computed(() => {
+  return data.value?.slice(0, limit.value)
+})
 
 function toDate(time: string) {
   // return time

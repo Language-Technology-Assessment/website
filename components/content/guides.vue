@@ -4,10 +4,10 @@
       <div class="context">
         <label>Guides</label>
       </div>
-      <div class="content" v-visiblecontainer v-if="data && status === 'success'">
-        <NuxtLink :to="data[k]._path" v-for="(v, k) in limit" :key="data[k]._path">
-          <div class="title">{{ data[k].title }}</div>
-          <div class="description">{{ data[k].description }}</div>
+      <div class="content" v-visiblecontainer v-if="visibleData && status === 'success'">
+        <NuxtLink :to="item._path" v-for="(item, k) in visibleData" :key="item._path">
+          <div class="title">{{ item.title }}</div>
+          <div class="description">{{ item.description }}</div>
         </NuxtLink>
         <button class="showmore" @click="showMore()" v-if="limit < data.length">Show more</button>
       </div>
@@ -28,6 +28,10 @@ const { data, status } = await useAsyncData('guides', () => queryContent('/guide
     $not: /\.(.*).md$/
   }
 }).sort({ date: -1 }).find())
+
+const visibleData = computed(() => {
+  return data.value?.slice(0, limit.value)
+})
 
 function showMore() {
   limit.value = limit.value + perpage.value
