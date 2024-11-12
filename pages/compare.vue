@@ -4,9 +4,9 @@
       <div class="frame">
         <div class="names">
           <NuxtLink :to="`/model/${model.filename}`" class="model-name" v-for="(model, k) in modelsList">
-            <div class="org" v-if="model?.org">{{ model.org.name || '(undefined)' }}</div>
             <div class="name" v-if="model?.system">{{ model.system.name ||
               '(undefined)' }}</div>
+            <div class="org" v-if="model?.org">by {{ model.org.name || '(undefined)' }}</div>
             <div class="count">{{ k + 1 }}/{{ modelsList.length }}</div>
           </NuxtLink>
         </div>
@@ -96,11 +96,14 @@ useHead({
   .count {
     float: right;
     color: var(--fg2);
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 0;
-    padding: 0.25rem 0.75rem;
+    padding: 0.25rem 0.5rem;
+    opacity: 0.5;
+    background: var(--bg3);
+    border-radius: 0 0 0 0.25rem;
   }
 
   &:hover {
@@ -110,7 +113,7 @@ useHead({
     }
   }
 
-  .name {
+  .org {
     font-size: 0.75rem;
     color: var(--fg2);
   }

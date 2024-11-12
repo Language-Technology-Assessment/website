@@ -53,11 +53,11 @@
             <div class="info" @click="router.push(`/model/${item.filename}`)">
               <div class="title">
                 <div class="titlewrap">
-                  <span class="org" v-if="item?.org">
-                    {{ item.org.name || '(undefined)' }}
-                  </span>
                   <span class="name">
                     {{ item.system.name || '(undefined)' }}
+                  </span>
+                  <span class="org" v-if="item?.org">
+                    by {{ item.org.name || '(undefined)' }}
                   </span>
                   <!-- <span class="basemodels">
                     {{ item.system.basemodelname || 'unspecified' }}/{{ item.system.endmodelname
@@ -588,13 +588,13 @@ button.filterbutton {
       margin-right: .5rem;
       cursor: pointer;
       flex: 1;
-      color: var(--fg2);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .org {
+      color: var(--fg2);
       // font-size: 0.75rem;
       margin-right: 0.5rem;
       white-space: nowrap;

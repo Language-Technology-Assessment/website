@@ -22,6 +22,7 @@ import info from '@/repos/data/.info.json'
 
   >div {
     margin-bottom: 2rem;
+    color: var(--fg2);
   }
 
   a {
