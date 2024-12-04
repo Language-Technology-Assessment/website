@@ -4,7 +4,7 @@
     <!-- menu -->
     <Mainmenu></Mainmenu>
     <!-- page content -->
-    <NuxtPage class="page"></NuxtPage>
+    <NuxtPage class="page" keep-alive></NuxtPage>
     <!-- footer -->
     <Mainfooter key="main-footer"></Mainfooter>
   </div>
