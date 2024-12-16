@@ -39,17 +39,11 @@
     <!-- context -->
     <div class="context" v-if="!props.hideFilters">
       <div class="view-buttons" v-if="!small">
-        <button
-          @click="setView('bars')"
-          :class="{ active: filters?.view === 'bars' }"
-        >
+        <button @click="setView('bars')" :class="{ active: view === 'bars' }">
           <Icon icon="solar:list-outline"></Icon>
         </button>
-        <button
-          @click="setView('grid')"
-          :class="{ active: filters?.view === 'grid' || !filters?.view }"
-        >
-          <Icon icon="line-md:grid-3-filled"></Icon>
+        <button @click="setView('grid')" :class="{ active: view === 'grid' }">
+          <Icon icon="mingcute:dot-grid-fill"></Icon>
         </button>
       </div>
       <div class="types">
@@ -271,7 +265,7 @@ function clearSelection() {
 const { width } = useWindowSize();
 const small = computed(() => width.value < 800);
 const view = computed(() => {
-  return !small.value ? filters.value?.view || "grid" : "bars";
+  return !small.value ? filters.value?.view || "bars" : "bars";
 });
 
 onMounted(() => {

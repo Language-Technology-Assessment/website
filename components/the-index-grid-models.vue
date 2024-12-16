@@ -344,6 +344,11 @@ tbody {
     font-size: 0.75rem;
     color: var(--fg2);
   }
+  &:hover {
+    .name {
+      text-decoration: underline;
+    }
+  }
 }
 .the-score {
   width: 2rem;
