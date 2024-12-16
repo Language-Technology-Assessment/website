@@ -346,7 +346,7 @@ p + .the-index {
   flex: 0 !important;
   flex-shrink: 0;
   border: 1px solid var(--bg3);
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   min-width: 5rem;
   overflow: hidden;
   gap: 1px;
