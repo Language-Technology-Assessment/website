@@ -97,7 +97,22 @@
                 {{ item[paramsFiltered[column].ref].notes }}
               </div>
               <div class="links" v-if="item[paramsFiltered[column].ref].link">
-                {{ item[paramsFiltered[column].ref].link }}
+                <NuxtLink
+                  :to="item[paramsFiltered[column].ref].link"
+                  target="_blank"
+                  v-if="
+                    typeof item[paramsFiltered[column].ref].link === 'string'
+                  "
+                >
+                  {{ item[paramsFiltered[column].ref].link }}
+                </NuxtLink>
+                <NuxtLink
+                  :to="link"
+                  target="_blank"
+                  v-else
+                  v-for="link in item[paramsFiltered[column].ref].link"
+                  >{{ link }}
+                </NuxtLink>
               </div>
             </div>
           </td>
@@ -280,6 +295,8 @@ tbody {
         font-size: 0.75rem;
         padding: 0.5rem 1rem 1rem;
         border-radius: 0 0 0.25rem 0.25rem;
+        box-shadow: 0 0.125rem 0.125rem var(--shadow);
+
         .slidedown();
         z-index: -1;
         .dark & {
@@ -294,6 +311,7 @@ tbody {
         }
         .links {
           font-size: 0.6rem;
+          color: var(--fg2);
         }
       }
     }
