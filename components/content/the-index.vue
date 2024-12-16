@@ -4,7 +4,7 @@
     ref="el"
     :class="[
       { sticky: isvisible, filtershidden: props.hideFilters },
-      `view-${currentView}`,
+      `view-${view}`,
     ]"
   >
     <!-- filter menu -->

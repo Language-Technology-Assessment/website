@@ -1,4 +1,4 @@
-@import './ease.less';
+@import "./ease.less";
 
 .overlaybg() {
   animation: overlaybg 1s @easeOutExpo 0s 1 forwards;
@@ -11,7 +11,7 @@
 }
 
 .popup() {
-  animation: popup .3s @easeOutExpo 0s 1 forwards;
+  animation: popup 0.3s @easeOutExpo 0s 1 forwards;
   opacity: 0;
   transform: scale(0.5);
   @keyframes popup {
@@ -32,12 +32,13 @@
   transform: translateX(-1em);
 }
 
-
 .fadein(@duration:0.5s, @plusdelay:0, @opacity: 1) {
   opacity: 0;
   animation: fadein @duration linear 0s 1 forwards;
   @keyframes fadein {
-    100% { opacity: @opacity; }
+    100% {
+      opacity: @opacity;
+    }
   }
   each(range(99), {
     &:nth-child(@{index}) {
@@ -46,13 +47,28 @@
   });
 }
 
+.slidedown(@duration:0.15s, @plusdelay:0, @opacity: 1) {
+  opacity: 0;
+  transform: translateY(-2rem);
+  animation: slidedown @duration ease 0.1s 1 forwards;
+  @keyframes slidedown {
+    100% {
+      opacity: 1;
+      transform: translateY(0rem);
+    }
+  }
+}
+
 .fadepopin(@duration: 0.5s, @perdelay: 0.01s, @plusdelay:0, @opend: 1) {
   opacity: 0;
   transform: scale(0.8);
   transform-origin: center;
   animation: fadein @duration @easeInOutExpo 0s 1 forwards;
   @keyframes fadein {
-    100% { opacity: @opend; transform: scale(1); }
+    100% {
+      opacity: @opend;
+      transform: scale(1);
+    }
   }
   each(range(99), {
     &:nth-child(@{index}) {
@@ -61,17 +77,18 @@
   });
 }
 
-.clipopen(@direction: topleft, @duration: .3s) {
+.clipopen(@direction: topleft, @duration: 0.3s) {
   clip-path: polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%);
   animation: clipopentopleft @duration @easeInOutExpo 0s 1 forwards;
   @keyframes clipopentopleft {
-    100% { 
+    100% {
       clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     }
   }
 }
 
-.invisible, .visible {
+.invisible,
+.visible {
   transition: all 1s @easeInOutExpo;
 }
 
@@ -80,7 +97,7 @@
     &:nth-child(@{value}) {
       transition-delay: @value * 0.1s;
     }
-  })
+  });
 }
 
 .invisible {
@@ -92,8 +109,8 @@
   transform: translateY(0rem);
 }
 
-
-.invisible-container, .visible-container {
+.invisible-container,
+.visible-container {
   > * {
     transition: all 1.5s @easeInOutExpo;
   }
@@ -105,7 +122,7 @@
       &:nth-child(@{value}) {
       transition-delay: @value * 0.05s;
     }
-  })
+  });
   }
 }
 

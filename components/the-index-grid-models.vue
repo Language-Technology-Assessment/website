@@ -10,14 +10,13 @@
         rowfocus: typeof row === 'number',
         columnfocus: typeof column === 'number',
       }"
+      @mouseleave="modelKey = null"
     >
       <thead>
         <tr>
           <td class="name"></td>
           <td
-            v-for="(param, pk) in params.filter((x) =>
-              x.types.includes(filters.type)
-            )"
+            v-for="(param, pk) in paramsFiltered"
             :key="param.ref"
             :class="{ active: column === pk }"
           >
@@ -25,22 +24,23 @@
               {{ param.name }}
             </div>
           </td>
+          <td class="margin"></td>
         </tr>
       </thead>
       <tbody
+        class="model"
+        v-for="(item, k) in models"
+        :key="item.filename"
+        :class="{ active: row === k }"
+        @mouseenter="row = k"
         @mouseleave="
           row = null;
           column = null;
+          modelKey = null;
         "
+        @click="router.push(`/model/${item.filename}`)"
       >
-        <tr
-          class="model"
-          v-for="(item, k) in models"
-          :key="item.filename"
-          :class="{ active: row === k }"
-          @mouseenter="row = k"
-          @click="router.push(`/model/${item.filename}`)"
-        >
+        <tr>
           <td class="info">
             <div class="name">
               {{ item.system.name || "(undefined)" }}
@@ -50,12 +50,13 @@
             </div>
           </td>
           <td
-            v-for="(param, pk) in params.filter((x) =>
-              x.types.includes(filters.type)
-            )"
+            v-for="(param, pk) in paramsFiltered"
             :key="param.ref"
             class="the-score"
-            @mouseenter="column = pk"
+            @mouseenter="
+              column = pk;
+              modelKey = k;
+            "
             :class="[`is-${item[param.ref]?.class}`, { active: column === pk }]"
           >
             <div
@@ -74,6 +75,31 @@
               v-html="closedIcon"
             />
             <div v-else>-</div>
+          </td>
+          <td class="margin"></td>
+        </tr>
+        <tr class="param-hover-info" v-if="modelKey === k">
+          <td></td>
+          <td
+            class="param-content"
+            :colspan="
+              params.filter((x) => x.types.includes(filters.type)).length + 1
+            "
+          >
+            <div
+              class="param-content-frame"
+              v-if="column !== null && item[paramsFiltered[column].ref]"
+            >
+              <div class="name" @click="bus.emit(paramsFiltered[column].ref)">
+                {{ paramsFiltered[column].name }}
+              </div>
+              <div class="notes" v-if="item[paramsFiltered[column].ref].notes">
+                {{ item[paramsFiltered[column].ref].notes }}
+              </div>
+              <div class="links" v-if="item[paramsFiltered[column].ref].link">
+                {{ item[paramsFiltered[column].ref].link }}
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -98,13 +124,21 @@ const { models, version, filters } = defineProps([
 ]);
 const open = ref();
 const openParam = ref();
+const modelKey = ref();
 const bus = useEventBus("description");
 
 const { color, params, categories } = useModels(version);
+const paramsFiltered = computed(() => {
+  if (!filters?.type) {
+    return [];
+  }
+  return params.value.filter((x) => x?.types?.includes(filters.type));
+});
 
 function setOpenParam(item) {
   open.value = item;
 }
+
 function getCatName() {
   const catref = params.value.find((x) => x.ref === openParam.value).category;
   return categories.value.find((x) => x.ref === catref).name;
@@ -138,7 +172,7 @@ table {
   // padding-right: 6rem;
   border-right: 1px solid var(--bg2);
   border-left: 1px solid var(--bg2);
-  border-bottom: 2rem solid var(--bg2);
+  // border-bottom: 2rem solid var(--bg2);
 }
 thead {
   position: sticky;
@@ -151,7 +185,7 @@ thead {
     top: 0;
   }
   td {
-    border-bottom: 1px solid var(--bg3);
+    // border-bottom: 1px solid var(--bg3);
     position: relative;
     height: 6.5rem;
     overflow: visible;
@@ -164,12 +198,10 @@ thead {
   }
 }
 table.rowfocus tbody {
-  tr {
-    opacity: 0.5;
-    transition: all 0.1s ease;
-    &.active {
-      opacity: 1;
-    }
+  opacity: 0.5;
+  transition: all 0.1s ease;
+  &.active {
+    opacity: 1;
   }
 }
 table.columnfocus {
@@ -209,21 +241,82 @@ table.columnfocus {
 }
 
 tbody {
+  position: relative;
   tr {
     cursor: pointer;
+    position: relative;
   }
-  tr:nth-child(odd) {
+  &:nth-child(odd) {
     background-color: var(--bg);
   }
   td {
+    text-align: center;
+    &:first-child {
+      text-align: left;
+    }
     &:last-child {
       padding-right: 2rem;
+    }
+  }
+
+  tr.param-hover-info {
+    background: transparent;
+    height: 0;
+    padding: 0;
+    position: relative;
+    z-index: 9;
+    width: 100%;
+    td {
+      text-align: left;
+    }
+
+    .param-content {
+      position: relative;
+      .param-content-frame {
+        position: absolute;
+        background: var(--bg);
+        width: 100%;
+        top: -1rem;
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem 1rem;
+        border-radius: 0 0 0.25rem 0.25rem;
+        .slidedown();
+        z-index: -1;
+        .dark & {
+          background: var(--bg3);
+        }
+        .name {
+          margin-bottom: 0.25rem;
+        }
+        .notes {
+          color: var(--fg2);
+          margin-bottom: 0.25rem;
+        }
+        .links {
+          font-size: 0.6rem;
+        }
+      }
+    }
+  }
+  &:hover {
+    background: var(--bg);
+    .dark & {
+      background: var(--bg3);
+    }
+    td {
+      &.the-score {
+        opacity: 0.5;
+      }
+      &:first-child {
+        // background: transparent;
+      }
     }
   }
 }
 
 .info {
   padding: 0.5rem 0.5rem 0.5rem 1rem;
+  min-width: 20rem;
   .name {
   }
   .org {
@@ -236,7 +329,7 @@ tbody {
   transition: transform 0.2s ease;
   transform-origin: center;
   &:hover {
-    transform: scale(1.2);
+    opacity: 1 !important;
   }
 }
 .is-closed {
