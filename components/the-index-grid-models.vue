@@ -38,10 +38,9 @@
           column = null;
           modelKey = null;
         "
-        @click="router.push(`/model/${item.filename}`)"
       >
         <tr>
-          <td class="info">
+          <td class="info" @click="router.push(`/model/${item.filename}`)">
             <div class="name">
               {{ item.system.name || "(undefined)" }}
             </div>
@@ -54,6 +53,10 @@
             :key="param.ref"
             class="the-score"
             @mouseenter="
+              column = pk;
+              modelKey = k;
+            "
+            @click="
               column = pk;
               modelKey = k;
             "
