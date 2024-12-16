@@ -9,9 +9,16 @@
         </button>
       </div>
       <div class="inframe">
-        <div v-for="(item, param) in descriptions" class="item" :id="`param-${param}`"
-          :class="{ active: focus === String(param), inactive: focus !== String(param) && focus !== '' }">
-          <div class="name">{{ params.find(x => x.ref == param).name }}</div>
+        <div
+          v-for="(item, param) in descriptions"
+          class="item"
+          :id="`param-${param}`"
+          :class="{
+            active: focus === String(param),
+            inactive: focus !== String(param) && focus !== '',
+          }"
+        >
+          <div class="name">{{ params.find((x) => x.ref == param).name }}</div>
           <div class="description">{{ item.en }}</div>
         </div>
       </div>
@@ -20,40 +27,48 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from '@iconify/vue'
-import { useEventBus } from '@vueuse/core'
-const props = defineProps(['params', 'descriptions'])
-const { descriptions: current_descriptions, params: current_params } = useModels()
-const open = ref(false)
-const focus = ref('')
-const bus = useEventBus<string>('description')
-const frame = ref(null)
+import { Icon } from "@iconify/vue";
+import { useEventBus, onKeyStroke } from "@vueuse/core";
+const props = defineProps(["params", "descriptions"]);
+const { descriptions: current_descriptions, params: current_params } =
+  useModels();
+const open = ref(false);
+const focus = ref("");
+const bus = useEventBus<string>("description");
+const frame = ref(null);
+
+onKeyStroke("Escape", () => {
+  open.value = false;
+});
 
 bus.on((val) => {
-  open.value = true
-  focus.value = val
+  open.value = true;
+  focus.value = val;
   setTimeout(() => {
-    if (!frame.value) { return false }
-    const param_el = frame.value.querySelector(`#param-${val}`)
-    param_el.scrollIntoView({ behavior: "smooth", block: "start" })
-  }, 10)
+    if (!frame.value) {
+      return false;
+    }
+    const param_el = frame.value.querySelector(`#param-${val}`);
+    param_el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 10);
   setTimeout(() => {
-    focus.value = ''
-  }, 2000)
-})
+    focus.value = "";
+  }, 2000);
+});
 
 const params = computed(() => {
-  if (props.params) return props.params
-  return current_params.value
-})
+  if (props.params) return props.params;
+  return current_params.value;
+});
 const descriptions = computed(() => {
-  if (props.descriptions) return props.descriptions
-  return current_descriptions.value
-})
+  if (props.descriptions) return props.descriptions;
+  return current_descriptions.value;
+});
 </script>
 
 <style lang="less" scoped>
-.parameters-descriptions {}
+.parameters-descriptions {
+}
 
 .bg {
   position: fixed;
@@ -135,8 +150,6 @@ const descriptions = computed(() => {
     pointer-events: auto;
   }
 }
-
-
 
 .item {
   margin-bottom: 2rem;
