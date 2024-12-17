@@ -83,12 +83,7 @@
         </tr>
         <tr class="param-hover-info" v-if="modelKey === k">
           <td></td>
-          <td
-            class="param-content"
-            :colspan="
-              params.filter((x) => x.types.includes(filters.type)).length + 1
-            "
-          >
+          <td class="param-content" :colspan="paramsFiltered.length + 1">
             <div
               class="param-content-frame"
               v-if="column !== null && item[paramsFiltered[column].ref]"
@@ -147,10 +142,8 @@ const bus = useEventBus("description");
 
 const { color, params, categories } = useModels(version);
 const paramsFiltered = computed(() => {
-  if (!filters?.type) {
-    return [];
-  }
-  return params.value.filter((x) => x?.types?.includes(filters.type));
+  const temptype = filters?.type || "text";
+  return params.value.filter((x) => x?.types?.includes(temptype));
 });
 
 function setOpenParam(item) {
@@ -167,6 +160,7 @@ function getCatName() {
 .grid-models {
   padding: 0;
   overflow: visible;
+  padding-bottom: 1rem;
   @media (max-width: 50rem) {
     overflow: auto;
   }
@@ -284,12 +278,14 @@ tbody {
     position: relative;
     z-index: 9;
     width: 100%;
+    min-width: 40rem;
     td {
       text-align: left;
     }
 
     .param-content {
       position: relative;
+      overflow: visible;
       .param-content-frame {
         position: absolute;
         background: var(--bg);
