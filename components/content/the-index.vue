@@ -66,10 +66,10 @@
           Video
         </button>
         <button
-          :class="{ active: filters.type === 'sound' }"
-          @click="filters.type = 'sound'"
+          :class="{ active: filters.type === 'code' }"
+          @click="filters.type = 'code'"
         >
-          Sound
+          Code
         </button>
       </div>
 

@@ -5,11 +5,18 @@
         <label>As seen in</label>
       </div>
       <div class="images" v-visiblecontainer>
-        <NuxtLink :to="item.url" v-for="item in list.items" target="_blank" class="flex">
+        <NuxtLink
+          :to="item.url"
+          v-for="item in list.items"
+          target="_blank"
+          class="flex"
+        >
           <div class="image">
             <NuxtImg
               :src="`https://raw.githubusercontent.com/Language-Technology-Assessment/European-open-AI-index/main/${item.image}`"
-              sizes="300px" :alt="item.title"></NuxtImg>
+              sizes="300px"
+              :alt="item.title"
+            ></NuxtImg>
           </div>
         </NuxtLink>
       </div>
@@ -18,9 +25,10 @@
 </template>
 
 <script lang="ts" setup>
-import list from "@/repos/website/as-seen-in.yml"
+import list from "@/repos/website/as-seen-in.yml";
 </script>
 
 <style lang="less" scoped>
-.as-seen-in {}
+.as-seen-in {
+}
 </style>

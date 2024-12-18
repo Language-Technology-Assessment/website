@@ -6,18 +6,46 @@
         <Icon icon="ic:round-close"></Icon>
       </button>
       <div class="group">
-        <label><span>Model type:</span><button @click="delete filters.type">clear</button></label>
+        <label
+          ><span>Model type:</span
+          ><button @click="delete filters.type">clear</button></label
+        >
         <div class="types multibutton">
-          <button class="filterbutton" :class="{ active: !('type' in filters) || filters.type === '' }"
-            @click="delete filters.type">All</button>
-          <button class="filterbutton" :class="{ active: filters?.type === 'text' }"
-            @click="filters.type = 'text'">Text</button>
-          <button class="filterbutton" :class="{ active: filters?.type === 'image' }"
-            @click="filters.type = 'image'">Image</button>
-          <button class="filterbutton" :class="{ active: filters?.type === 'video' }"
-            @click="filters.type = 'video'">Video</button>
-          <button class="filterbutton" :class="{ active: filters?.type === 'sound' }"
-            @click="filters.type = 'sound'">Sound</button>
+          <button
+            class="filterbutton"
+            :class="{ active: !('type' in filters) || filters.type === '' }"
+            @click="delete filters.type"
+          >
+            All
+          </button>
+          <button
+            class="filterbutton"
+            :class="{ active: filters?.type === 'text' }"
+            @click="filters.type = 'text'"
+          >
+            Text
+          </button>
+          <button
+            class="filterbutton"
+            :class="{ active: filters?.type === 'image' }"
+            @click="filters.type = 'image'"
+          >
+            Image
+          </button>
+          <button
+            class="filterbutton"
+            :class="{ active: filters?.type === 'video' }"
+            @click="filters.type = 'video'"
+          >
+            Video
+          </button>
+          <button
+            class="filterbutton"
+            :class="{ active: filters?.type === 'code' }"
+            @click="filters.type = 'code'"
+          >
+            Code
+          </button>
         </div>
       </div>
       <!-- params group -->
@@ -25,18 +53,41 @@
         <div class="categories">
           <div class="category" v-for="cat in props.categories">
             <div class="cat-name">{{ cat.name }}</div>
-            <div class="param" v-for="param in filterActiveParams(cat.params)" @click="toggleParam(param.ref)"
-              :class="{ active: param.ref in filters }">
+            <div
+              class="param"
+              v-for="param in filterActiveParams(cat.params)"
+              @click="toggleParam(param.ref)"
+              :class="{ active: param.ref in filters }"
+            >
               <div class="param-name">{{ param.name }}</div>
               <div class="icons">
-                <div class='circle-icon closed-icon' v-html="closedIcon" @click.stop="setParamValue(param.ref, 0)"
-                  :class="{ active: param.ref in filters && filters[param.ref].includes(0) }">
-                </div>
-                <div class='circle-icon partial-icon' v-html="partialIcon" @click.stop="setParamValue(param.ref, 0.5)"
-                  :class="{ active: param.ref in filters && filters[param.ref].includes(0.5) }">
-                </div>
-                <div class='circle-icon open-icon' v-html="openIcon" @click.stop="setParamValue(param.ref, 1)"
-                  :class="{ active: param.ref in filters && filters[param.ref].includes(1) }"></div>
+                <div
+                  class="circle-icon closed-icon"
+                  v-html="closedIcon"
+                  @click.stop="setParamValue(param.ref, 0)"
+                  :class="{
+                    active:
+                      param.ref in filters && filters[param.ref].includes(0),
+                  }"
+                ></div>
+                <div
+                  class="circle-icon partial-icon"
+                  v-html="partialIcon"
+                  @click.stop="setParamValue(param.ref, 0.5)"
+                  :class="{
+                    active:
+                      param.ref in filters && filters[param.ref].includes(0.5),
+                  }"
+                ></div>
+                <div
+                  class="circle-icon open-icon"
+                  v-html="openIcon"
+                  @click.stop="setParamValue(param.ref, 1)"
+                  :class="{
+                    active:
+                      param.ref in filters && filters[param.ref].includes(1),
+                  }"
+                ></div>
               </div>
             </div>
           </div>
@@ -47,71 +98,72 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from '@iconify/vue'
-import { onKeyStroke } from '@vueuse/core'
-import openIcon from '@/assets/icons/open.svg?raw'
-import closedIcon from '@/assets/icons/closed.svg?raw'
-import partialIcon from '@/assets/icons/partial.svg?raw'
-const filteredmodels = defineModel('models')
-const props = defineProps(['categories', 'originalModels'])
-const open = defineModel('open')
+import { Icon } from "@iconify/vue";
+import { onKeyStroke } from "@vueuse/core";
+import openIcon from "@/assets/icons/open.svg?raw";
+import closedIcon from "@/assets/icons/closed.svg?raw";
+import partialIcon from "@/assets/icons/partial.svg?raw";
+const filteredmodels = defineModel("models");
+const props = defineProps(["categories", "originalModels"]);
+const open = defineModel("open");
 
 function filterActiveParams(paramslist) {
-  if (!(filters.value?.type) || filters.value?.type === 'all') { return paramslist }
-  return paramslist.filter(x => x.types.includes(filters.value.type))
+  if (!filters.value?.type || filters.value?.type === "all") {
+    return paramslist;
+  }
+  return paramslist.filter((x) => x.types.includes(filters.value.type));
 }
 
-onKeyStroke('Escape', () => {
-  open.value = false
-})
+onKeyStroke("Escape", () => {
+  open.value = false;
+});
 
-const filters = defineModel('filters')
+const filters = defineModel("filters");
 
 watch(open, (val) => {
   if (val) {
-    document.body.classList.add('scroll-block')
+    document.body.classList.add("scroll-block");
   } else {
-    document.body.classList.remove('scroll-block')
+    document.body.classList.remove("scroll-block");
   }
-})
+});
 
 function toggleParam(paramref: string) {
   if (paramref in filters.value) {
-    delete filters.value[paramref]
+    delete filters.value[paramref];
   } else {
-    filters.value[paramref] = [1]
+    filters.value[paramref] = [1];
   }
 }
 
 function setParamValue(paramref, val) {
   if (paramref in filters.value) {
     if (filters.value[paramref].includes(val)) {
-      filters.value[paramref].splice(filters.value[paramref].indexOf(val), 1)
+      filters.value[paramref].splice(filters.value[paramref].indexOf(val), 1);
     } else {
-      filters.value[paramref].push(val)
+      filters.value[paramref].push(val);
     }
   } else {
-    filters.value[paramref] = [val]
+    filters.value[paramref] = [val];
   }
   if (paramref in filters.value && filters.value[paramref].length === 0) {
-    delete filters.value[paramref]
+    delete filters.value[paramref];
   }
 }
 
 function toggleModel(modelfilename: string) {
-  if (!('models' in filters.value)) {
-    filters.value.models = []
+  if (!("models" in filters.value)) {
+    filters.value.models = [];
   }
   if (filters.value.models.includes(modelfilename)) {
-    filters.value.models.splice(filters.value.models.indexOf(modelfilename), 1)
+    filters.value.models.splice(filters.value.models.indexOf(modelfilename), 1);
   } else {
     filters.value.models.push(modelfilename);
   }
   if (filters.value.models.length < 1) {
-    delete filters.value.models
+    delete filters.value.models;
   }
 }
-
 </script>
 
 <style lang="less" scoped>
@@ -144,7 +196,7 @@ function toggleModel(modelfilename: string) {
     height: 100vh;
     border-radius: 0 0 0.5rem;
     transform: translateX(4rem);
-    transition: all .5s @easeInOutExpo;
+    transition: all 0.5s @easeInOutExpo;
     overflow: auto;
     opacity: 0;
     background: var(--bg);
@@ -175,7 +227,7 @@ function toggleModel(modelfilename: string) {
   display: flex;
   // flex-direction: column;
 
-  >button.filterbutton {
+  > button.filterbutton {
     border: 0;
     border-left: 1px solid var(--bg3);
     border-radius: 0;
@@ -199,15 +251,13 @@ function toggleModel(modelfilename: string) {
       background: var(--bg3);
       color: var(--fg);
     }
-
   }
-
 }
 
 .group {
   flex: 1;
   margin-bottom: 2rem;
-  padding-top: .5rem;
+  padding-top: 0.5rem;
 
   label {
     display: flex;
@@ -234,7 +284,6 @@ function toggleModel(modelfilename: string) {
       }
     }
   }
-
 }
 
 .categories {
@@ -312,7 +361,6 @@ function toggleModel(modelfilename: string) {
     }
   }
 
-
   &:hover {
     color: var(--fg);
     opacity: 1;
@@ -330,7 +378,6 @@ function toggleModel(modelfilename: string) {
     .icons {
       opacity: 1;
     }
-
   }
 }
 </style>
