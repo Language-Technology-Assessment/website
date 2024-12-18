@@ -1,18 +1,21 @@
 <template>
-  <div class="page" ref="element" :class="{ loaded, finalpath: !!finalPath }">
-    <ContentDoc :path="finalPath">
+  <div
+    class="page"
+    ref="element"
+    :class="{ loaded, finalpath: status !== 'pending' }"
+  >
+    <ContentRenderer :value="data" v-if="data && status !== 'pending'">
       <template #not-found>
         <div class="not-found">Page not found.</div>
       </template>
       <template #empty>
         <div class="empty"></div>
       </template>
-    </ContentDoc>
+    </ContentRenderer>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { asyncComputed } from "@vueuse/core";
 const route = useRoute();
 const loaded = ref(false);
 const pageKey = computed(() => {
@@ -20,14 +23,19 @@ const pageKey = computed(() => {
 });
 
 const { markdownPath } = useLanguage();
-const finalPath = asyncComputed(async () => {
-  const res = await queryContent(markdownPath.value)
-    .findOne()
-    .catch((err) => {});
+
+const { data, error, status } = await useAsyncData(async () => {
+  const res = await queryContent(markdownPath.value).findOne();
   if (!res) {
-    return route.path;
+    if (import.meta.client) {
+      document.documentElement.setAttribute("path", route.fullPath);
+    }
+    return await queryContent(route.path).findOne();
   }
-  return markdownPath.value;
+  if (import.meta.client) {
+    document.documentElement.setAttribute("path", route.fullPath);
+  }
+  return res;
 });
 
 onMounted(() => {
