@@ -140,7 +140,7 @@ import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
 import { useEventBus } from "@vueuse/core";
 const store = useMyComparisonStore();
-const router = useRouter;
+const router = useRouter();
 const { models, version } = defineProps(["models", "version"]);
 const open = ref();
 const openParam = ref();
