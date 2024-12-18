@@ -24,7 +24,7 @@ const pageKey = computed(() => {
 
 const { markdownPath } = useLanguage();
 
-const { data, error, status } = await useAsyncData(async () => {
+const { data, error, status } = await useAsyncData(route.path, async () => {
   const res = await queryContent(markdownPath.value).findOne();
   if (!res) {
     if (import.meta.client) {
