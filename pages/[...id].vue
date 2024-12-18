@@ -12,47 +12,50 @@
 </template>
 
 <script lang="ts" setup>
-import { asyncComputed } from '@vueuse/core'
-const route = useRoute()
-const loaded = ref(false)
+import { asyncComputed } from "@vueuse/core";
+const route = useRoute();
+const loaded = ref(false);
 const pageKey = computed(() => {
-  return Array.isArray(route.params) ? route.params.join('') : route.params
-})
+  return Array.isArray(route.params) ? route.params.join("") : route.params;
+});
 
-const { markdownPath } = useLanguage()
+const { markdownPath } = useLanguage();
 const finalPath = asyncComputed(async () => {
-  const res = await queryContent(markdownPath.value).findOne().catch(err => { })
-  if (!res) { return route.path }
-  return markdownPath.value
-})
+  const res = await queryContent(markdownPath.value)
+    .findOne()
+    .catch((err) => {});
+  if (!res) {
+    return route.path;
+  }
+  return markdownPath.value;
+});
 
 onMounted(() => {
-  document.documentElement.setAttribute('path', route.path)
-  loaded.value = true
-})
+  document.documentElement.setAttribute("path", route.path);
+  loaded.value = true;
+});
 
 definePageMeta({
   pageTransition: {
     name: "page",
     mode: "out-in",
     onEnter(el, done) {
-      const route = useRoute()
-      el.setAttribute('path', route.fullPath)
+      const route = useRoute();
+      el.setAttribute("path", route.fullPath);
     },
-  }
-})
+  },
+});
 </script>
 
 <style lang="less">
 .page {
-  opacity: 0;
+  // opacity: 0;
 
-  &.loaded.finalpath {
-    opacity: 1;
-  }
+  // &.loaded.finalpath {
+  //   opacity: 1;
+  // }
 
-  :root:not([path='/']) & {
-
+  :root:not([path="/"]) & {
     margin-top: 14rem !important;
 
     @media (max-width: 60rem) {

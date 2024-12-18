@@ -1,19 +1,20 @@
-@import '@/less/reset.less';
-@import '@/less/transitions.less';
-@import '@/less/typography.less';
-@import '@/less/themes.less';
+@import "@/less/reset.less";
+@import "@/less/transitions.less";
+@import "@/less/typography.less";
+@import "@/less/themes.less";
 
 html {
   background: var(--bg);
 }
 
-html, body {
-  font-family: 'Inter', 'helvetica neue', Helvetica, sans-serif;
+html,
+body {
+  font-family: "Inter", "helvetica neue", Helvetica, sans-serif;
   font-weight: 500;
   font-size: 20px;
-  color:var(--fg);
+  color: var(--fg);
   line-height: 1.4;
-  scroll-behavior: smooth;
+  // scroll-behavior: smooth;
   @media (max-width: 1200px) {
     font-size: 18px;
   }
@@ -39,13 +40,20 @@ html, body {
   text-align: center;
 }
 
-a:focus, button:focus { outline: none; }
-button::-moz-focus-inner { border: 0; }
-
-i, em {
-  font-style:italic;
+a:focus,
+button:focus {
+  outline: none;
 }
-b, strong {
+button::-moz-focus-inner {
+  border: 0;
+}
+
+i,
+em {
+  font-style: italic;
+}
+b,
+strong {
   font-weight: 500;
 }
 
@@ -58,19 +66,19 @@ a {
 }
 
 input {
-  padding: 0.5em .75em;
+  padding: 0.5em 0.75em;
   border: none;
   border-radius: 0.25em;
   width: 100%;
   background: var(--bg1);
-  color:inherit;
+  color: inherit;
   line-height: inherit;
   &:focus {
     background: var(--bg2);
   }
   &::selection {
-    background:var(--fg2);
-    color:var(--link);
+    background: var(--fg2);
+    color: var(--link);
   }
 }
 
@@ -88,7 +96,7 @@ button {
   border: none;
   // border: 1px solid var(--fg);
   border-radius: 0.25em;
-  color:inherit;
+  color: inherit;
   padding: var(--buttonpadding);
   margin: 0 0.25em 0.25em 0.25em;
   font-weight: inherit;
@@ -103,21 +111,20 @@ label {
   display: block;
   // font-size: 0.75em;
   // padding: 0 1em;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
   color: var(--fg);
-  
+
   text-transform: none;
   color: var(--fg2);
 }
 
 .page {
-
   min-height: calc(100vh - 8rem);
   padding: 0 0 4rem;
 
   hr {
-    border:0;
-    border-top:1px solid var(--bc);
+    border: 0;
+    border-top: 1px solid var(--bc);
     margin: 2rem 0;
     display: block;
     .row();
@@ -143,7 +150,8 @@ label {
       text-decoration: none;
     }
   }
-  ul, ol {
+  ul,
+  ol {
     width: 30rem;
     max-width: calc(var(--maxwidth) - 2rem);
     margin: 0 auto 1rem;
@@ -155,7 +163,8 @@ label {
   ol {
     list-style: decimal;
   }
-  strong, b {
+  strong,
+  b {
     font-weight: 700;
   }
   p {
@@ -180,13 +189,13 @@ section {
 }
 
 .content-frame {
-  display:flex;
+  display: flex;
   .row();
   margin-bottom: 4rem;
-  border-top:1px solid var(--bc);
+  border-top: 1px solid var(--bc);
   .context {
-    flex:1;
-    max-width: calc(100%/3);
+    flex: 1;
+    max-width: calc(100% / 3);
     padding-top: 0.5rem;
     label {
       position: sticky;
@@ -200,16 +209,16 @@ section {
     }
   }
   .content {
-    flex:1;
+    flex: 1;
     a {
-       display: block;
+      display: block;
       margin-bottom: 2rem;
       text-decoration: none;
       border-top: 1px solid var(--bc);
       width: 100%;
       padding-top: 0.5rem;
       &:first-child {
-        border-top:0;
+        border-top: 0;
         padding-top: 1rem;
       }
 
@@ -225,7 +234,7 @@ section {
           border-radius: 0.125rem;
           aspect-ratio: 2/1;
           object-fit: contain;
-          border: .5rem solid transparent;
+          border: 0.5rem solid transparent;
 
           .dark & {
             background: var(--fg);
@@ -251,17 +260,17 @@ section {
         }
       }
 
-
       .title {
         font-size: 1.5rem;
-        font-family: 'InterDisplay', 'Inter', 'Helvetica', sans-serif;
+        font-family: "InterDisplay", "Inter", "Helvetica", sans-serif;
         &.small {
           font-size: 1rem;
-          font-family: 'Inter', 'Helvetica', sans-serif;
+          font-family: "Inter", "Helvetica", sans-serif;
         }
       }
 
-      .date, .description {
+      .date,
+      .description {
         color: var(--fg2);
       }
 
@@ -291,18 +300,18 @@ section {
     display: grid;
     gap: 2rem;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    @media (max-width: 60rem){
+    @media (max-width: 60rem) {
       grid-template-columns: 1fr 1fr 1fr 1fr;
     }
-    @media (max-width: 50rem){
+    @media (max-width: 50rem) {
       grid-template-columns: 1fr 1fr 1fr;
     }
-    @media (max-width: 40rem){
+    @media (max-width: 40rem) {
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
     a {
-      flex:1;
+      flex: 1;
       position: relative;
       background: var(--bg2);
       border-radius: 0.25rem;
@@ -312,18 +321,18 @@ section {
         object-position: center;
         aspect-ratio: 2/1;
         border: 1rem solid transparent;
-        opacity: .5;
+        opacity: 0.5;
         .dark & {
           filter: invert() saturate(0.3);
         }
       }
       &:after {
         content: "";
-        position:absolute;
-        left:0;
-        top:0;
-        width:100%;
-        height:100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
         background: var(--fg);
         mix-blend-mode: lighten;
         border-radius: 0.5rem;
