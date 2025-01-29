@@ -8,6 +8,7 @@
         <NuxtLink
           :to="item.url"
           v-for="item in list.items"
+          :title="item.title"
           target="_blank"
           class="flex"
         >
