@@ -4,46 +4,63 @@
       <div class="context">
         <label>News</label>
       </div>
-      <div class="content" v-visiblecontainer v-if="visibleData && status === 'success'">
-        <NuxtLink :to="item._path" v-for="item in visibleData" :key="item._path">
+      <div
+        class="content"
+        v-visiblecontainer
+        v-if="visibleData && status === 'success'"
+      >
+        <NuxtLink
+          :to="'/news' + item.path"
+          v-for="item in visibleData"
+          :key="item.path"
+        >
           <div class="date">{{ toDate(item.date) }}</div>
           <div class="title">{{ item.title }}</div>
         </NuxtLink>
-        <button class="showmore" @click="showMore()" v-if="limit < data.length">Show more</button>
+        <button class="showmore" @click="showMore()" v-if="limit < data.length">
+          Show more
+        </button>
       </div>
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { useDateFormat } from '@vueuse/core'
+import { useDateFormat } from "@vueuse/core";
 
-const props = defineProps(['perpage'])
-const limit = ref(props.perpage || 3)
+const props = defineProps(["perpage"]);
+const limit = ref(props.perpage || 3);
 const perpage = computed(() => {
-  return props.perpage || 3
-})
+  return props.perpage || 3;
+});
 
 function showMore() {
-  limit.value = limit.value + perpage.value
+  limit.value = limit.value + perpage.value;
   if (limit.value > data.value.length) {
-    limit.value = data.value.length
+    limit.value = data.value.length;
   }
 }
 
-const { data, status } = await useAsyncData('news', () => queryContent('/news').sort({ date: -1 }).find())
+const { data, status } = await useAsyncData("news", () =>
+  queryCollection("news")
+    .where("status", "=", "published")
+    .order("date", "DESC")
+    .all()
+);
 
 const visibleData = computed(() => {
-  return data.value?.slice(0, limit.value)
-})
+  return data.value?.slice(0, limit.value);
+});
 
 function toDate(time: string) {
   // return time
-  const rep = time.split('-').reverse().join('-')
-  return useDateFormat(rep, 'DD MMMM YYYY')
+  if (!time) return "";
+  const rep = time.split("-").reverse().join("-");
+  return useDateFormat(rep, "DD MMMM YYYY");
 }
 </script>
 
 <style lang="less" scoped>
-.news {}
+.news {
+}
 </style>

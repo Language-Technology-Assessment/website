@@ -14,13 +14,9 @@
       v-model:models="models"
       :originalModels="originalModels"
       :categories="categories"
-    >
-    </FilterMenu>
+    />
     <!-- parameters descriptions -->
-    <ParametersDescriptions
-      :descriptions="descriptions"
-      :params="params"
-    ></ParametersDescriptions>
+    <ParametersDescriptions :descriptions="descriptions" :params="params" />
     <!-- metadata -->
     <div class="meta">
       <div></div>
@@ -135,14 +131,14 @@
 </template>
 
 <script lang="ts" setup>
+import { cloneDeep } from "lodash";
 import TheIndexGridModels from "@/components/the-index-grid-models.vue";
 import TheIndexBarsModels from "@/components/the-index-bars-models.vue";
-import isEmpty from "lodash/isEmpty";
-import cloneDeep from "lodash/cloneDeep";
 import {
   useElementBounding,
   onClickOutside,
   useWindowSize,
+  useCloned,
 } from "@vueuse/core";
 import { Icon } from "@iconify/vue";
 const props = defineProps(["filters", "version", "hideFilters"]);
@@ -191,8 +187,9 @@ const models = computed(() => {
   const llms = cloneDeep(originalModels.value);
   const ffs = cloneDeep(filters.value);
   if (
-    searchQuery.value.length > 0 ||
-    (filters.value && Object.keys(filters.value).length > 0)
+    (searchQuery.value.length > 0 ||
+      (filters.value && Object.keys(filters.value).length > 0)) &&
+    Array.isArray(llms)
   ) {
     return llms.filter((x) => {
       // filter with searchquery
@@ -272,7 +269,11 @@ onMounted(() => {
   if (props.filters) {
     filters.value = props.filters;
   }
-  if (!props.hideFilters && route.query && !isEmpty(route.query)) {
+  if (
+    !props.hideFilters &&
+    route.query &&
+    Object.keys(route.query).length > 0
+  ) {
     filters.value = JSON.parse(JSON.stringify(route.query));
   }
 });

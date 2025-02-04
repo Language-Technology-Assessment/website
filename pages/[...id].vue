@@ -4,7 +4,7 @@
     ref="element"
     :class="{ loaded, finalpath: status !== 'pending' }"
   >
-    <ContentRenderer :value="data" v-if="data && status !== 'pending'">
+    <ContentRenderer :value="data" v-if="data">
       <template #not-found>
         <div class="not-found">Page not found.</div>
       </template>
@@ -25,15 +25,12 @@ const pageKey = computed(() => {
 const { markdownPath } = useLanguage();
 
 const { data, error, status } = await useAsyncData(route.path, async () => {
-  const res = await queryContent(markdownPath.value).findOne();
-  if (!res) {
-    if (import.meta.client) {
-      document.documentElement.setAttribute("path", route.fullPath);
-    }
-    return await queryContent(route.path).findOne();
-  }
+  const res = await queryCollection("pages").path(markdownPath.value).first();
   if (import.meta.client) {
     document.documentElement.setAttribute("path", route.fullPath);
+  }
+  if (!res) {
+    return await queryCollection("pages").path(route.path).first();
   }
   return res;
 });

@@ -1,5 +1,7 @@
 <template>
-  <div class="author">by {{ props.author }}</div>
+  <div class="author">
+    by <slot mdc-unwrap="p">{{ props.author }}</slot>
+  </div>
 </template>
 
 <script lang="ts" setup>

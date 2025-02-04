@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import ViteYaml from "@modyfi/vite-plugin-yaml";
-import ViteMarkdown from "vite-plugin-markdown";
 import svgLoader from "vite-svg-loader";
 import fs from "fs";
 import { resolve, basename, join, dirname, parse } from "node:path";
@@ -8,7 +7,9 @@ import glob from "fast-glob";
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
+  devtools: { enabled: false },
   app: {
+    baseURL: process.env.BASE_URL || "/",
     pageTransition: { name: "page", mode: "out-in" },
     head: {
       link: [
@@ -50,14 +51,6 @@ export default defineNuxtConfig({
       },
     ],
   },
-  content: {
-    sources: {
-      content: {
-        driver: "fs",
-        base: resolve(__dirname, "repos/website/pages"),
-      },
-    },
-  },
   modules: [
     [
       "./modules/github.module",
@@ -76,11 +69,11 @@ export default defineNuxtConfig({
         ],
       },
     ],
+    "@nuxtjs/sitemap",
     "@nuxt/content",
-    "@pinia/nuxt",
     "@nuxt/image",
     "@nuxtjs/i18n",
-    "@nuxtjs/sitemap",
+    "@pinia/nuxt",
   ],
   image: {
     dir: resolve(__dirname, "repos/website/"),
@@ -149,7 +142,6 @@ export default defineNuxtConfig({
           ],
         },
       }),
-      ViteMarkdown({ mode: ["html"] }),
     ],
   },
 });

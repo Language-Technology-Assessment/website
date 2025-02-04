@@ -1,16 +1,20 @@
 <template>
   <div class="landing" ref="mainelement">
-    <div class="frame" :style="{ transform: `translateY(${y / 2}px)`, opacity: 1 - (y / height) }">
+    <div
+      class="frame"
+      :style="{ transform: `translateY(${y / 2}px)`, opacity: 1 - y / height }"
+    >
       <NuxtImg
         src="https://raw.githubusercontent.com/Language-Technology-Assessment/European-open-AI-index/main/images/sphere.png"
-        class="sphere"></NuxtImg>
+        class="sphere"
+      ></NuxtImg>
       <div class="animation-frame">
         <div class="slot">
           <slot></slot>
         </div>
-        <div class="notesframe" :style="{ opacity: 1 - (y / height * 2) }">
+        <div class="notesframe" :style="{ opacity: 1 - (y / height) * 2 }">
           <div class="notes">
-            <ContentSlot :use="$slots.notes" v-if="$slots.notes"></ContentSlot>
+            <slot :use="$slots.notes" v-if="$slots.notes"></slot>
           </div>
         </div>
       </div>
@@ -19,10 +23,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useWindowScroll, useWindowSize } from '@vueuse/core'
-const mainelement = ref(null)
-const { y } = useWindowScroll()
-const { height } = useWindowSize()
+import { useWindowScroll, useWindowSize } from "@vueuse/core";
+const mainelement = ref(null);
+const { y } = useWindowScroll();
+const { height } = useWindowSize();
 </script>
 
 <style lang="less" scoped>
@@ -46,8 +50,7 @@ const { height } = useWindowSize()
   justify-content: center;
   padding-top: 8rem;
 
-  @media (orientation: portrait),
-  (min-width: 1600px) {
+  @media (orientation: portrait), (min-width: 1600px) {
     min-height: 45rem;
     max-height: 45rem;
   }
@@ -84,7 +87,7 @@ const { height } = useWindowSize()
       z-index: 2;
       width: 100%;
       font-size: 1.5rem;
-      font-family: 'InterDisplay', 'Helvetica Neue', Helvetica, sans-serif;
+      font-family: "InterDisplay", "Helvetica Neue", Helvetica, sans-serif;
 
       padding-top: 0;
 
@@ -98,7 +101,7 @@ const { height } = useWindowSize()
       width: 9.55em;
       text-align: left;
       margin: 0 0 2rem;
-      font-family: 'InterDisplay', 'Helvetica Neue', Helvetica, sans-serif;
+      font-family: "InterDisplay", "Helvetica Neue", Helvetica, sans-serif;
     }
 
     :deep(p) {
@@ -134,7 +137,6 @@ const { height } = useWindowSize()
   font-size: 0.75rem;
   width: 20rem;
   z-index: 4;
-
 
   .notes {
     // .row();

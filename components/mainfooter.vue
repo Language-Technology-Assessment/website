@@ -1,23 +1,27 @@
 <template>
   <div class="mainfooter" :class="{ loaded }">
     <div class="frame">
-      <ContentRendererMarkdown :value="data" v-if="data && status !== 'pending'">
+      <ContentRenderer :value="page" v-if="page && status === 'success'">
         <template #empty></template>
-      </ContentRendererMarkdown>
+      </ContentRenderer>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import markdownParser from "@nuxt/content/transformers/markdown";
-import footer from '@/repos/website/footer.md?raw'
-const { data, error, status } = await useAsyncData(() => markdownParser.parse('footer.md', footer))
-const loaded = ref(false)
+const {
+  data: page,
+  error,
+  status,
+} = await useAsyncData("mainfooter", async () => {
+  return queryCollection("docs").path("/footer").first();
+});
+const loaded = ref(false);
 onMounted(() => {
   setTimeout(() => {
-    loaded.value = true
-  }, 500)
-})
+    loaded.value = true;
+  }, 500);
+});
 </script>
 
 <style lang="less" scoped>
