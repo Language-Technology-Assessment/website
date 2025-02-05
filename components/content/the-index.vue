@@ -213,6 +213,14 @@ const models = computed(() => {
             return false;
           }
         }
+        if (ffs?.performanceclass) {
+          if (
+            x.system?.performanceclass &&
+            x.system.performanceclass !== ffs.performanceclass
+          ) {
+            return false;
+          }
+        }
         // check if param value is value
         for (let paramname in ffs) {
           if (

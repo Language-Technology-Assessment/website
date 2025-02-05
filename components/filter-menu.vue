@@ -8,16 +8,18 @@
       <div class="group">
         <label
           ><span>Model type:</span
-          ><button @click="delete filters.type">clear</button></label
+          ><button @click="delete filters.type" v-if="filters.type">
+            clear
+          </button></label
         >
         <div class="types multibutton">
-          <button
+          <!-- <button
             class="filterbutton"
             :class="{ active: !('type' in filters) || filters.type === '' }"
             @click="delete filters.type"
           >
             All
-          </button>
+          </button> -->
           <button
             class="filterbutton"
             :class="{ active: filters?.type === 'text' }"
@@ -45,6 +47,49 @@
             @click="filters.type = 'code'"
           >
             Code
+          </button>
+        </div>
+        <label
+          ><span>Performance class:</span
+          ><button
+            @click="delete filters.performanceclass"
+            v-if="filters.performanceclass"
+          >
+            clear
+          </button></label
+        >
+        <div class="types multibutton">
+          <!-- <button
+            class="filterbutton"
+            :class="{
+              active:
+                !('performanceclass' in filters) ||
+                filters.performanceclass === '',
+            }"
+            @click="delete filters.performanceclass"
+          >
+            All
+          </button> -->
+          <button
+            class="filterbutton"
+            :class="{ active: filters?.performanceclass === 'limited' }"
+            @click="filters.performanceclass = 'limited'"
+          >
+            Limited
+          </button>
+          <button
+            class="filterbutton"
+            :class="{ active: filters?.performanceclass === 'comprehensive' }"
+            @click="filters.performanceclass = 'comprehensive'"
+          >
+            Comprehensive
+          </button>
+          <button
+            class="filterbutton"
+            :class="{ active: filters?.performanceclass === 'latest' }"
+            @click="filters.performanceclass = 'latest'"
+          >
+            Latest
           </button>
         </div>
       </div>
@@ -191,6 +236,7 @@ function toggleModel(modelfilename: string) {
     right: 0;
     z-index: 1000;
     width: 24rem;
+    max-width: 100%;
     z-index: 999;
     margin: 0 auto;
     height: 100vh;
@@ -225,6 +271,7 @@ function toggleModel(modelfilename: string) {
   overflow: hidden;
   font-size: 0.75rem;
   display: flex;
+  margin-bottom: 1rem;
   // flex-direction: column;
 
   > button.filterbutton {
@@ -238,6 +285,9 @@ function toggleModel(modelfilename: string) {
     flex: 1;
     text-align: center;
 
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     &:first-child {
       border-left: 0;
     }
@@ -250,6 +300,16 @@ function toggleModel(modelfilename: string) {
     &.active {
       background: var(--bg3);
       color: var(--fg);
+    }
+  }
+  @media (max-width: 25rem) {
+    flex-direction: column;
+    > button.filterbutton {
+      border: 0;
+      border-bottom: 1px solid var(--bg3);
+      &:last-child {
+        border-bottom: 0;
+      }
     }
   }
 }

@@ -27,8 +27,6 @@ const { markdownPath } = useLanguage();
 const { data, error, status } = await useAsyncData(
   "page" + route.path,
   async () => {
-    const all = await queryCollection("pages").all();
-    console.log(all);
     const res = await queryCollection("pages").path(markdownPath.value).first();
     if (import.meta.client) {
       document.documentElement.setAttribute("path", route.fullPath);
