@@ -24,16 +24,20 @@ const pageKey = computed(() => {
 
 const { markdownPath } = useLanguage();
 
-const { data, error, status } = await useAsyncData(route.path, async () => {
-  const res = await queryCollection("pages").path(markdownPath.value).first();
-  if (import.meta.client) {
-    document.documentElement.setAttribute("path", route.fullPath);
+const { data, error, status } = await useAsyncData(
+  "page" + route.path,
+  async () => {
+    const res = await queryCollection("pages").path(markdownPath.value).first();
+    console.log(markdownPath.value, res);
+    if (import.meta.client) {
+      document.documentElement.setAttribute("path", route.fullPath);
+    }
+    if (!res) {
+      return await queryCollection("pages").path(route.path).first();
+    }
+    return res;
   }
-  if (!res) {
-    return await queryCollection("pages").path(route.path).first();
-  }
-  return res;
-});
+);
 
 onMounted(() => {
   document.documentElement.setAttribute("path", route.path);
