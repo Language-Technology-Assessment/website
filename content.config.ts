@@ -3,7 +3,7 @@ import { defineCollection, defineContentConfig, z } from "@nuxt/content";
 import { glob } from "fast-glob";
 
 console.log("glob?", glob);
-glob("./repos/website/**/*.md").then((x) => {
+await glob("./repos/website/**/*").then((x) => {
   console.log(x);
 });
 
