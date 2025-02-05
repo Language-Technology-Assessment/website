@@ -124,17 +124,26 @@ async function downloadData(version: string) {
   if (version in cache) {
     return cache[version];
   }
+
   const { Octokit } = await import("octokit");
   const { load } = await import("js-yaml");
 
   const octokit = new Octokit();
 
-  const { data } = await octokit.rest.repos.getContent({
-    owner: info.owner,
-    repo: info.repo,
-    path: "projects",
-    ref: version,
-  });
+  const { data } = await octokit
+    .request(`GET /repos/${info.owner}/${info.repo}/contents/`, {
+      owner: info.owner,
+      repo: info.repo,
+      path: "/",
+      version,
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    })
+    .catch((err) => {
+      throw Error(err);
+    });
+
   if (!Array.isArray(data)) throw Error("Not a file list.");
 
   const downloadProjectsList = [];

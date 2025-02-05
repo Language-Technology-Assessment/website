@@ -131,14 +131,10 @@
 </template>
 
 <script lang="ts" setup>
-import { cloneDeep } from "lodash";
-import TheIndexGridModels from "@/components/the-index-grid-models.vue";
-import TheIndexBarsModels from "@/components/the-index-bars-models.vue";
 import {
   useElementBounding,
   onClickOutside,
   useWindowSize,
-  useCloned,
 } from "@vueuse/core";
 import { Icon } from "@iconify/vue";
 const props = defineProps(["filters", "version", "hideFilters"]);
@@ -184,8 +180,8 @@ watch(
 );
 
 const models = computed(() => {
-  const llms = cloneDeep(originalModels.value);
-  const ffs = cloneDeep(filters.value);
+  const llms = unref(toRaw(originalModels));
+  const ffs = unref(toRaw(filters));
   if (
     (searchQuery.value.length > 0 ||
       (filters.value && Object.keys(filters.value).length > 0)) &&
@@ -200,7 +196,6 @@ const models = computed(() => {
           return false;
         }
       }
-
       // filter with filters
       if (ffs && Object.keys(ffs).length > 0) {
         // check if model is in models list
@@ -213,13 +208,11 @@ const models = computed(() => {
             return false;
           }
         }
-
         if (ffs?.type) {
-          if (x.system.type !== ffs.type) {
+          if (x.system?.type && x.system.type !== ffs.type) {
             return false;
           }
         }
-
         // check if param value is value
         for (let paramname in ffs) {
           if (

@@ -2,7 +2,7 @@
 import ViteYaml from "@modyfi/vite-plugin-yaml";
 import svgLoader from "vite-svg-loader";
 import fs from "fs";
-import { resolve, basename, join, dirname, parse } from "node:path";
+import { resolve, basename, dirname, parse } from "node:path";
 import glob from "fast-glob";
 
 export default defineNuxtConfig({
@@ -123,6 +123,9 @@ export default defineNuxtConfig({
           additionalData: `@import "@/less/ease.less";@import "@/less/animations.less"; @import "@/less/global.less";`,
         },
       },
+    },
+    optimizeDeps: {
+      exclude: ["lodash"],
     },
     plugins: [
       ViteYaml(),
