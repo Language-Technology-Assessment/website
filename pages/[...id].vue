@@ -33,6 +33,7 @@ const { data, error, status } = await useAsyncData(
       document.documentElement.setAttribute("path", route.fullPath);
     }
     if (!res) {
+      console.log({ fullPath: route.path });
       return await queryCollection("pages").path(route.path).first();
     }
     return res;
