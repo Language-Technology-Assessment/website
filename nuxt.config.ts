@@ -5,6 +5,8 @@ import fs from "fs";
 import { resolve, basename, dirname, parse } from "node:path";
 import glob from "fast-glob";
 
+console.log({ BASE_URL: process.env.BASE_URL });
+
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: false },
