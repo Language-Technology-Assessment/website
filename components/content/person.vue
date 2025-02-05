@@ -2,7 +2,7 @@
   <div class="person">
     <div class="head">
       <div class="image">
-        <NuxtImg :src="src" :alt="props.name"></NuxtImg>
+        <NuxtImg :src="src" width="400" :alt="props.name"></NuxtImg>
       </div>
       <div class="name">
         {{ props.name }}
