@@ -54,23 +54,25 @@ export default defineNuxtConfig({
     ],
   },
   modules: [
-    [
-      "./modules/github.module",
-      {
-        repositories: [
+    process.env.GITHUBMODULE
+      ? [
+          "./modules/github.module",
           {
-            name: "data",
-            owner: "Language-Technology-Assessment",
-            repo: "main-database",
+            repositories: [
+              {
+                name: "data",
+                owner: "Language-Technology-Assessment",
+                repo: "main-database",
+              },
+              {
+                name: "website",
+                owner: "Language-Technology-Assessment",
+                repo: "European-open-AI-index",
+              },
+            ],
           },
-          {
-            name: "website",
-            owner: "Language-Technology-Assessment",
-            repo: "European-open-AI-index",
-          },
-        ],
-      },
-    ],
+        ]
+      : "",
     "@nuxtjs/sitemap",
     "@nuxt/content",
     "@nuxt/image",

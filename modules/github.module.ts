@@ -18,7 +18,7 @@ export default defineNuxtModule({
   setup(moduleOptions, nuxt) {
     const { resolve } = createResolver(import.meta.url);
 
-    nuxt.hook("kit:compatibility", async () => {
+    nuxt.hook("build:before", async () => {
       // check if github options are defined
       console.log(JSON.stringify(moduleOptions, null, " "));
       // if (!('githuboptions' in nuxt.options) || !nuxt.options.githuboptions || !Array.isArray(nuxt.options.githuboptions)) return

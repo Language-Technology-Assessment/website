@@ -1,11 +1,5 @@
 import { resolve } from "node:path";
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
-import { glob } from "fast-glob";
-
-console.log("glob?", glob);
-await glob("./repos/website/**/*").then((x) => {
-  console.log(x);
-});
 
 export default defineContentConfig({
   collections: {
