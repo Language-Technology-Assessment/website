@@ -5,34 +5,36 @@ import fs from "fs";
 import { resolve, basename, dirname, parse } from "node:path";
 import glob from "fast-glob";
 
-console.log({ BASE_URL: process.env.BASE_URL });
+const BASE = process.env.NUXT_APP_BASE_URL || "/";
+
+console.log({ BASE });
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: false },
   app: {
-    baseURL: process.env.BASE_URL || "/",
+    baseURL: process.env.NUXT_APP_BASE_URL || "/",
     pageTransition: { name: "page", mode: "out-in" },
     head: {
       link: [
         {
           rel: "icon",
-          href: "/logo.svg",
+          href: `${BASE}logo.svg`,
           media: "(prefers-color-scheme: light)",
         },
         {
           rel: "icon",
-          href: "/logo.png",
+          href: `${BASE}logo.png`,
           media: "(prefers-color-scheme: light)",
         },
         {
           rel: "icon",
-          href: "/logo-dark.svg",
+          href: `${BASE}logo-dark.svg`,
           media: "(prefers-color-scheme: dark)",
         },
         {
           rel: "icon",
-          href: "/logo-dark.png",
+          href: `${BASE}logo-dark.png`,
           media: "(prefers-color-scheme: dark)",
         },
       ],
