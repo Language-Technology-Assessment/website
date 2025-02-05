@@ -106,11 +106,13 @@ async function getRepo({
 
   console.log(`Start download ${owner}/${repo}...`);
   // fetch content
-  const { data } = await octokit.request(
-    "GET /repos/{owner}/{repo}/tarball/{ref}",
-    { owner, repo, ref: "HEAD" }
-  );
-  await pipeline(data, fs.createWriteStream("./repo.tar"));
+  const response = await octokit.repos.downloadTarballArchive({
+    owner,
+    repo,
+    ref: "HEAD",
+  });
+  const buffer = Buffer.from(response.data);
+  fs.writeFileSync("./repo.tar", buffer);
 
   await tar.x({ f: "./repo.tar", C: dir, strip: 1 });
 
