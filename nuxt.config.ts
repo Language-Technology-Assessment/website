@@ -8,12 +8,12 @@ import glob from "fast-glob";
 const BASE = process.env.NUXT_APP_BASE_URL || "/";
 
 console.log({ BASE });
+console.log("REMOVED APP BASE URL");
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: false },
   app: {
-    baseURL: process.env.NUXT_APP_BASE_URL || "/",
     pageTransition: { name: "page", mode: "out-in" },
     head: {
       link: [
