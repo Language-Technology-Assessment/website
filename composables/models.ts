@@ -125,7 +125,7 @@ async function downloadData(version: string) {
     return cache[version];
   }
 
-  const { Octokit } = await import("octokit");
+  const { Octokit } = await import("@octokit/rest");
   const { load } = await import("js-yaml");
 
   const octokit = new Octokit();
