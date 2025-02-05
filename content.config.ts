@@ -6,14 +6,14 @@ export default defineContentConfig({
     docs: defineCollection({
       type: "page",
       source: {
-        cwd: resolve(__dirname, "repos/website"),
+        cwd: "./repos/website",
         include: "**/*.md",
       },
     }),
     pages: defineCollection({
       type: "page",
       source: {
-        cwd: resolve(__dirname, "repos/website/pages"),
+        cwd: "./repos/website/pages",
         include: "**/*.md",
       },
       schema: z.object({
@@ -28,7 +28,7 @@ export default defineContentConfig({
     news: defineCollection({
       type: "page",
       source: {
-        cwd: resolve(__dirname, "repos/website/pages/news"),
+        cwd: "./repos/website/pages/news",
         include: "**/*.md",
       },
       schema: z.object({
@@ -43,7 +43,7 @@ export default defineContentConfig({
     guides: defineCollection({
       type: "page",
       source: {
-        cwd: resolve(__dirname, "repos/website/pages/guides"),
+        cwd: "./repos/website/pages/guides",
         include: "**/*.md",
       },
       schema: z.object({
