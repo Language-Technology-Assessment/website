@@ -7,6 +7,34 @@ import dotenv from "dotenv";
 import { resolve } from "node:path";
 dotenv.config();
 
+function writeInfo({
+  owner,
+  repo,
+  infoPath,
+  info,
+}: {
+  owner: string;
+  repo: string;
+  infoPath: string;
+  info: any;
+}) {
+  fs.writeFileSync(
+    infoPath,
+    JSON.stringify({
+      owner,
+      repo,
+      hash: info.data[0].sha,
+      author: info.data[0].author.login,
+      date: info.data[0].commit.author.date,
+      url: info.data[0].url.replace(
+        "https://api.github.com/repos/",
+        "https://github.com/"
+      ),
+    }),
+    "utf8"
+  );
+}
+
 export default defineNuxtModule({
   meta: {
     name: "github module",
@@ -20,7 +48,7 @@ export default defineNuxtModule({
 
     nuxt.hook("build:before", async () => {
       // check if github options are defined
-      console.log(JSON.stringify(moduleOptions, null, " "));
+      // console.log(JSON.stringify(moduleOptions, null, " "));
       // if (!('githuboptions' in nuxt.options) || !nuxt.options.githuboptions || !Array.isArray(nuxt.options.githuboptions)) return
       if (
         !("repositories" in moduleOptions) ||
@@ -59,8 +87,17 @@ async function getRepo({
   const rootdir = resolve(__dirname, "../repos");
   const dir = resolve(rootdir, name);
   const infoPath = resolve(dir, ".info.json");
-  const octokit = new Octokit({ auth: githubtoken });
 
+  if (!process.env.GITHUBMODULE) {
+    if (!fs.existsSync(infoPath)) {
+      const octokit = new Octokit({ auth: githubtoken });
+      const info = await octokit.rest.repos.getCommit({ owner, repo });
+      writeInfo({ owner, repo, infoPath, info });
+    }
+    return;
+  }
+  // continue as normal
+  const octokit = new Octokit({ auth: githubtoken });
   // check if update is needed
   console.log("----- check if update is needed -----");
   const info = await octokit.rest.repos.getCommit({ owner, repo });
@@ -118,21 +155,7 @@ async function getRepo({
 
   fs.rmSync("./repo.tar");
 
-  fs.writeFileSync(
-    infoPath,
-    JSON.stringify({
-      owner,
-      repo,
-      hash: info.data[0].sha,
-      author: info.data[0].author.login,
-      date: info.data[0].commit.author.date,
-      url: info.data[0].url.replace(
-        "https://api.github.com/repos/",
-        "https://github.com/"
-      ),
-    }),
-    "utf8"
-  );
+  writeInfo({ owner, repo, infoPath, info });
 
   console.log(`Done (${info.data[0].sha})`);
 }
