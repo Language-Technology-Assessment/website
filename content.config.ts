@@ -1,6 +1,8 @@
 import { resolve } from "node:path";
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
 
+console.log({ currentPath: resolve("./repos/website") });
+
 export default defineContentConfig({
   collections: {
     docs: defineCollection({
