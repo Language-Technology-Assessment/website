@@ -2,7 +2,8 @@
   <div class="person">
     <div class="head">
       <div class="image">
-        <NuxtImg :src="src" :alt="props.name"></NuxtImg>
+        {{ src }}
+        <!-- <NuxtImg :src="src" :alt="props.name"></NuxtImg> -->
       </div>
       <div class="name">
         {{ props.name }}
