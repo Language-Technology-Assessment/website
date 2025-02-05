@@ -1,7 +1,11 @@
 import { resolve } from "node:path";
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
+import { glob } from "fast-glob";
 
-console.log({ currentPath: resolve("./repos/website") });
+console.log("glob?", glob);
+glob("./repos/website/**/*.md").then((x) => {
+  console.log(x);
+});
 
 export default defineContentConfig({
   collections: {

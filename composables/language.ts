@@ -4,7 +4,6 @@ export const useLanguage = () => {
   const languageCode = computed(() => {
     return locale.value === "en" ? "" : locale.value;
   });
-  console.log({ path: route.path });
   const markdownPath = computed(() => {
     // disabled
     return route.path;
