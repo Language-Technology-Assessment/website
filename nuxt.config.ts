@@ -76,7 +76,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
   ],
   image: {
-    dir: resolve(__dirname, "repos/website/"),
+    // dir: resolve(__dirname, "repos/website/"),
     domains: ["raw.githubusercontent.com"],
   },
   sitemap: {
