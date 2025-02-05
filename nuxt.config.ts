@@ -10,6 +10,7 @@ const BASE = process.env.NUXT_APP_BASE_URL || "/";
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: false },
+  pages: true,
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {
