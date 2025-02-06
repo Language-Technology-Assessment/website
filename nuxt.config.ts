@@ -71,7 +71,7 @@ export default defineNuxtConfig({
         ],
       },
     ],
-    "@nuxtjs/sitemap",
+    "@nuxtjs/seo",
     "@nuxt/content",
     "@nuxt/image",
     "@nuxtjs/i18n",

@@ -88,16 +88,19 @@ async function getRepo({
   const dir = resolve(rootdir, name);
   const infoPath = resolve(dir, ".info.json");
 
+  // define GITHUBMODULE=true in local dev .env, otherwise using github action to include all repos
   if (!process.env.GITHUBMODULE) {
     if (!fs.existsSync(infoPath)) {
+      // add info to .info.json
       const octokit = new Octokit({ auth: githubtoken });
       const info = await octokit.rest.repos.getCommit({ owner, repo });
       writeInfo({ owner, repo, infoPath, info });
     }
     return;
   }
-  // continue as normal
+
   const octokit = new Octokit({ auth: githubtoken });
+
   // check if update is needed
   console.log("----- check if update is needed -----");
   const info = await octokit.rest.repos.getCommit({ owner, repo });
@@ -110,7 +113,7 @@ async function getRepo({
     }
   }
 
-  // prepare directory
+  // prepare ./repos directory
   if (!fs.existsSync(rootdir)) {
     try {
       fs.mkdirSync(rootdir);
@@ -120,8 +123,8 @@ async function getRepo({
         `Could not create repos directoy for github repository ${owner}/${repo}.`
       );
     }
-  }
-  if (fs.existsSync(dir)) {
+  } else if (fs.existsSync(dir)) {
+    // remove existing directory to start clean
     try {
       fs.rmSync(dir, { recursive: true, force: true });
     } catch (err) {
@@ -132,6 +135,7 @@ async function getRepo({
     }
   }
 
+  // create repo directory
   try {
     fs.mkdirSync(dir);
   } catch (err) {
@@ -141,7 +145,9 @@ async function getRepo({
     );
   }
 
+  // start downloading
   console.log(`Start download ${owner}/${repo}...`);
+
   // fetch content
   const response = await octokit.repos.downloadTarballArchive({
     owner,
