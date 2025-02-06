@@ -81,6 +81,9 @@ export default defineNuxtConfig({
     // dir: resolve(__dirname, "repos/website/"),
     domains: ["raw.githubusercontent.com"],
   },
+  robots: {
+    robotsTxt: BASE === "/" ? true : false,
+  },
   sitemap: {
     urls: async () => {
       const urls: Array<string> = [];
