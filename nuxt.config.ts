@@ -110,7 +110,7 @@ export default defineNuxtConfig({
       fs.readdirSync("./repos/data/").forEach((file) => {
         if (
           !file.match(
-            /(a_submission_template\.yaml|^_parameters|^readme\.md|^\.github|^\.info)/
+            /(a_submission_template\.yaml|^_parameters|^readme\.md|^.)/
           )
         ) {
           const filename = file.replace(".yaml", "");
