@@ -38,6 +38,11 @@ export default defineNuxtConfig({
       ],
     },
   },
+  runtimeConfig: {
+    public: {
+      NODE_ENV: process.env.NODE_ENV || "production",
+    },
+  },
   i18n: {
     baseUrl: "https://www.osai-index.eu",
     strategy: "no_prefix",

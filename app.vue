@@ -1,6 +1,7 @@
 <template>
   <div class="app" :class="[{ top: !nottop, nottop, mounted }, direction]">
     <NuxtLoadingIndicator />
+    <PreviewPopup />
     <!-- menu -->
     <Mainmenu></Mainmenu>
     <!-- page content -->
@@ -10,28 +11,29 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useWindowScroll } from '@vueuse/core'
+import { useWindowScroll } from "@vueuse/core";
+
+const config = useRuntimeConfig();
 
 // scroll directions
-const direction = ref('')
-const { y } = useWindowScroll()
-let prevy = 0
+const direction = ref("");
+const { y } = useWindowScroll();
+let prevy = 0;
 const nottop = computed(() => {
-  direction.value = (y.value > prevy) ? 'scroll-down' : 'scroll-up'
-  prevy = y.value
-  return y.value > 150
-})
+  direction.value = y.value > prevy ? "scroll-down" : "scroll-up";
+  prevy = y.value;
+  return y.value > 150;
+});
 // end
 
-const mounted = ref(false)
+const mounted = ref(false);
 
 onMounted(() => {
-  mounted.value = true
-})
-
+  mounted.value = true;
+});
 </script>
 <style lang="less">
-@import '@/less/elements.less';
+@import "@/less/elements.less";
 
 .app {
   &:before {
@@ -53,7 +55,6 @@ onMounted(() => {
   }
 
   &.mounted {
-
     &:before {
       content: none;
       opacity: 0;
