@@ -6,6 +6,7 @@
     >
       <NuxtImg
         src="https://raw.githubusercontent.com/Language-Technology-Assessment/European-open-AI-index/main/images/sphere.png"
+        sizes="100vw sm:500px md:1000px"
         class="sphere"
       ></NuxtImg>
       <div class="animation-frame">
