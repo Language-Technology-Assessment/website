@@ -20,4 +20,4 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.PAT }}" \
           https://api.github.com/repos/Language-Technology-Assessment/preview/actions/workflows/preview.yml/dispatches \
-          -d '{"ref":"preview","inputs":{"message":"Triggered from 'Language-Technology-Assessment/website'"}}'
+          -d '{"ref":"preview"}'
