@@ -43,7 +43,9 @@ export default defineNuxtConfig({
       NUXT_SITE_ENV: process.env.NUXT_SITE_ENV || "production",
     },
   },
-  site: { indexable: process.env.NUXT_SITE_ENV === "production" },
+  site: {
+    indexable: process.env.NUXT_SITE_ENV === "production",
+  },
   i18n: {
     baseUrl: "https://www.osai-index.eu",
     strategy: "no_prefix",
