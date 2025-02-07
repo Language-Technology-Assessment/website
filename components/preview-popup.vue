@@ -1,19 +1,12 @@
 <template>
-  <div
-    class="preview-popup"
-    v-if="
-      (config.public.NUXT_SITE_ENV === 'preview' ||
-        config.public.NUXT_SITE_ENV === 'development') &&
-      !isOk
-    "
-  >
+  <div class="preview-popup" v-if="showPopup">
     <div class="frame">
       <div>
         <p>Welcome to the preview site of osai-index.eu.</p>
         <p>For our published content, please visit:</p>
         <a href="https://www.osai-index.eu">www.osai-index.eu</a>
       </div>
-      <button @click="isOk = true">Ok</button>
+      <button @click="hidePopup()">Ok</button>
     </div>
   </div>
 </template>
@@ -21,19 +14,27 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const justSet = ref(false);
-const isOk = computed({
-  get() {
-    return localStorage.getItem("preview-ok") === "true" || justSet.value;
-  },
-  set(val) {
-    justSet.value = true;
-    localStorage.setItem("preview-ok", val ? "true" : "false");
-  },
+const showPopup = computed(() => {
+  if (config.public.NUXT_SITE_ENV === "production") {
+    return false;
+  }
+  if (typeof localStorage === "undefined") {
+    return false;
+  }
+  if (localStorage.getItem("preview-ok") === "true") {
+    return false;
+  }
+  if (justSet.value) {
+    return false;
+  }
+  return true;
 });
-
-onMounted(() => {
-  console.log(config.public.NODE_ENV);
-});
+function hidePopup() {
+  justSet.value = true;
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem("preview-ok", "true");
+  }
+}
 </script>
 
 <style lang="less" scoped>
