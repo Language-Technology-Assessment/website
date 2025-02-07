@@ -2,8 +2,8 @@
   <div
     class="preview-popup"
     v-if="
-      (config.public.NODE_ENV === 'preview' ||
-        config.public.NODE_ENV === 'development') &&
+      (config.public.NUXT_SITE_ENV === 'preview' ||
+        config.public.NUXT_SITE_ENV === 'development') &&
       !isOk
     "
   >
