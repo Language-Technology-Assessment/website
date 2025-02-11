@@ -71,6 +71,7 @@
                   x.types.includes(item.system.type)
                 )"
                 @mouseenter="openParam = param.ref"
+                @touchmove="openParam = param.ref"
               >
                 <div
                   class="circle-icon open-icon"
@@ -172,6 +173,9 @@ function getCatName() {
   .models.somethingisopen & {
     opacity: 0.3;
     transition: all ease 1s;
+    @media (max-width: 50rem) {
+      opacity: 1;
+    }
   }
 
   &.open {
@@ -256,6 +260,9 @@ function getCatName() {
       gap: 0.75rem;
       line-height: 1;
       position: relative;
+      @media (max-width: 50rem) {
+        opacity: 1;
+      }
 
       div {
         text-transform: uppercase;
