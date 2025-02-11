@@ -273,6 +273,13 @@ function getCatName() {
         transition: all 0.5s @easeInOutExpo;
         position: absolute;
         right: 100%;
+        @media (max-width: 50rem) {
+          background: var(--bg1);
+          padding: 0.5rem;
+          z-index: 9;
+          bottom: 100%;
+          right: 0;
+        }
       }
 
       :deep(svg) {
