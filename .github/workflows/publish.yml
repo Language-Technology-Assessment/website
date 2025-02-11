@@ -36,8 +36,8 @@ jobs:
         uses: actions/checkout@v4
       - name: download github modules
         run: |
-          git clone -b preview https://github.com/Language-Technology-Assessment/main-database.git ./repos/data
-          git clone -b preview https://github.com/Language-Technology-Assessment/European-open-AI-index.git ./repos/website
+          git clone https://github.com/Language-Technology-Assessment/main-database.git ./repos/data
+          git clone https://github.com/Language-Technology-Assessment/European-open-AI-index.git ./repos/website
       - name: Detect package manager
         id: detect-package-manager
         run: yarn install
