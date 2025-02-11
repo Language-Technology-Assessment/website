@@ -25,6 +25,7 @@ concurrency:
 
 env:
   NUXT_APP_BASE_URL: /
+  NUXT_SITE_ENV: production
 
 jobs:
   # Build job
