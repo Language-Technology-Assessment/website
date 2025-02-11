@@ -30,22 +30,16 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: website
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: download github modules
         run: |
-          git clone -b preview https://github.com/Language-Technology-Assessment/website.git ./website
-          git clone -b preview https://github.com/Language-Technology-Assessment/main-database.git ./website/repos/data
-          git clone -b preview https://github.com/Language-Technology-Assessment/European-open-AI-index.git ./website/repos/website
-        working-directory: "./"
+          git clone -b preview https://github.com/Language-Technology-Assessment/main-database.git ./repos/data
+          git clone -b preview https://github.com/Language-Technology-Assessment/European-open-AI-index.git ./repos/website
       - name: Detect package manager
         id: detect-package-manager
         run: yarn install
-        working-directory: website
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -67,7 +61,6 @@ jobs:
         run: yarn ${{ steps.detect-package-manager.outputs.command }}
       - name: Static HTML export with Nuxt
         run: yarn run generate
-        working-directory: website
         env:
           githubtoken: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload artifact
@@ -77,9 +70,6 @@ jobs:
 
   # Deployment job
   deploy:
-    defaults:
-      run:
-        working-directory: ./website
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
