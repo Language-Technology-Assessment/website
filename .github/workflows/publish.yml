@@ -1,4 +1,4 @@
-name: Preview workflow
+name: Publish to live site workflow
 
 on:
   # Runs on pushes targeting the default branch
