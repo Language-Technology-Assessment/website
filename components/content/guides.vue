@@ -10,9 +10,9 @@
         v-if="visibleData && status === 'success'"
       >
         <NuxtLink
-          :to="item._path"
+          :to="`/guides${item.path}`"
           v-for="(item, k) in visibleData"
-          :key="item._path"
+          :key="item.path"
         >
           <div class="title">{{ item.title }}</div>
           <div class="description">{{ item.description }}</div>
