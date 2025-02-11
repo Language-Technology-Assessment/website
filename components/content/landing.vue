@@ -51,9 +51,12 @@ const { height } = useWindowSize();
   justify-content: center;
   padding-top: 8rem;
 
+  @media (max-width: 50rem) {
+    margin-bottom: 1rem;
+  }
   @media (orientation: portrait), (min-width: 1600px) {
-    min-height: 45rem;
-    max-height: 45rem;
+    min-height: 35rem;
+    max-height: 46rem;
   }
 
   .frame {
@@ -65,6 +68,12 @@ const { height } = useWindowSize();
     display: flex;
     align-items: flex-end;
     padding-bottom: 4rem;
+    @media (orientation: portrait) {
+      padding-bottom: 2rem;
+      @media (max-width: 30rem) {
+        padding-bottom: 1rem;
+      }
+    }
 
     .logo {
       margin-bottom: 2rem;

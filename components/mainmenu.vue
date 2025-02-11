@@ -1,7 +1,15 @@
 <template>
-  <div class="mainmenu" ref="menuelement" :class="{ active, afteractive, menuopen }">
+  <div
+    class="mainmenu"
+    ref="menuelement"
+    :class="{ active, afteractive, menuopen }"
+  >
     <!-- mobile button -->
-    <button class="menubutton" @click="menuopen = !menuopen" :class="{ open: menuopen }">
+    <button
+      class="menubutton"
+      @click="menuopen = !menuopen"
+      :class="{ open: menuopen }"
+    >
       <Icon icon="ic:round-menu" v-if="!menuopen"></Icon>
       <Icon icon="ic:round-close" v-if="menuopen"></Icon>
     </button>
@@ -11,9 +19,16 @@
     </NuxtLink>
     <!-- content -->
     <div class="frame" @click="menuopen = false">
-      <div class='left'>
-        <NuxtLink :to="item.link" v-for="item in menu.left" :target="item.target"
-          :class="{ withIcon: !!item.icon, exact: $route.fullPath === item.link }">
+      <div class="left">
+        <NuxtLink
+          :to="item.link"
+          v-for="item in menu.left"
+          :target="item.target"
+          :class="{
+            withIcon: !!item.icon,
+            exact: $route.fullPath === item.link,
+          }"
+        >
           <span v-if="item.name">{{ item.name }}</span>
           <Icon :icon="item.icon" v-if="item.icon"></Icon>
         </NuxtLink>
@@ -24,9 +39,16 @@
           <logoname class="logoname"></logoname>
         </NuxtLink>
       </div>
-      <div class='right'>
-        <NuxtLink :to="item.link" v-for="item in menu.right" :target="item.target"
-          :class="{ withIcon: !!item.icon, exact: $route.fullPath === item.link }">
+      <div class="right">
+        <NuxtLink
+          :to="item.link"
+          v-for="item in menu.right"
+          :target="item.target"
+          :class="{
+            withIcon: !!item.icon,
+            exact: $route.fullPath === item.link,
+          }"
+        >
           <span v-if="item.name">{{ item.name }}</span>
           <Icon :icon="item.icon" v-if="item.icon"></Icon>
         </NuxtLink>
@@ -40,28 +62,32 @@
 </template>
 
 <script lang="ts" setup>
-import { useDark, useToggle } from '@vueuse/core'
-import logo from '@/repos/website/images/logo-dark.svg?component'
-import logoname from '@/repos/website/images/logo2-name-c.svg?component';
-import { Icon } from '@iconify/vue'
-import menu from '@/repos/website/menu.yml'
-const menuopen = ref(false)
-const active = ref(false)
-const afteractive = ref(false)
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+import { useDark, useToggle } from "@vueuse/core";
+import logo from "@/repos/website/images/logo-dark.svg?component";
+import logoname from "@/repos/website/images/logo2-name-c.svg?component";
+import { Icon } from "@iconify/vue";
+import menu from "@/repos/website/menu.yml";
+const menuopen = ref(false);
+const active = ref(false);
+const afteractive = ref(false);
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
 onMounted(() => {
-  setTimeout(() => { active.value = true }, 0)
-  setTimeout(() => { afteractive.value = true }, 2500)
-})
-const { locale, setLocale } = useI18n()
+  setTimeout(() => {
+    active.value = true;
+  }, 0);
+  setTimeout(() => {
+    afteractive.value = true;
+  }, 2500);
+});
+const { locale, setLocale } = useI18n();
 watch(menuopen, (val) => {
   if (val) {
-    document.body.classList.add('scroll-block')
+    document.body.classList.add("scroll-block");
   } else {
-    document.body.classList.remove('scroll-block')
+    document.body.classList.remove("scroll-block");
   }
-})
+});
 </script>
 
 <style lang="less" scoped>
@@ -96,17 +122,18 @@ watch(menuopen, (val) => {
   }
 
   .scroll-down.nottop & {
-    transform: translateY(-.5rem);
+    transform: translateY(-0.5rem);
     opacity: 0;
     pointer-events: none;
   }
 
-  .scroll-up & {}
+  .scroll-up & {
+  }
 
   .scroll-up.nottop & {
     transform: translateY(0);
     background: var(--bg);
-    box-shadow: 0 0 .25rem var(--shadow);
+    box-shadow: 0 0 0.25rem var(--shadow);
   }
 
   .frame {
@@ -152,7 +179,7 @@ watch(menuopen, (val) => {
 
   .logoname {
     position: absolute;
-    top: .25rem;
+    top: 0.25rem;
     width: 4rem;
     height: auto;
     left: calc(50% - 2rem);
@@ -181,7 +208,7 @@ watch(menuopen, (val) => {
   }
 
   .nottop & {
-    top: .25rem;
+    top: 0.25rem;
 
     .logo {
       width: 1.5rem;
@@ -287,8 +314,6 @@ button.darkmode {
     .light-icon {
       opacity: 0;
     }
-
-
   }
 }
 
@@ -323,7 +348,6 @@ a {
 }
 
 .logo {
-
   :deep(path) {
     fill: var(--fg);
   }
@@ -336,7 +360,6 @@ a {
 }
 
 @media (max-width: 60rem) {
-
   button.menubutton {
     position: fixed;
     display: block;
@@ -357,7 +380,8 @@ a {
       margin: 0;
     }
 
-    &.open {}
+    &.open {
+    }
 
     &:hover {
       color: var(--link);
@@ -376,7 +400,7 @@ a {
     pointer-events: auto;
 
     .mobile-logoname {
-      width: 5rem;
+      width: 3rem;
       height: auto;
       margin: 0 auto;
       margin-top: 1rem;
@@ -388,7 +412,7 @@ a {
 
       :root[path="/"] & {
         margin-top: 2rem;
-        width: 12rem;
+        width: 8rem;
 
         :deep(path) {
           fill: var(--fg);
@@ -480,7 +504,6 @@ a {
     &[href="/"] {
       // display: none !important;
     }
-
   }
 
   .mainmenu.menuopen a {
