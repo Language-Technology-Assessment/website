@@ -1,6 +1,7 @@
-name: Deploy Nuxt site to Pages
+name: Preview workflow
 
 on:
+  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
 
@@ -22,21 +23,35 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  NUXT_APP_BASE_URL: /
+
 jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: download github modules
+        run: |
+          git clone -b preview https://github.com/Language-Technology-Assessment/website.git ./website
+          git clone -b preview https://github.com/Language-Technology-Assessment/main-database.git ./website/repos/data
+          git clone -b preview https://github.com/Language-Technology-Assessment/European-open-AI-index.git ./website/repos/website
+        working-directory: "./"
       - name: Detect package manager
         id: detect-package-manager
         run: yarn install
+        working-directory: website
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: yarn
+          cache-dependency-path: website/yarn.lock
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Restore cache
@@ -52,16 +67,19 @@ jobs:
         run: yarn ${{ steps.detect-package-manager.outputs.command }}
       - name: Static HTML export with Nuxt
         run: yarn run generate
+        working-directory: website
         env:
           githubtoken: ${{ secrets.GITHUB_TOKEN }}
-          NUXT_APP_BASE_URL: /
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./website/dist
 
   # Deployment job
   deploy:
+    defaults:
+      run:
+        working-directory: ./website
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
