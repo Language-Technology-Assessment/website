@@ -4,22 +4,12 @@
       class="frame"
       :style="{ transform: `translateY(${y / 2}px)`, opacity: 1 - y / height }"
     >
-      <ClientOnly>
-        <NuxtPicture
-          src="/sphere-dark.jpg"
-          sizes="800px md:1000px lg:1200px 2xl:800px"
-          class="sphere"
-          v-if="isDark"
-          format="jpg"
-        ></NuxtPicture>
-        <NuxtPicture
-          src="/sphere-light.jpg"
-          sizes="800px 2xl:1200px"
-          class="sphere"
-          v-else
-          format="jpg"
-        ></NuxtPicture>
-      </ClientOnly>
+      <NuxtPicture
+        src="https://raw.githubusercontent.com/Language-Technology-Assessment/European-open-AI-index/main/images/sphere.png"
+        sizes="800px lg:1200px"
+        class="sphere"
+        format="webp,png"
+      ></NuxtPicture>
       <div class="animation-frame">
         <div class="slot">
           <slot></slot>
@@ -36,8 +26,6 @@
 
 <script lang="ts" setup>
 import { useWindowScroll, useWindowSize } from "@vueuse/core";
-import { useDark } from "@vueuse/core";
-const isDark = useDark();
 const mainelement = ref(null);
 const { y } = useWindowScroll();
 const { height } = useWindowSize();
