@@ -4,20 +4,22 @@
       class="frame"
       :style="{ transform: `translateY(${y / 2}px)`, opacity: 1 - y / height }"
     >
-      <NuxtPicture
-        src="/sphere-dark.jpg"
-        sizes="800px md:1000px lg:1200px 2xl:800px"
-        class="sphere"
-        v-if="isDark"
-        format="jpg"
-      ></NuxtPicture>
-      <NuxtPicture
-        src="/sphere-light.jpg"
-        sizes="800px 2xl:1200px"
-        class="sphere"
-        v-else
-        format="jpg"
-      ></NuxtPicture>
+      <ClientOnly>
+        <NuxtPicture
+          src="/sphere-dark.jpg"
+          sizes="800px md:1000px lg:1200px 2xl:800px"
+          class="sphere"
+          v-if="isDark"
+          format="jpg"
+        ></NuxtPicture>
+        <NuxtPicture
+          src="/sphere-light.jpg"
+          sizes="800px 2xl:1200px"
+          class="sphere"
+          v-else
+          format="jpg"
+        ></NuxtPicture>
+      </ClientOnly>
       <div class="animation-frame">
         <div class="slot">
           <slot></slot>
