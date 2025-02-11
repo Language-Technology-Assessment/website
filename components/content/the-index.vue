@@ -254,7 +254,9 @@ function openComparison() {
   router.push(`/compare?models=${store.selected.join(",")}`);
 }
 function clearSelection() {
-  const sure = confirm("Are you sure you want to clear the selected models?");
+  const sure = confirm(
+    "Are you sure you want to deselect all selected models?"
+  );
   if (sure) {
     store.selected = [];
   }
@@ -598,6 +600,7 @@ button.filterbutton {
   bottom: 0;
   background: var(--bg3);
   border-radius: 0 0 0.5rem 0.5rem;
+  z-index: 9;
 }
 
 div.stickycompare {
@@ -608,14 +611,14 @@ div.stickycompare {
   padding: 1rem 2rem 1rem;
   // font-size: 0.75rem;
   background: transparent;
-  border-top: 1px solid var(--bg3);
-  color: var(--fg2);
+  color: var(--bg);
+  background: var(--fg);
   display: flex;
   gap: 1rem;
   z-index: 99;
   width: 100%;
   align-items: center;
-  border-radius: 0.25rem;
+  border-radius: 0;
   cursor: pointer;
 
   :deep(svg) {
@@ -639,7 +642,7 @@ div.stickycompare {
     cursor: pointer;
 
     &:hover {
-      color: var(--link);
+      // color: var(--link);
       text-decoration: underline;
     }
   }
@@ -652,10 +655,10 @@ div.stickycompare {
   }
 
   &:hover {
-    color: var(--link);
+    // color: var(--link);
 
     .clear {
-      color: var(--fg2);
+      color: var(--bg3);
 
       &:hover {
         color: var(--link);

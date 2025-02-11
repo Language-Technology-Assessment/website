@@ -2,6 +2,7 @@
   <div
     class="models"
     ref="clickoutsidetarget"
+    @touchstart="openParam = false"
     :class="{ somethingisopen: !!open }"
     v-if="models && models.length > 0"
   >
@@ -53,6 +54,7 @@
         <div
           class="score"
           :class="{ open: !!open && open.filename === item.filename }"
+          @touchstart.stop
         >
           <scorebar
             :score="item.score"
