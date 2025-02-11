@@ -34,7 +34,10 @@ const perpage = computed(() => {
 });
 
 const { data, status } = await useAsyncData("guides", () =>
-  queryCollection("guides").order("date", "DESC").all()
+  queryCollectionNavigation("guides", ["date", "description"]).order(
+    "date",
+    "DESC"
+  )
 );
 
 const visibleData = computed(() => {
