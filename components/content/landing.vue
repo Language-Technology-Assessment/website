@@ -4,11 +4,20 @@
       class="frame"
       :style="{ transform: `translateY(${y / 2}px)`, opacity: 1 - y / height }"
     >
-      <NuxtImg
-        src="https://raw.githubusercontent.com/Language-Technology-Assessment/European-open-AI-index/main/images/sphere.png"
-        sizes="100vw sm:500px md:1000px"
+      <NuxtPicture
+        src="/sphere-dark.jpg"
+        sizes="800px md:1000px lg:1200px 2xl:800px"
         class="sphere"
-      ></NuxtImg>
+        v-if="isDark"
+        format="jpg"
+      ></NuxtPicture>
+      <NuxtPicture
+        src="/sphere-light.jpg"
+        sizes="800px 2xl:1200px"
+        class="sphere"
+        v-else
+        format="jpg"
+      ></NuxtPicture>
       <div class="animation-frame">
         <div class="slot">
           <slot></slot>
@@ -25,6 +34,8 @@
 
 <script lang="ts" setup>
 import { useWindowScroll, useWindowSize } from "@vueuse/core";
+import { useDark } from "@vueuse/core";
+const isDark = useDark();
 const mainelement = ref(null);
 const { y } = useWindowScroll();
 const { height } = useWindowSize();
@@ -167,27 +178,32 @@ const { height } = useWindowSize();
 
 .sphere {
   position: absolute;
-  bottom: -20%;
-  right: -0vw;
-  transform: scale(1.2);
-  width: 55%;
-  aspect-ratio: 1/1;
   opacity: 0.5;
   z-index: 1;
 
-  bottom: -50%;
-  right: -25%;
-  width: 65%;
+  top: 20vh;
+  height: 70vh;
 
-  // width: 40%;
-  // bottom: 20%;
-  // right: 20%;
-  // display: none;
+  right: -33vw;
+  width: 100%;
+
+  display: flex;
+  overflow: visible;
+  :deep(img) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: auto;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
   @media (orientation: portrait) and (max-width: 70rem) {
-    width: 150%;
-    right: -25%;
-    top: 50%;
+    width: 150vw;
+    left: -25vw;
+    bottom: 0;
     opacity: 0.25;
+    height: 20rem;
   }
 }
 </style>
