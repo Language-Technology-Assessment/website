@@ -116,13 +116,15 @@ export default defineNuxtConfig({
           urls.push(`/news/${p.name}`);
         }
       });
-      fs.readdirSync("./repos/data/").forEach((file) => {
+      const models = await glob("./repos/data/*.yaml");
+      models.map((file) => {
+        let name = basename(file);
         if (
-          !file.match(
-            /(a_submission_template\.yaml|^_parameters|^readme\.md|^.)/
+          !name.match(
+            /(a_submission_template\.yaml|^_parameters|^readme\.md|^\.)/
           )
         ) {
-          const filename = file.replace(".yaml", "");
+          const filename = name.replace(".yaml", "");
           // extendPages
           urls.push(`/model/${filename}`);
         }
