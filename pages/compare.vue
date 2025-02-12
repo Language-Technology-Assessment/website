@@ -3,15 +3,27 @@
     <ClientOnly>
       <div class="frame">
         <div class="names">
-          <NuxtLink :to="`/model/${model.filename}`" class="model-name" v-for="(model, k) in modelsList">
-            <div class="name" v-if="model?.system">{{ model.system.name ||
-              '(undefined)' }}</div>
-            <div class="org" v-if="model?.org">by {{ model.org.name || '(undefined)' }}</div>
+          <NuxtLink
+            :to="`/model/${model.filename}`"
+            class="model-name"
+            v-for="(model, k) in modelsList"
+          >
+            <div class="name" v-if="model?.system">
+              {{ model.system.name || "(undefined)" }}
+            </div>
+            <div class="org" v-if="model?.org">
+              by {{ model.org.name || "(undefined)" }}
+            </div>
             <div class="count">{{ k + 1 }}/{{ modelsList.length }}</div>
           </NuxtLink>
         </div>
         <div class="category" v-for="cat in categories">
-          <category class="model-category" :category="cat" :model="model" v-for="model in modelsList"></category>
+          <category
+            class="model-category"
+            :category="cat"
+            :model="model"
+            v-for="model in modelsList"
+          ></category>
         </div>
       </div>
     </ClientOnly>
@@ -19,35 +31,42 @@
 </template>
 
 <script lang="ts" setup>
-const store = useMyComparisonStore()
-const route = useRoute()
+const store = useMyComparisonStore();
+const route = useRoute();
 const { models, categories } = useModels(String(route.query?.version));
 
 const modelsList = computed(() => {
-  if (!route.query?.models || typeof route.query.models !== 'string') { return false }
-  const filenames = route.query.models.split(',')
-  const list = filenames.map(x => {
-    return getModel(x)
-  }).filter(x => x)
-  return list
-})
+  if (!route.query?.models || typeof route.query.models !== "string") {
+    return false;
+  }
+  const filenames = route.query.models.split(",");
+  const list = filenames
+    .map((x) => {
+      return getModel(x);
+    })
+    .filter((x) => x);
+  return list;
+});
 
 function getModel(filename: string) {
-  if (!filename) return false
-  return models.value.find(x => x.filename === filename)
+  if (!filename) return false;
+  return models.value.find((x) => x.filename === filename);
 }
 
 useHead({
   titleTemplate: () => {
-    return 'Compare ' + (route.query?.models ? route.query.models.split(',').join(', ') : '');
-  }
-})
+    return (
+      "Compare " +
+      (route.query?.models ? route.query.models.split(",").join(", ") : "")
+    );
+  },
+});
 </script>
 
 <style lang="less" scoped>
 .compare {
   max-width: 100%;
-  // overflow: auto;
+  overflow: auto;
 }
 
 .frame {
@@ -56,16 +75,15 @@ useHead({
   padding: 2rem;
   border-radius: 0;
 
-  >div {
+  > div {
     display: flex;
     gap: 2rem;
     margin-bottom: 1rem;
 
-    >a {
+    > a {
       width: 20rem;
       flex: 1;
     }
-
   }
 
   .names {
@@ -107,7 +125,6 @@ useHead({
   }
 
   &:hover {
-
     .org {
       text-decoration: underline;
     }
