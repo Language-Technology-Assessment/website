@@ -152,7 +152,7 @@ async function getRepo({
   const response = await octokit.repos.downloadTarballArchive({
     owner,
     repo,
-    ref: "HEAD",
+    ref: process.env.NUXT_SITE_ENV === "preview" ? "preview" : "HEAD",
   });
   const buffer = Buffer.from(response.data);
   fs.writeFileSync("./repo.tar", buffer);
