@@ -79,10 +79,10 @@
           </button>
           <button
             class="filterbutton"
-            :class="{ active: filters?.performanceclass === 'comprehensive' }"
-            @click="filters.performanceclass = 'comprehensive'"
+            :class="{ active: filters?.performanceclass === 'full' }"
+            @click="filters.performanceclass = 'full'"
           >
-            Comprehensive
+            Full
           </button>
           <button
             class="filterbutton"
