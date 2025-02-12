@@ -2,7 +2,12 @@
   <div class="person">
     <div class="head">
       <div class="image">
-        <NuxtImg :src="src" width="400" :alt="props.name"></NuxtImg>
+        <NuxtImg
+          :src="props.image"
+          width="400"
+          :alt="props.name"
+          v-if="props.image"
+        ></NuxtImg>
       </div>
       <div class="name">
         {{ props.name }}
@@ -16,9 +21,6 @@
 
 <script lang="ts" setup>
 const props = defineProps(["image", "name"]);
-const src = computed(() => {
-  return `https://raw.githubusercontent.com/Language-Technology-Assessment/European-open-AI-index/main${props.image}`;
-});
 </script>
 
 <style lang="less" scoped>

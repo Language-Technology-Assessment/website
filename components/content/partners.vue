@@ -14,7 +14,7 @@
         >
           <div class="image">
             <NuxtImg
-              :src="`https://raw.githubusercontent.com/Language-Technology-Assessment/European-open-AI-index/main/${item.image}`"
+              :src="item.image"
               sizes="300px"
               :alt="item.title"
             ></NuxtImg>

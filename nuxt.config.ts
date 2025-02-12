@@ -87,8 +87,7 @@ export default defineNuxtConfig({
   ],
   image: {
     // dir: resolve(__dirname, "repos/website/"),
-    dir: "assets/images",
-    domains: ["raw.githubusercontent.com"],
+    dir: "repos/website",
   },
   robots: {
     robotsTxt: BASE === "/" ? true : false,

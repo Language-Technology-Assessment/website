@@ -5,7 +5,7 @@
       :style="{ transform: `translateY(${y / 2}px)`, opacity: 1 - y / height }"
     >
       <NuxtPicture
-        src="https://raw.githubusercontent.com/Language-Technology-Assessment/European-open-AI-index/main/images/sphere.png"
+        :src="spheresrc"
         sizes="800px lg:1200px"
         class="sphere"
         format="webp,png"
@@ -29,6 +29,10 @@ import { useWindowScroll, useWindowSize } from "@vueuse/core";
 const mainelement = ref(null);
 const { y } = useWindowScroll();
 const { height } = useWindowSize();
+const config = useRuntimeConfig();
+const spheresrc = computed(() => {
+  return `/images/sphere.png`;
+});
 </script>
 
 <style lang="less" scoped>
