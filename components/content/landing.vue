@@ -12,11 +12,11 @@
       ></NuxtPicture>
       <div class="animation-frame">
         <div class="slot">
-          <slot :use="$slots.default"></slot>
+          <slot></slot>
         </div>
         <div class="notesframe" :style="{ opacity: 1 - (y / height) * 2 }">
           <div class="notes">
-            <slot :use="$slots.notes" :key="notesAsString"></slot>
+            <slot name="notes"></slot>
           </div>
         </div>
       </div>
@@ -41,9 +41,6 @@ const getSlotChildrenText = (children) =>
         return getSlotChildrenText(node.children.default());
     })
     .join("");
-const notesAsString = computed(() => {
-  return getSlotChildrenText(slots.notes());
-});
 </script>
 
 <style lang="less" scoped>
