@@ -5,18 +5,18 @@
       :style="{ transform: `translateY(${y / 2}px)`, opacity: 1 - y / height }"
     >
       <NuxtPicture
-        :src="spheresrc"
+        src="/images/sphere.png"
         sizes="800px lg:1200px"
         class="sphere"
         format="webp,png"
       ></NuxtPicture>
       <div class="animation-frame">
         <div class="slot">
-          <slot></slot>
+          <slot :use="$slots.default"></slot>
         </div>
         <div class="notesframe" :style="{ opacity: 1 - (y / height) * 2 }">
           <div class="notes">
-            <slot :use="$slots.notes" v-if="$slots.notes"></slot>
+            <slot :use="$slots.notes" :key="notesAsString"></slot>
           </div>
         </div>
       </div>
@@ -26,12 +26,23 @@
 
 <script lang="ts" setup>
 import { useWindowScroll, useWindowSize } from "@vueuse/core";
+const slots = useSlots();
 const mainelement = ref(null);
 const { y } = useWindowScroll();
 const { height } = useWindowSize();
-const config = useRuntimeConfig();
-const spheresrc = computed(() => {
-  return `/images/sphere.png`;
+const getSlotChildrenText = (children) =>
+  children
+    .map((node) => {
+      if (!node.children || typeof node.children === "string")
+        return node.children || "";
+      else if (Array.isArray(node.children))
+        return getSlotChildrenText(node.children);
+      else if (node.children.default)
+        return getSlotChildrenText(node.children.default());
+    })
+    .join("");
+const notesAsString = computed(() => {
+  return getSlotChildrenText(slots.notes());
 });
 </script>
 
