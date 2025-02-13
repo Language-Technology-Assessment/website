@@ -192,7 +192,13 @@ const models = computed(() => {
       if (searchQuery.value.length > 0) {
         const regex = new RegExp(searchQuery.value, "i");
         if (!x.system?.name || !x.org?.name) return false;
-        if (!(x.system.name.match(regex) || x.org?.name?.match(regex))) {
+        if (
+          !(
+            x.system.name.match(regex) ||
+            x.org?.name?.match(regex) ||
+            x.system.basemodelname?.match(regex)
+          )
+        ) {
           return false;
         }
       }
