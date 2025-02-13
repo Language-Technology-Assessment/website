@@ -78,7 +78,8 @@ useHead({
   > div {
     display: flex;
     gap: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
+    justify-content: center;
 
     > a {
       width: 20rem;
@@ -98,6 +99,12 @@ useHead({
       transition-delay: 0.25s;
     }
   }
+  @media (max-width: 40rem) {
+    padding: 0.5rem;
+    > div {
+      gap: 0.5rem;
+    }
+  }
 }
 
 .model-name {
@@ -112,15 +119,13 @@ useHead({
   text-decoration: none;
 
   .count {
-    float: right;
     color: var(--fg2);
     font-size: 0.65rem;
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     padding: 0.25rem 0.5rem;
     opacity: 0.5;
-    background: var(--bg3);
     border-radius: 0 0 0 0.25rem;
   }
 
@@ -133,6 +138,16 @@ useHead({
   .org {
     font-size: 0.75rem;
     color: var(--fg2);
+  }
+}
+
+.frame > div > a,
+.frame > .category > .category {
+  width: 20rem;
+  max-width: 20rem;
+  @media (max-width: 30rem) {
+    width: calc(100vw - 2rem);
+    max-width: calc(100vw - 2rem);
   }
 }
 
