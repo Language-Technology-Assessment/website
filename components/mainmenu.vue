@@ -192,8 +192,8 @@ watch(menuopen, (val) => {
 
     :root[path="/"] & {
       top: 4rem;
-      width: 10rem;
-      left: calc(50% - 5rem);
+      width: 6rem;
+      left: calc(50% - 3rem);
 
       :deep(path) {
         fill: var(--fg);
@@ -412,7 +412,7 @@ a {
 
       :root[path="/"] & {
         margin-top: 2rem;
-        width: 8rem;
+        width: 6rem;
 
         :deep(path) {
           fill: var(--fg);
