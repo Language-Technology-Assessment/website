@@ -25,17 +25,22 @@
       >
         <div class="info" @click="router.push(`/model/${item.filename}`)">
           <div class="title">
-            <div class="titlewrap">
-              <span class="name">
-                {{ item.system.name || "(undefined)" }}
-              </span>
-              <span class="org" v-if="item?.org">
-                by {{ item.org.name || "(undefined)" }}
-              </span>
-              <!-- <span class="basemodels">
-                    {{ item.system.basemodelname || 'unspecified' }}/{{ item.system.endmodelname
-                      || 'unspecified' }}
-                  </span> -->
+            <div class="titleswrap">
+              <div class="titlewrap">
+                <span class="name">
+                  {{ item.system.name || "(undefined)" }}
+                </span>
+                <span class="org" v-if="item?.org">
+                  by {{ item.org.name || "(undefined)" }}
+                </span>
+              </div>
+              <div class="titlewrap">
+                <span class="basemodels">
+                  {{ item.system.basemodelname || "unspecified" }}/{{
+                    item.system.basemodelname || "unspecified"
+                  }}
+                </span>
+              </div>
             </div>
           </div>
           <button
@@ -196,28 +201,54 @@ function getCatName() {
     .title {
       flex: 1;
       position: relative;
-      height: 1.4rem;
+      height: 2.8rem;
 
-      .titlewrap {
+      .titleswrap {
         position: absolute;
         max-width: 100%;
+      }
+
+      .titlewrap {
+        // position: absolute;
+        // max-width: 100%;
+        width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-
-        &:hover {
-          > span {
-            text-decoration: underline;
-          }
-        }
 
         .basemodels {
           font-size: 0.75rem;
           color: var(--fg2);
 
           &:before {
-            content: "— ";
+            content: "Base models: ";
+            opacity: 0.5;
           }
+        }
+      }
+      &:hover {
+        .titlewrap {
+          > span {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    @media (max-width: 40rem) {
+      align-items: flex-start;
+      .title {
+        height: 4rem;
+        .titleswrap {
+          top: 0;
+          height: 5rem;
+        }
+        .titlewrap {
+          span {
+            display: block;
+          }
+        }
+        .basemodels {
+          margin-top: 0.125rem;
         }
       }
     }

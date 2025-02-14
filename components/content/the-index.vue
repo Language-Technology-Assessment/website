@@ -34,14 +34,29 @@
     </div>
     <!-- context -->
     <div class="context" v-if="!props.hideFilters">
-      <div class="view-buttons" v-if="!small">
-        <button @click="setView('bars')" :class="{ active: view === 'bars' }">
-          <Icon icon="solar:list-outline"></Icon>
-        </button>
-        <button @click="setView('grid')" :class="{ active: view === 'grid' }">
-          <Icon icon="mingcute:dot-grid-fill"></Icon>
-        </button>
+      <!-- search box -->
+      <div class="search">
+        <div class="searchbox" :class="{ searchFocus }">
+          <button class="icon searchicon">
+            <Icon icon="iconamoon:search-bold"></Icon>
+          </button>
+          <input
+            type="text"
+            v-model="searchQuery"
+            @focus="searchFocus = true"
+            @blur="searchFocus = false"
+            placeholder="Search..."
+          />
+          <button
+            class="icon filtericon"
+            @click="filterscreenOpen = !filterscreenOpen"
+          >
+            <Icon icon="mage:filter-fill"></Icon>
+          </button>
+        </div>
       </div>
+
+      <!-- view buttons -->
       <div class="types">
         <button
           :class="{ active: filters.type === 'text' }"
@@ -69,26 +84,14 @@
         </button>
       </div>
 
-      <!-- search box -->
-      <div class="search">
-        <div class="searchbox" :class="{ searchFocus }">
-          <button class="icon searchicon">
-            <Icon icon="iconamoon:search-bold"></Icon>
-          </button>
-          <input
-            type="text"
-            v-model="searchQuery"
-            @focus="searchFocus = true"
-            @blur="searchFocus = false"
-            placeholder="Search..."
-          />
-          <button
-            class="icon filtericon"
-            @click="filterscreenOpen = !filterscreenOpen"
-          >
-            <Icon icon="mage:filter-fill"></Icon>
-          </button>
-        </div>
+      <!-- toggle view -->
+      <div class="view-buttons" v-if="!small">
+        <button @click="setView('bars')" :class="{ active: view === 'bars' }">
+          <Icon icon="solar:list-outline"></Icon>
+        </button>
+        <button @click="setView('grid')" :class="{ active: view === 'grid' }">
+          <Icon icon="mingcute:dot-grid-fill"></Icon>
+        </button>
       </div>
     </div>
 
@@ -204,6 +207,13 @@ const models = computed(() => {
       }
       // filter with filters
       if (ffs && Object.keys(ffs).length > 0) {
+        // filter by basemodel
+        if (ffs.basemodel) {
+          const regex = new RegExp(ffs.basemodel, "i");
+          if (!x.system?.basemodelname?.match(regex)) {
+            return false;
+          }
+        }
         // check if model is in models list
         if (
           ffs.models &&

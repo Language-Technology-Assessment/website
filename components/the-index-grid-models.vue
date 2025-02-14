@@ -47,6 +47,9 @@
             <div class="org" v-if="item?.org">
               by {{ item.org.name || "(undefined)" }}
             </div>
+            <div class="basemodel" v-if="item?.org">
+              {{ item.system?.basemodelname || "(unspecified)" }}
+            </div>
           </td>
           <td
             v-for="(param, pk) in paramsFiltered"
@@ -332,13 +335,21 @@ tbody {
 }
 
 .info {
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  padding: 0.5rem 0.5rem 0.75rem 3rem;
   min-width: 20rem;
   .name {
   }
   .org {
     font-size: 0.75rem;
     color: var(--fg2);
+  }
+  .basemodel {
+    font-size: 0.75rem;
+    color: var(--fg2);
+    &:before {
+      content: "Base models: ";
+      opacity: 0.5;
+    }
   }
   &:hover {
     .name {

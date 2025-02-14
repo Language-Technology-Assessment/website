@@ -3,15 +3,17 @@
     <div>
       <slot>Is this information not up to date?</slot>
     </div>
-    <NuxtLink :to="`https://github.com/${info.owner}/${info.repo}`" target="_blank">
+    <NuxtLink
+      :to="`https://github.com/${info.owner}/${info.repo}`"
+      target="_blank"
+    >
       <slot name="button">Contribute here -></slot>
     </NuxtLink>
   </div>
 </template>
 
 <script lang="ts" setup>
-import info from '@/repos/data/.info.json'
-
+import info from "@/repos/data/.info.json";
 </script>
 
 <style lang="less" scoped>
@@ -20,7 +22,7 @@ import info from '@/repos/data/.info.json'
   margin: 0 auto;
   text-align: center;
 
-  >div {
+  > div {
     margin-bottom: 2rem;
     color: var(--fg2);
   }
@@ -29,6 +31,7 @@ import info from '@/repos/data/.info.json'
     background: var(--bg2);
     padding: 0.5rem 1.5rem;
     text-decoration: none;
+    border-radius: 0.25rem;
 
     &:hover {
       color: var(--link);

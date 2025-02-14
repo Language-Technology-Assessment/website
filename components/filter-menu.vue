@@ -93,6 +93,17 @@
           </button>
         </div>
       </div>
+      <div class="group">
+        <label>
+          <span>Filter by base model name:</span>
+          <button @click="basemodel = ''">clear</button>
+        </label>
+        <input
+          type="text"
+          v-model="basemodel"
+          placeholder="Base model name..."
+        />
+      </div>
       <!-- params group -->
       <div class="group" v-if="open">
         <div class="categories">
@@ -164,6 +175,15 @@ onKeyStroke("Escape", () => {
 });
 
 const filters = defineModel("filters");
+
+const basemodel = computed({
+  get() {
+    return filters.value?.basemodel || "";
+  },
+  set(val) {
+    filters.value.basemodel = val;
+  },
+});
 
 watch(open, (val) => {
   if (val) {
@@ -342,6 +362,14 @@ function toggleModel(modelfilename: string) {
       &:hover {
         color: var(--fg);
       }
+    }
+  }
+
+  input[type="text"] {
+    background: var(--bg2);
+    font-size: 0.8rem;
+    &:focus {
+      background: var(--bg3);
     }
   }
 }
