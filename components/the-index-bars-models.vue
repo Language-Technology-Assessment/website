@@ -36,9 +36,7 @@
               </div>
               <div class="titlewrap">
                 <span class="basemodels">
-                  {{ item.system.basemodelname || "unspecified" }}/{{
-                    item.system.basemodelname || "unspecified"
-                  }}
+                  {{ item.system.basemodelname || "unspecified" }}
                 </span>
               </div>
             </div>
