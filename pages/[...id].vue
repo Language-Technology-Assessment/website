@@ -53,6 +53,20 @@ definePageMeta({
     },
   },
 });
+
+useHead(
+  data.value?.head || {
+    titleTemplate: (titleChunk) => {
+      if (titleChunk === "European Open Source AI Index") {
+        return titleChunk;
+      }
+      return titleChunk
+        ? `${titleChunk} | European Open Source AI Index`
+        : "European Open Source AI Index";
+    },
+  }
+); // <-- Nuxt Schema.org
+useSeoMeta(data.value?.seo || {}); // <-- Nuxt Robots
 </script>
 
 <style lang="less">

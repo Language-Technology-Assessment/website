@@ -1,6 +1,6 @@
 <template>
   <div class="app" :class="[{ top: !nottop, nottop, mounted }, direction]">
-    <NuxtLoadingIndicator />
+    <NuxtLoadingIndicator :color="false" />
     <PreviewPopup />
     <!-- menu -->
     <Mainmenu></Mainmenu>

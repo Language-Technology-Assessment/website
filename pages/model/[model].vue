@@ -5,19 +5,23 @@
 </template>
 
 <script lang="ts" setup>
-const route = useRoute()
+const route = useRoute();
 
-const { categories, models } = useModels(String(route.query?.version))
+const { categories, models } = useModels(String(route.query?.version));
 definePageMeta({
   pageTransition: {
     name: "page",
     mode: "out-in",
     onEnter(el, done) {
-      const route = useRoute()
-      el.setAttribute('path', route.fullPath)
+      const route = useRoute();
+      el.setAttribute("path", route.fullPath);
     },
-  }
-})
+  },
+});
+
+useSeoMeta({
+  title: models.value?.title,
+});
 </script>
 
 <style lang="less" scoped></style>
