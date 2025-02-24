@@ -41,6 +41,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       NUXT_SITE_ENV: process.env.NUXT_SITE_ENV || "production",
+      posthogPublicKey: "phc_hoxK6NUuVi0AWHTEMWYszchraAZ0BcAQgjq15fC6LeH",
+      posthogHost: "https://eu.i.posthog.com",
     },
   },
   site: {
