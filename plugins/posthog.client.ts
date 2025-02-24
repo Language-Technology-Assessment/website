@@ -6,6 +6,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     api_host: runtimeConfig.public.posthogHost,
     person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
     capture_pageview: false, // we add manual pageview capturing below
+    persistence: "memory",
     loaded: (posthog) => {
       if (import.meta.env.NUXT_SITE_ENV === "preview") posthog.debug();
     },
