@@ -55,8 +55,7 @@ const visibleData = computed(() => {
 function toDate(time: string) {
   // return time
   if (!time) return "";
-  const rep = time.split("-").reverse().join("-");
-  return useDateFormat(rep, "DD MMMM YYYY");
+  return useDateFormat(time, "DD MMMM YYYY");
 }
 </script>
 
