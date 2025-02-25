@@ -14,8 +14,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Make sure that pageviews are captured with each route change
   const router = useRouter();
-  router.afterEach((to) => {
+  router.afterEach((to, from) => {
     nextTick(() => {
+      if (from.fullPath !== to.fullPath) {
+        posthog.capture("$pageleave", {
+          current_url: from.fullPath,
+        });
+      }
+
       posthog.capture("$pageview", {
         current_url: to.fullPath,
       });
