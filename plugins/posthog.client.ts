@@ -2,6 +2,9 @@ import { defineNuxtPlugin } from "#app";
 import posthog from "posthog-js";
 export default defineNuxtPlugin((nuxtApp) => {
   const runtimeConfig = useRuntimeConfig();
+  if (runtimeConfig.public.NUXT_SITE_ENV === "preview") {
+    return;
+  }
   const posthogClient = posthog.init(runtimeConfig.public.posthogPublicKey, {
     api_host: runtimeConfig.public.posthogHost,
     person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
