@@ -4,7 +4,7 @@
       <div>
         <p>Welcome to the preview site of osai-index.eu.</p>
         <p>For our published content, please visit:</p>
-        <a href="https://www.osai-index.eu">www.osai-index.eu</a>
+        <a href="https://osai-index.eu">osai-index.eu</a>
       </div>
       <button @click="hidePopup()">Ok</button>
     </div>

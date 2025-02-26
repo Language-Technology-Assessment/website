@@ -47,12 +47,12 @@ export default defineNuxtConfig({
   },
   site: {
     indexable: process.env.NUXT_SITE_ENV === "production",
-    url: "https://www.osai-index.eu",
+    url: "https://osai-index.eu",
     name: "European Open Source AI Index",
   },
 
   i18n: {
-    baseUrl: "https://www.osai-index.eu",
+    baseUrl: "https://osai-index.eu",
     strategy: "no_prefix",
     defaultLocale: "en",
     locales: [
