@@ -4,6 +4,7 @@
       class="bar"
       @mousedown="startMove($event)"
       @touchstart="startMove($event)"
+      @touchend="isActive = false"
       ref="barElement"
     >
       <div ref="startElement" class="handle-start" :style="startStyle"></div>
@@ -18,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useDateFormat } from "@vueuse/core";
+import { useDateFormat, onClickOutside } from "@vueuse/core";
 import { useMouse, useMousePressed } from "@vueuse/core";
 const filters = defineModel();
 const route = useRoute();
@@ -28,6 +29,10 @@ const { x } = useMouse();
 const barElement = ref<HTMLElement | null>(null);
 const startElement = ref<HTMLElement | null>(null);
 const endElement = ref<HTMLElement | null>(null);
+
+onClickOutside(barElement, (event) => {
+  isActive.value = false;
+});
 
 const isActive = ref(false);
 const isStart = ref(true);
