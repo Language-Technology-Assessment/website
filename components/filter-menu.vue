@@ -149,6 +149,11 @@
           </div>
         </div>
       </div>
+      <!-- filter by year -->
+      <div class="group">
+        <label>Filter by release date:</label>
+        <release-date-selector v-model="filters"></release-date-selector>
+      </div>
     </div>
   </div>
 </template>
@@ -159,7 +164,6 @@ import { onKeyStroke } from "@vueuse/core";
 import openIcon from "@/assets/icons/open.svg?raw";
 import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
-const filteredmodels = defineModel("models");
 const props = defineProps(["categories", "originalModels"]);
 const open = defineModel("open");
 

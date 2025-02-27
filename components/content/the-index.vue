@@ -229,6 +229,28 @@ const models = computed(() => {
             return false;
           }
         }
+        if (ffs?.release_start) {
+          if (!x.system?.releasedate) {
+            return false;
+          }
+          if (
+            new Date(x.system.releasedate).getTime() <
+            new Date(ffs.release_start).getTime()
+          ) {
+            return false;
+          }
+        }
+        if (ffs?.release_end) {
+          if (!x.system?.releasedate) {
+            return false;
+          }
+          if (
+            new Date(x.system.releasedate).getTime() >
+            new Date(ffs.release_end).getTime()
+          ) {
+            return false;
+          }
+        }
         if (ffs?.performanceclass) {
           if (
             x.system?.performanceclass &&
