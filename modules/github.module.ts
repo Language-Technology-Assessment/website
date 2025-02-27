@@ -24,7 +24,7 @@ function writeInfo({
       owner,
       repo,
       hash: info.data[0].sha,
-      author: info.data[0].author.login,
+      // author: info.data[0].author.login,
       date: info.data[0].commit.author.date,
       url: info.data[0].url.replace(
         "https://api.github.com/repos/",

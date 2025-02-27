@@ -72,22 +72,22 @@
           </button> -->
           <button
             class="filterbutton"
-            :class="{ active: filters?.performanceclass === 'limited' }"
-            @click="filters.performanceclass = 'limited'"
+            :class="{ active: filters?.performanceclass?.includes('limited') }"
+            @click="togglePerformanceClass('limited')"
           >
             Limited
           </button>
           <button
             class="filterbutton"
-            :class="{ active: filters?.performanceclass === 'full' }"
-            @click="filters.performanceclass = 'full'"
+            :class="{ active: filters?.performanceclass?.includes('full') }"
+            @click="togglePerformanceClass('full')"
           >
             Full
           </button>
           <button
             class="filterbutton"
-            :class="{ active: filters?.performanceclass === 'latest' }"
-            @click="filters.performanceclass = 'latest'"
+            :class="{ active: filters?.performanceclass?.includes('latest') }"
+            @click="togglePerformanceClass('latest')"
           >
             Latest
           </button>
@@ -196,6 +196,21 @@ watch(open, (val) => {
     document.body.classList.remove("scroll-block");
   }
 });
+
+function togglePerformanceClass(pclass: string) {
+  let pclasses = filters.value.performanceclass
+    ? filters.value.performanceclass.split(",")
+    : [];
+  if (pclasses.includes(pclass)) {
+    pclasses = pclasses.filter((x) => x !== pclass);
+  } else {
+    pclasses.push(pclass);
+  }
+  filters.value.performanceclass = pclasses.join(",");
+  if (filters.value.performanceclass.length < 1) {
+    delete filters.value.performanceclass;
+  }
+}
 
 function toggleParam(paramref: string) {
   if (paramref in filters.value) {
@@ -324,6 +339,7 @@ function toggleModel(modelfilename: string) {
     &.active {
       background: var(--bg3);
       color: var(--fg);
+      border-left-color: var(--bg);
     }
   }
   @media (max-width: 25rem) {
