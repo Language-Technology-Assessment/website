@@ -290,6 +290,9 @@ function toggleModel(modelfilename: string) {
     box-shadow: 0 0 1rem var(--shadow);
     padding: 2rem;
     padding-top: 4rem;
+    @media (max-width: 50rem) {
+      padding-bottom: 8rem;
+    }
   }
 
   &.open {
