@@ -17,10 +17,6 @@
               {{ model.system.link }}
             </NuxtLink>
           </div>
-          <label>Date of release:</label>
-          <div class="notes">
-            {{ formatReleaseDate(model.system?.releasedate) || "(undefined)" }}
-          </div>
         </div>
         <div class="sub">
           <label>Base models:</label>
@@ -47,6 +43,10 @@
             <Icon icon="iconamoon:link-external-fill"></Icon>
             {{ model.org.link }}
           </NuxtLink>
+          <label>Model release date:</label>
+          <div class="notes">
+            {{ formatReleaseDate(model.system?.releasedate) || "(undefined)" }}
+          </div>
         </div>
       </div>
       <div class="categories">
