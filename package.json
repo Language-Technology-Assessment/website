@@ -19,6 +19,7 @@
     "@pinia/nuxt": "^0.10.1",
     "@types/js-yaml": "^4.0.9",
     "@vueuse/core": "^12.6.1",
+    "dot-prop": "^9.0.0",
     "fast-glob": "^3.3.3",
     "js-yaml": "^4.1.0",
     "less": "^4.2.0",

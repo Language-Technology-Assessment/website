@@ -31,8 +31,21 @@
 </template>
 
 <script lang="ts" setup>
-const store = useMyComparisonStore();
+import { getProperty } from "dot-prop";
 const route = useRoute();
+
+const interpolate = (template, data) => {
+  return template.replace(
+    /\{([^}]+)\}/g,
+    (_, path) => getProperty(data, path) ?? ""
+  );
+};
+
+const { data: SEO } = useAsyncData("seo", () => {
+  return import("@/repos/website/SEO.yml").then((module) => module.default);
+});
+
+const store = useMyComparisonStore();
 const { models, categories } = useModels(String(route.query?.version));
 
 const modelsList = computed(() => {
@@ -55,10 +68,27 @@ function getModel(filename: string) {
 
 useHead({
   titleTemplate: () => {
-    return (
-      "Compare " +
-      (route.query?.models ? route.query.models.split(",").join(", ") : "")
-    );
+    const namesList = route.query.models.split(",");
+    const last = namesList.pop();
+    const names = namesList.join(", ") + " and " + last;
+    return "Compare " + (route.query?.models ? names : "");
+  },
+});
+
+useSeoMeta({
+  title: () => {
+    const placeholder = SEO.value?.compare?.description;
+    if (!placeholder) return "Compare AI models.";
+    const pad = route.params.model;
+    const names = models.value.map((x) => x.system.name).join(", ");
+    return interpolate(placeholder, { names });
+  },
+  description: () => {
+    const placeholder = SEO.value?.compare?.description;
+    if (!placeholder) return "Compare AI models.";
+    const pad = route.params.model;
+    const names = models.value.map((x) => x.system.name).join(", ");
+    return interpolate(placeholder, { names });
   },
 });
 </script>
