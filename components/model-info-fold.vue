@@ -11,10 +11,16 @@
           <label>Model type:</label>
           <div class="notes">{{ model.system.type }}</div>
           <label>Link to the model:</label>
-          <NuxtLink :to="model.system.link">
-            <Icon icon="iconamoon:link-external-fill"></Icon>
-            {{ model.system.link }}
-          </NuxtLink>
+          <div class="notes">
+            <NuxtLink :to="model.system.link">
+              <Icon icon="iconamoon:link-external-fill"></Icon>
+              {{ model.system.link }}
+            </NuxtLink>
+          </div>
+          <label>Date of release:</label>
+          <div class="notes">
+            {{ formatReleaseDate(model.system?.releasedate) || "(undefined)" }}
+          </div>
         </div>
         <div class="sub">
           <label>Base models:</label>

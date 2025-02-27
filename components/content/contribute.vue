@@ -1,10 +1,11 @@
 <template>
   <div class="contribute">
+    <div class="last-updated">Last updated {{ commitDate }}</div>
     <div>
       <slot>Is this information not up to date?</slot>
     </div>
     <NuxtLink
-      :to="`https://github.com/${info.owner}/${info.repo}`"
+      :to="`https://github.com/${info.owner}/${info.repo}/blob/preview/${route.params.model}.yaml`"
       target="_blank"
     >
       <slot name="button">Contribute here -></slot>
@@ -13,7 +14,28 @@
 </template>
 
 <script lang="ts" setup>
+import { useDateFormat } from "@vueuse/core";
 import info from "@/repos/data/.info.json";
+const route = useRoute();
+const { data: commitDate } = await useAsyncData(
+  "fileLastCommit" + route.params.model,
+  async () => {
+    const modelref = route.params.model;
+    if (!modelref) return false;
+    const owner = "Language-Technology-Assessment";
+    const repo = "main-database";
+    const path = `/${modelref}.yaml`;
+
+    const data = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/commits?path=${path}&per_page=1`
+    )
+      .then((response) => response.json())
+      .catch((err) => console.warn(err));
+    if (!data[0]?.commit?.committer?.date) return false;
+    const latestCommit = data[0];
+    return useDateFormat(latestCommit.commit.committer.date, "DD MMM YYYY");
+  }
+);
 </script>
 
 <style lang="less" scoped>
@@ -38,5 +60,10 @@ import info from "@/repos/data/.info.json";
       background: var(--bg3);
     }
   }
+}
+
+.last-updated {
+  font-size: 0.7rem;
+  margin-bottom: 1rem !important;
 }
 </style>
