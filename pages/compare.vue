@@ -68,7 +68,10 @@ function getModel(filename: string) {
 
 useHead({
   titleTemplate: () => {
-    const namesList = route.query.models.split(",");
+    if (!route.query.models) {
+      return "Compare AI models";
+    }
+    const namesList = route.query.models.split(",") || [];
     const last = namesList.pop();
     const names = namesList.join(", ") + " and " + last;
     return "Compare " + (route.query?.models ? names : "");
@@ -79,14 +82,12 @@ useSeoMeta({
   title: () => {
     const placeholder = SEO.value?.compare?.description;
     if (!placeholder) return "Compare AI models.";
-    const pad = route.params.model;
     const names = models.value.map((x) => x.system.name).join(", ");
     return interpolate(placeholder, { names });
   },
   description: () => {
     const placeholder = SEO.value?.compare?.description;
     if (!placeholder) return "Compare AI models.";
-    const pad = route.params.model;
     const names = models.value.map((x) => x.system.name).join(", ");
     return interpolate(placeholder, { names });
   },
