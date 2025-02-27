@@ -39,10 +39,12 @@
           </div>
           <div class="notes" v-else>(Not available)</div>
           <label>Link to the organisation:</label>
-          <NuxtLink :to="model?.org?.link">
-            <Icon icon="iconamoon:link-external-fill"></Icon>
-            {{ model.org.link }}
-          </NuxtLink>
+          <div class="notes">
+            <NuxtLink :to="model?.org?.link">
+              <Icon icon="iconamoon:link-external-fill"></Icon>
+              {{ model.org.link }}
+            </NuxtLink>
+          </div>
           <label>Model release date:</label>
           <div class="notes">
             {{ formatReleaseDate(model.system?.releasedate) || "(undefined)" }}
