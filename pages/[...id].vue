@@ -75,7 +75,6 @@ const seo = computed(() => {
   const defaults = {
     ogImage: "/osai-index-logo.png",
     ogDescription: data.value?.description,
-    icon: "/favicon.svg",
     twitterCard: "summary_large_image",
     twitterTitle: data.value?.title,
     twitterDescription: data.value?.description,

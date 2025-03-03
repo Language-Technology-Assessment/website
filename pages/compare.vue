@@ -102,7 +102,6 @@ useSeoMeta({
   ogDescription: () => {
     return description.value;
   },
-  icon: "/favicon.svg",
   twitterImage: () => {
     return "/osai-index-logo.png";
   },
