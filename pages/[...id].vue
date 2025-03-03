@@ -55,7 +55,7 @@ definePageMeta({
 });
 
 defineOgImage({
-  url: "/osai-index.png",
+  url: "/osai-index-logo.png",
 });
 
 useHead(
