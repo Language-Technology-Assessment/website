@@ -17,12 +17,12 @@ export default defineNuxtConfig({
       link: [
         {
           rel: "icon",
-          href: `${BASE}logo.svg`,
+          href: `${BASE}favicon.svg`,
           media: "(prefers-color-scheme: light)",
         },
         {
           rel: "icon",
-          href: `${BASE}logo.png`,
+          href: `${BASE}favicon.png`,
           media: "(prefers-color-scheme: light)",
         },
         {
@@ -49,6 +49,7 @@ export default defineNuxtConfig({
     indexable: process.env.NUXT_SITE_ENV === "production",
     url: "https://osai-index.eu",
     name: "European Open Source AI Index",
+    defaultOgImage: "/osai-index-logo.png",
   },
 
   i18n: {

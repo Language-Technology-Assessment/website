@@ -31,24 +31,46 @@ definePageMeta({
   },
 });
 
+const title = computed(() => {
+  const placeholder = SEO.value?.models?.title;
+  if (!placeholder) return "Model information.";
+  const pad = route.params.model;
+  const model = models.value.find((x) => x.filename === pad);
+  if (!model) return "Model information.";
+  const m = JSON.parse(JSON.stringify(model));
+  return interpolate(placeholder, m);
+});
+
+const description = computed(() => {
+  const placeholder = SEO.value?.models?.description;
+  if (!placeholder) return "Model information.";
+  const pad = route.params.model;
+  const model = models.value.find((x) => x.filename === pad);
+  if (!model) return "Model information.";
+  const m = JSON.parse(JSON.stringify(model));
+  return interpolate(placeholder, m);
+});
+
 useSeoMeta({
   title: () => {
-    const placeholder = SEO.value?.models?.title;
-    if (!placeholder) return "Model information.";
-    const pad = route.params.model;
-    const model = models.value.find((x) => x.filename === pad);
-    if (!model) return "Model information.";
-    const m = JSON.parse(JSON.stringify(model));
-    return interpolate(placeholder, m);
+    return title.value;
   },
+  ogImage: "/osai-index-logo.png",
   description: () => {
-    const placeholder = SEO.value?.models?.description;
-    if (!placeholder) return "Model information.";
-    const pad = route.params.model;
-    const model = models.value.find((x) => x.filename === pad);
-    if (!model) return "Model information.";
-    const m = JSON.parse(JSON.stringify(model));
-    return interpolate(placeholder, m);
+    return description.value;
+  },
+  ogDescription: () => {
+    return description.value;
+  },
+  icon: "/favicon.svg",
+  twitterImage: () => {
+    return "/osai-index-logo.png";
+  },
+  twitterTitle: () => {
+    return title.value;
+  },
+  twitterDescription: () => {
+    return description.value;
   },
 });
 </script>

@@ -77,19 +77,40 @@ useHead({
     return "Compare " + (route.query?.models ? names : "");
   },
 });
+const title = computed(() => {
+  const placeholder = SEO.value?.compare?.description;
+  if (!placeholder) return "Compare AI models.";
+  const names = models.value.map((x) => x.system.name).join(", ");
+  return interpolate(placeholder, { names });
+});
+
+const description = computed(() => {
+  const placeholder = SEO.value?.compare?.description;
+  if (!placeholder) return "Compare AI models.";
+  const names = models.value.map((x) => x.system.name).join(", ");
+  return interpolate(placeholder, { names });
+});
 
 useSeoMeta({
   title: () => {
-    const placeholder = SEO.value?.compare?.description;
-    if (!placeholder) return "Compare AI models.";
-    const names = models.value.map((x) => x.system.name).join(", ");
-    return interpolate(placeholder, { names });
+    return title.value;
   },
+  ogImage: "/osai-index-logo.png",
   description: () => {
-    const placeholder = SEO.value?.compare?.description;
-    if (!placeholder) return "Compare AI models.";
-    const names = models.value.map((x) => x.system.name).join(", ");
-    return interpolate(placeholder, { names });
+    return description.value;
+  },
+  ogDescription: () => {
+    return description.value;
+  },
+  icon: "/favicon.svg",
+  twitterImage: () => {
+    return "/osai-index-logo.png";
+  },
+  twitterTitle: () => {
+    return title.value;
+  },
+  twitterDescription: () => {
+    return description.value;
   },
 });
 </script>
