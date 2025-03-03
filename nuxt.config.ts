@@ -127,10 +127,29 @@ export default defineNuxtConfig({
         ) {
           const filename = name.replace(".yaml", "");
           // extendPages
-          urls.push(`/model/${filename}`);
+          urls.push(`/model/${filename.toLowerCase()}`);
         }
       });
       return urls;
+    },
+  },
+  hooks: {
+    async "nitro:config"(nitroConfig) {
+      const models = await glob("./repos/data/*.yaml");
+      models.map((file) => {
+        let name = basename(file);
+        if (
+          !name.match(
+            /(a_submission_template\.yaml|^_parameters|^readme\.md|^\.)/
+          )
+        ) {
+          const filename = name.replace(".yaml", "");
+          // extendPages
+          nitroConfig.prerender.routes?.push(
+            `/model/${filename.toLowerCase()}`
+          );
+        }
+      });
     },
   },
   vite: {
