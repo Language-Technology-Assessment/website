@@ -61,7 +61,7 @@
         >
           <scorebar
             :score="item.score"
-            v-if="item?.score"
+            v-if="!isNaN(item?.score)"
             :style="{ '--fg': color(item.score) }"
           ></scorebar>
           <div
