@@ -54,9 +54,12 @@ definePageMeta({
   },
 });
 
-defineOgImage({
-  url: "/osai-index-logo.png",
-});
+const defaultMeta = await queryCollection("pages")
+  .path("/")
+  .first()
+  .catch((err) => {
+    console.log("error");
+  });
 
 useHead(
   data.value?.head || {
@@ -73,11 +76,14 @@ useHead(
 
 const seo = computed(() => {
   const defaults = {
+    title: data.value?.title || defaultMeta?.seo?.title,
+    description: data.value.description || defaultMeta?.seo?.description,
     ogImage: "/osai-index-logo.png",
-    ogDescription: data.value?.description,
+    ogDescription: data.value?.description || defaultMeta?.seo?.description,
     twitterCard: "summary_large_image",
-    twitterTitle: data.value?.title,
-    twitterDescription: data.value?.description,
+    twitterTitle: data.value?.title || defaultMeta?.title,
+    twitterDescription:
+      data.value?.description || defaultMeta?.seo?.description,
     twitterImage: "/osai-index-logo.png",
   };
   return { ...defaults, ...data.value?.seo };
