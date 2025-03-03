@@ -54,8 +54,17 @@ definePageMeta({
   },
 });
 
-defineOgImage({
-  url: "/osai-index.png",
+// defineOgImage({
+//   url: "/osai-index.png",
+// });
+
+defineOgImageComponent("page", {
+  fonts: [
+    {
+      name: "inter",
+      path: "/Inter-SemiBold.otf",
+    },
+  ],
 });
 
 useHead(
