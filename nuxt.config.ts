@@ -60,10 +60,6 @@ export default defineNuxtConfig({
         code: "en",
         language: "en-US",
       },
-      {
-        code: "nl",
-        language: "nl-NL",
-      },
     ],
   },
   modules: [

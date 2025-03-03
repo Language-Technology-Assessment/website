@@ -54,6 +54,10 @@ definePageMeta({
   },
 });
 
+defineOgImage({
+  url: "/osai-index.png",
+});
+
 useHead(
   data.value?.head || {
     titleTemplate: (titleChunk) => {
@@ -65,8 +69,8 @@ useHead(
         : "European Open Source AI Index";
     },
   }
-); // <-- Nuxt Schema.org
-useSeoMeta(data.value?.seo || {}); // <-- Nuxt Robots
+);
+useSeoMeta(data.value?.seo || {});
 </script>
 
 <style lang="less">
