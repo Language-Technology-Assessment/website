@@ -2,7 +2,7 @@
 import ViteYaml from "@modyfi/vite-plugin-yaml";
 import svgLoader from "vite-svg-loader";
 import fs from "fs";
-import { resolve, basename, dirname, parse } from "node:path";
+import { join, resolve, basename, dirname, parse } from "node:path";
 import glob from "fast-glob";
 
 const BASE = process.env.NUXT_APP_BASE_URL || "/";
@@ -152,9 +152,10 @@ export default defineNuxtConfig({
         }
       });
     },
-    "nitro:build:public-assets": async () => {
+    "nitro:build:public-assets": async (nitro) => {
+      const publicDir = nitro.options.output.publicDir;
       fs.writeFileSync(
-        resolve("./dist/CNAME"),
+        join(publicDir, "CNAME"),
         process.env.NUXT_SITE_ENV === "preview"
           ? "preview.osai-index.eu"
           : "osai-index.eu"
