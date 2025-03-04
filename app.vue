@@ -13,8 +13,6 @@
 <script setup lang="ts">
 import { useWindowScroll } from "@vueuse/core";
 
-const config = useRuntimeConfig();
-
 // scroll directions
 const direction = ref("");
 const { y } = useWindowScroll();
