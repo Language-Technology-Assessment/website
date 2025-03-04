@@ -151,6 +151,14 @@ export default defineNuxtConfig({
         }
       });
     },
+    close: async () => {
+      fs.writeFileSync(
+        resolve("./.output/public/CNAME"),
+        process.env.NUXT_SITE_ENV === "preview"
+          ? "preview.osai-index.eu"
+          : "osai-index.eu"
+      );
+    },
   },
   vite: {
     css: {

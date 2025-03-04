@@ -29,12 +29,23 @@ const projectsList = import.meta.glob(
   { eager: true }
 );
 let latestProjects = ref<any[]>([]);
-for (const path in projectsList) {
-  const project = projectsList[path].default;
-  project.path = path;
-  project.filename = path.split("/").pop()?.replace(".yaml", "");
-  if (!path.match("a_submission_template.yaml") && !path.match(/^_parameters/))
-    latestProjects.value.push(project);
+if (projectsList) {
+  for (const path in projectsList) {
+    try {
+      const project = projectsList[path].default;
+      project.path = path;
+      project.filename = path.split("/").pop()?.replace(".yaml", "");
+      if (
+        !path.match("a_submission_template.yaml") &&
+        !path.match(/^_parameters/)
+      ) {
+        latestProjects.value.push(project);
+      }
+    } catch (err) {
+      console.log("Error in:", path);
+      console.error(err);
+    }
+  }
 }
 
 const latestModels = ref<any[]>([]);
