@@ -7,7 +7,6 @@ import glob from "fast-glob";
 
 const BASE = process.env.NUXT_APP_BASE_URL || "/";
 const ISPREVIEW = process.env.NUXT_SITE_ENV === "preview";
-console.log({ ISPREVIEW });
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
@@ -153,11 +152,12 @@ export default defineNuxtConfig({
         }
       });
     },
-    "build:done": async () => {
+    "nitro:build:public-assets": async () => {
       fs.writeFileSync(
-        // resolve("./.output/public/CNAME"),
-        resolve("./.nuxt/dist/client/CNAME"),
-        ISPREVIEW ? "preview.osai-index.eu" : "osai-index.eu"
+        resolve("./dist/CNAME"),
+        process.env.NUXT_SITE_ENV === "preview"
+          ? "preview.osai-index.eu"
+          : "osai-index.eu"
       );
     },
   },
