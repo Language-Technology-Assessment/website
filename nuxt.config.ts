@@ -153,7 +153,8 @@ export default defineNuxtConfig({
     },
     "build:done": async () => {
       fs.writeFileSync(
-        resolve("./.output/public/CNAME"),
+        // resolve("./.output/public/CNAME"),
+        resolve("./.nuxt/dist/client/CNAME"),
         process.env.NUXT_SITE_ENV === "preview"
           ? "preview.osai-index.eu"
           : "osai-index.eu"
