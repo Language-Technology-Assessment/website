@@ -28,8 +28,11 @@ const nottop = computed(() => {
 
 const mounted = ref(false);
 
+const config = useRuntimeConfig();
+
 onMounted(() => {
   mounted.value = true;
+  console.log({ env: config.public.NUXT_SITE_ENV });
 });
 </script>
 <style lang="less">
