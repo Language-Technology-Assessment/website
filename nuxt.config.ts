@@ -6,6 +6,8 @@ import { resolve, basename, dirname, parse } from "node:path";
 import glob from "fast-glob";
 
 const BASE = process.env.NUXT_APP_BASE_URL || "/";
+const ISPREVIEW = process.env.NUXT_SITE_ENV === "preview";
+console.log({ ISPREVIEW });
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
@@ -155,9 +157,7 @@ export default defineNuxtConfig({
       fs.writeFileSync(
         // resolve("./.output/public/CNAME"),
         resolve("./.nuxt/dist/client/CNAME"),
-        process.env.NUXT_SITE_ENV === "preview"
-          ? "preview.osai-index.eu"
-          : "osai-index.eu"
+        ISPREVIEW ? "preview.osai-index.eu" : "osai-index.eu"
       );
     },
   },
