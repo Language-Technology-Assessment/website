@@ -59,11 +59,11 @@
       <!-- view buttons -->
       <div class="types">
         <button
-          :class="{ active: isActiveType(type.toLowerCase(), filters?.type)}"
-          @click="filters.type = toggleType(type.toLowerCase(),filters.type)"
+          :class="{ active: isActiveType(type.toLowerCase(), filters?.type) }"
+          @click="filters.type = toggleType(type.toLowerCase(), filters.type)"
           v-for="type in modelTypes"
         >
-          {{type}}
+          {{ type }}
         </button>
       </div>
 
@@ -209,7 +209,7 @@ const models = computed(() => {
         }
         if (ffs?.type) {
           if (!x.system?.type) return false;
-          const typeArray = ffs.type.split(',')
+          const typeArray = ffs.type.split(",");
           if (x.system?.type && !typeArray.includes(x.system.type)) {
             return false;
           }
@@ -238,9 +238,10 @@ const models = computed(() => {
         }
         if (ffs?.performanceclass) {
           if (!x.system?.performanceclass) return false;
+          const pcsplit = ffs.performanceclass.split(",");
           if (
             x.system?.performanceclass &&
-            x.system.performanceclass !== ffs.performanceclass
+            !pcsplit.includes(x.system.performanceclass)
           ) {
             return false;
           }
