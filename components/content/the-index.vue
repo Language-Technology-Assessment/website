@@ -252,6 +252,7 @@ const models = computed(() => {
           }
         }
         if (ffs?.performanceclass) {
+          if (!x.system?.performanceclass) return false;
           if (
             x.system?.performanceclass &&
             x.system.performanceclass !== ffs.performanceclass
