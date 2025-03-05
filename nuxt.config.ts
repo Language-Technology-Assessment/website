@@ -170,9 +170,6 @@ export default defineNuxtConfig({
         },
       },
     },
-    optimizeDeps: {
-      exclude: ["lodash"],
-    },
     plugins: [
       ViteYaml(),
       svgLoader({

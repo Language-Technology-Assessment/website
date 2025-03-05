@@ -59,28 +59,11 @@
       <!-- view buttons -->
       <div class="types">
         <button
-          :class="{ active: filters.type === 'text' }"
-          @click="filters.type = 'text'"
+          :class="{ active: isActiveType(type.toLowerCase(), filters?.type)}"
+          @click="filters.type = toggleType(type.toLowerCase(),filters.type)"
+          v-for="type in modelTypes"
         >
-          Text
-        </button>
-        <button
-          :class="{ active: filters.type === 'image' }"
-          @click="filters.type = 'image'"
-        >
-          Image
-        </button>
-        <button
-          :class="{ active: filters.type === 'video' }"
-          @click="filters.type = 'video'"
-        >
-          Video
-        </button>
-        <button
-          :class="{ active: filters.type === 'code' }"
-          @click="filters.type = 'code'"
-        >
-          Code
+          {{type}}
         </button>
       </div>
 
@@ -225,7 +208,9 @@ const models = computed(() => {
           }
         }
         if (ffs?.type) {
-          if (x.system?.type && x.system.type !== ffs.type) {
+          if (!x.system?.type) return false;
+          const typeArray = ffs.type.split(',')
+          if (x.system?.type && !typeArray.includes(x.system.type)) {
             return false;
           }
         }

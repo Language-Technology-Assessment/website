@@ -22,31 +22,11 @@
           </button> -->
           <button
             class="filterbutton"
-            :class="{ active: filters?.type === 'text' }"
-            @click="filters.type = 'text'"
+            :class="{ active: isActiveType(type.toLowerCase(), filters?.type)}"
+            @click="filters.type = toggleType(type.toLowerCase(),filters.type)"
+            v-for="type in modelTypes"
           >
-            Text
-          </button>
-          <button
-            class="filterbutton"
-            :class="{ active: filters?.type === 'image' }"
-            @click="filters.type = 'image'"
-          >
-            Image
-          </button>
-          <button
-            class="filterbutton"
-            :class="{ active: filters?.type === 'video' }"
-            @click="filters.type = 'video'"
-          >
-            Video
-          </button>
-          <button
-            class="filterbutton"
-            :class="{ active: filters?.type === 'code' }"
-            @click="filters.type = 'code'"
-          >
-            Code
+            {{ type }}
           </button>
         </div>
         <label

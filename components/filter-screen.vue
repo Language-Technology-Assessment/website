@@ -54,7 +54,6 @@ import { onKeyStroke } from '@vueuse/core'
 import openIcon from '@/assets/icons/open.svg?raw'
 import closedIcon from '@/assets/icons/closed.svg?raw'
 import partialIcon from '@/assets/icons/partial.svg?raw'
-import xor from 'lodash/xor'
 const filteredmodels = defineModel('models')
 const props = defineProps(['categories', 'originalModels'])
 const open = defineModel('open')
