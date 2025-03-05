@@ -146,7 +146,6 @@ const bus = useEventBus("description");
 
 const { color, params, categories } = useModels(version);
 const paramsFiltered = computed(() => {
-  console.log( filters?.type)
   const temptype = filters?.type.split(',') || ["text"];
   return params.value.filter((x) => intersection(x?.types, temptype).length > 0); 
 });
