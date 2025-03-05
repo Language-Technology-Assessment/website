@@ -152,15 +152,15 @@ export default defineNuxtConfig({
         }
       });
     },
-    // "nitro:build:public-assets": async (nitro) => {
-    //   const publicDir = nitro.options.output.publicDir;
-    //   fs.writeFileSync(
-    //     join(publicDir, "CNAME"),
-    //     process.env.NUXT_SITE_ENV === "preview"
-    //       ? "preview.osai-index.eu"
-    //       : "osai-index.eu"
-    //   );
-    // },
+    "nitro:build:public-assets": async (nitro) => {
+      const publicDir = nitro.options.output.publicDir;
+      fs.writeFileSync(
+        join(publicDir, "CNAME"),
+        process.env.NUXT_SITE_ENV === "preview"
+          ? "preview.osai-index.eu"
+          : "osai-index.eu"
+      );
+    },
   },
   vite: {
     css: {
