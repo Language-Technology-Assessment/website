@@ -3,6 +3,5 @@ export const formatReleaseDate = (date: string) => {
   return d.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
-    day: "numeric",
   });
 };
