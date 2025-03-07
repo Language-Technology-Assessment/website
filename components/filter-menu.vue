@@ -22,8 +22,8 @@
           </button> -->
           <button
             class="filterbutton"
-            :class="{ active: isActiveType(type.toLowerCase(), filters?.type)}"
-            @click="filters.type = toggleType(type.toLowerCase(),filters.type)"
+            :class="{ active: isActiveType(type.toLowerCase(), filters?.type) }"
+            @click="filters.type = toggleType(type.toLowerCase(), filters.type)"
             v-for="type in modelTypes"
           >
             {{ type }}
@@ -151,7 +151,9 @@ function filterActiveParams(paramslist) {
   if (!filters.value?.type || filters.value?.type === "all") {
     return paramslist;
   }
-  return paramslist.filter((x) => x.types.includes(filters.value.type));
+  return paramslist.filter((x) =>
+    x.types.some((item: string) => filters.value.type.split(",").includes(item))
+  );
 }
 
 onKeyStroke("Escape", () => {

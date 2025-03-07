@@ -2,31 +2,64 @@
   <div class="category">
     <div class="category-bar">
       <div class="category-name">{{ category.name }}</div>
-      <scorebar :score="model.categories[category.ref]" :style="{ '--fg': color(model.categories[category.ref]) }">
+      <scorebar
+        :score="model.categories[category.ref]"
+        :style="{ '--fg': color(model.categories[category.ref]) }"
+      >
       </scorebar>
     </div>
     <div class="params">
-      <div class="param" v-for="param in category.params.filter(x => x.types.includes(model.system.type))">
+      <div
+        class="param"
+        v-for="param in category.params.filter((x) =>
+          x.types.some((item:string) => model.system.type.split(',').includes(item))
+        )"
+      >
         <div class="icon-frame">
-          <div class='circle-icon open-icon' v-if="model[param.ref]?.class === 'open'" v-html="openIcon"></div>
-          <div class='circle-icon closed-icon' v-if="model[param.ref]?.class === 'closed'" v-html="closedIcon">
-          </div>
-          <div class='circle-icon partial-icon' v-if="model[param.ref]?.class === 'partial'" v-html="partialIcon">
-          </div>
+          <div
+            class="circle-icon open-icon"
+            v-if="model[param.ref]?.class === 'open'"
+            v-html="openIcon"
+          ></div>
+          <div
+            class="circle-icon closed-icon"
+            v-if="model[param.ref]?.class === 'closed'"
+            v-html="closedIcon"
+          ></div>
+          <div
+            class="circle-icon partial-icon"
+            v-if="model[param.ref]?.class === 'partial'"
+            v-html="partialIcon"
+          ></div>
         </div>
         <div class="param-info">
           <div class="param-name">
             <div class="name">
               {{ param.name }}
             </div>
-            <Icon @click="bus.emit(param.ref)" icon="mage:question-mark-circle-fill"></Icon>
+            <Icon
+              @click="bus.emit(param.ref)"
+              icon="mage:question-mark-circle-fill"
+            ></Icon>
           </div>
-          <div class='notes' v-html="model[param.ref].notes" v-if="model[param.ref]?.notes">
-          </div>
+          <div
+            class="notes"
+            v-html="model[param.ref].notes"
+            v-if="model[param.ref]?.notes"
+          ></div>
           <div class="links" @click.stop v-if="model[param.ref]?.link">
-            <NuxtLink :to="model[param.ref].link" target="_blank" v-if="typeof model[param.ref].link === 'string'">{{
-              model[param.ref].link }}</NuxtLink>
-            <NuxtLink :to="link" target="_blank" v-else v-for="link in model[param.ref].link">{{ link }}
+            <NuxtLink
+              :to="model[param.ref].link"
+              target="_blank"
+              v-if="typeof model[param.ref].link === 'string'"
+              >{{ model[param.ref].link }}</NuxtLink
+            >
+            <NuxtLink
+              :to="link"
+              target="_blank"
+              v-else
+              v-for="link in model[param.ref].link"
+              >{{ link }}
             </NuxtLink>
           </div>
         </div>
@@ -36,15 +69,15 @@
 </template>
 
 <script lang="ts" setup>
-import { useEventBus } from '@vueuse/core'
-import { Icon } from '@iconify/vue'
-import openIcon from '@/assets/icons/open.svg?raw'
-import closedIcon from '@/assets/icons/closed.svg?raw'
-import partialIcon from '@/assets/icons/partial.svg?raw'
+import { useEventBus } from "@vueuse/core";
+import { Icon } from "@iconify/vue";
+import openIcon from "@/assets/icons/open.svg?raw";
+import closedIcon from "@/assets/icons/closed.svg?raw";
+import partialIcon from "@/assets/icons/partial.svg?raw";
 
-const bus = useEventBus('description')
-const { color } = useModels()
-const { model, category } = defineProps(['model', 'category'])
+const bus = useEventBus("description");
+const { color } = useModels();
+const { model, category } = defineProps(["model", "category"]);
 </script>
 
 <style lang="less" scoped>
@@ -54,7 +87,7 @@ const { model, category } = defineProps(['model', 'category'])
   padding-bottom: 2rem;
   flex-shrink: 0;
   flex-grow: 1;
-  width: calc(100%/3);
+  width: calc(100% / 3);
   background: var(--bg2);
   border-radius: 0.25rem;
 
@@ -63,7 +96,7 @@ const { model, category } = defineProps(['model', 'category'])
     flex-direction: column;
     align-items: center;
     margin-bottom: 2rem;
-    gap: .25rem;
+    gap: 0.25rem;
     padding: 2rem 1rem 1rem;
     border-radius: 0.25rem;
     font-size: 1rem;
@@ -74,7 +107,7 @@ const { model, category } = defineProps(['model', 'category'])
       padding: 0;
       flex: 1;
       text-align: center;
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
       font-weight: 600;
     }
 
@@ -84,7 +117,7 @@ const { model, category } = defineProps(['model', 'category'])
       color: var(--bg);
       padding: 0 0.25rem;
       border-radius: 0.25rem;
-      font-size: .75rem;
+      font-size: 0.75rem;
       position: absolute;
       top: 0;
       right: 1rem;
@@ -100,7 +133,6 @@ const { model, category } = defineProps(['model', 'category'])
 h2 {
   margin: 0;
 }
-
 
 .param {
   display: flex;
@@ -163,7 +195,7 @@ h2 {
     max-width: 100%;
     font-size: 0.75rem;
     line-height: 1.4;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   a {
@@ -204,14 +236,14 @@ h2 {
 }
 
 @media (max-width: 50rem) {
-
   .category {
     width: 100%;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   .params {
-    .param {}
+    .param {
+    }
   }
 }
 </style>
