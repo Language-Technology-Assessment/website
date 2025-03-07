@@ -12,7 +12,7 @@
       <div
         class="param"
         v-for="param in category.params.filter((x) =>
-          x.types.some((item:string) => model.system.type.split(',').includes(item))
+          x.types.some((item:string) => model.system.type.split(',').map(x => x.trim()).includes(item.trim()))
         )"
       >
         <div class="icon-frame">

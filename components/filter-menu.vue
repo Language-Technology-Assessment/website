@@ -152,7 +152,12 @@ function filterActiveParams(paramslist) {
     return paramslist;
   }
   return paramslist.filter((x) =>
-    x.types.some((item: string) => filters.value.type.split(",").includes(item))
+    x.types.some((item: string) =>
+      filters.value.type
+        .split(",")
+        .map((x) => x.trim())
+        .includes(item.trim())
+    )
   );
 }
 

@@ -1,7 +1,6 @@
 import info from "@/repos/data/.info.json";
 // import { load } from "js-yaml";
 import { useDateFormat } from "@vueuse/core";
-import { intersection } from "lodash-es";
 
 import categories_current from "@/repos/data/_parameters.yml";
 import descriptions_current from "@/repos/data/_parameters-descriptions.yml";
@@ -77,7 +76,7 @@ function sortModels(ppp: any) {
   prs.map((x, k) => {
     x.categories = {};
     x.params = {};
-    const types = x.system.type.split(",");
+    const types = x.system.type.split(",").map((x) => x.trim());
     categories.value.map((cat) => {
       x.categories[cat.ref] = 0;
       cat.params
@@ -102,7 +101,9 @@ function sortModels(ppp: any) {
       // calculate categories (average of params)
       x.categories[cat.ref] =
         cat.params
-          .filter((c) => c.types.some((item: string) => types.includes(item)))
+          .filter((c) =>
+            c.types.some((item: string) => types.includes(item.trim()))
+          )
           .map((xx) => x.params[xx.ref])
           .reduce((a, b) => a + b) / cat.params.length;
     });

@@ -73,7 +73,7 @@
               <div
                 class="param"
                 v-for="param in params.filter((x) =>
-                  x.types.some((i) => item.system.type.split(',').includes(i))
+                  x.types.some((i:string) => item.system.type.split(',').map(x => x.trim()).includes(i.trim()))
                 )"
                 @mouseenter="openParam = param.ref"
                 @touchmove="openParam = param.ref"

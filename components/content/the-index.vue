@@ -209,8 +209,13 @@ const models = computed(() => {
         }
         if (ffs?.type) {
           if (!x.system?.type) return false;
-          const typeArray = ffs.type.split(",");
-          if (x.system?.type && !typeArray.includes(x.system.type)) {
+          const filterTypeArray = ffs.type.split(",").map((x) => x.trim());
+          const modelTypeArray = x.system.type.split(",").map((x) => x.trim());
+          if (
+            !modelTypeArray.some((type: string) =>
+              filterTypeArray.includes(type)
+            )
+          ) {
             return false;
           }
         }
