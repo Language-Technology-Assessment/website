@@ -129,7 +129,7 @@ import openIcon from "@/assets/icons/open.svg?raw";
 import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
 import { useEventBus } from "@vueuse/core";
-import { intersection } from 'lodash-es'
+import { intersection } from "lodash-es";
 const store = useMyComparisonStore();
 const router = useRouter();
 const row: Ref<null | number> = ref(null);
@@ -146,8 +146,10 @@ const bus = useEventBus("description");
 
 const { color, params, categories } = useModels(version);
 const paramsFiltered = computed(() => {
-  const temptype = filters?.type.split(',') || ["text"];
-  return params.value.filter((x) => intersection(x?.types, temptype).length > 0); 
+  const temptype = filters?.type?.split(",") || ["text"];
+  return params.value.filter(
+    (x) => intersection(x?.types, temptype).length > 0
+  );
 });
 
 function setOpenParam(item) {
