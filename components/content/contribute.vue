@@ -1,6 +1,8 @@
 <template>
   <div class="contribute">
-    <div class="last-updated">Last updated {{ commitDate }}</div>
+    <div class="last-updated" v-if="commitDate">
+      Last updated {{ commitDate }}
+    </div>
     <div>
       <slot>Is this information not up to date?</slot>
     </div>
@@ -21,13 +23,13 @@ const { data: commitDate } = await useAsyncData(
   "fileLastCommit" + route.params.model,
   async () => {
     const modelref = route.params.model;
-    if (!modelref) return false;
+    // if (!modelref) return false;
     const owner = "Language-Technology-Assessment";
     const repo = "main-database";
-    const path = `/${modelref}.yaml`;
+    const path = modelref ? `&path=/${modelref}.yaml` : "";
 
     const data = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/commits?path=${path}&per_page=1`
+      `https://api.github.com/repos/${owner}/${repo}/commits?per_page=1${path}`
     )
       .then((response) => response.json())
       .catch((err) => console.warn(err));
