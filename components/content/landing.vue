@@ -53,22 +53,20 @@ const getSlotChildrenText = (children) =>
 
 .landing {
   height: calc(100vh - 4rem);
-  min-height: 38rem;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
   position: relative;
   background: var(--bg2);
   margin-top: 0 !important;
   overflow: hidden;
   display: flex;
-  // align-items: center;
   justify-content: center;
   padding-top: 8rem;
+  min-height: 32rem;
 
   @media (max-width: 50rem) {
     margin-bottom: 1rem;
   }
-  @media (orientation: portrait), (min-width: 1600px) {
-    min-height: 35rem;
+  @media (orientation: portrait), (min-width: 50rem) {
     max-height: 46rem;
   }
 
@@ -80,7 +78,8 @@ const getSlotChildrenText = (children) =>
     .row();
     display: flex;
     align-items: flex-end;
-    padding-bottom: 4rem;
+    padding-bottom: 2rem;
+
     @media (orientation: portrait) {
       padding-bottom: 2rem;
       @media (max-width: 30rem) {
