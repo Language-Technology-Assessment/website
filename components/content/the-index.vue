@@ -421,6 +421,12 @@ p + .the-index {
   margin-bottom: 0.5rem;
   background: transparent;
 
+  @media (min-width: 40rem) {
+    .filtershidden & {
+      margin-bottom: 1.5rem;
+    }
+  }
+
   > div {
     flex: 1;
   }
