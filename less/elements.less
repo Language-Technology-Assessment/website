@@ -208,6 +208,7 @@ section {
   .row();
   margin-bottom: 4rem;
   border-top: 1px solid var(--bc);
+  gap: 2rem;
   .context {
     flex: 1;
     max-width: calc(100% / 3);
@@ -221,11 +222,13 @@ section {
       text-transform: uppercase;
       font-size: 0.75rem;
       letter-spacing: 0.05em;
+      margin-bottom: 2rem;
     }
   }
   .content {
     flex: 1;
-    a {
+    min-width: 0;
+    > a {
       display: block;
       margin-bottom: 2rem;
       text-decoration: none;
@@ -302,6 +305,7 @@ section {
 
     .context {
       margin-bottom: 2rem;
+      max-width: 100%;
     }
   }
 }
