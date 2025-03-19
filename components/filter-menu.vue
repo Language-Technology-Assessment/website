@@ -131,7 +131,10 @@
       </div>
       <!-- filter by year -->
       <div class="group">
-        <label>Filter by release date:</label>
+        <label>
+          <span>Filter by release date:</span>
+          <button @click="clearReleaseDate()">clear</button>
+        </label>
         <release-date-selector v-model="filters"></release-date-selector>
       </div>
     </div>
@@ -146,6 +149,11 @@ import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
 const props = defineProps(["categories", "originalModels"]);
 const open = defineModel("open");
+
+function clearReleaseDate() {
+  delete filters.value.release_start;
+  delete filters.value.release_end;
+}
 
 function filterActiveParams(paramslist) {
   if (!filters.value?.type || filters.value?.type === "all") {

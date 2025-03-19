@@ -88,7 +88,6 @@ watch([start, end], (val) => {
   if (val[1] < months) {
     const date = new Date(startRange);
     date.setMonth(date.getMonth() + end.value);
-    console.log("set release end");
     filters.value.release_end = useDateFormat(date, "YYYY-MM");
   }
   if (val[0] === 0 && "release_start" in route.query) {
@@ -175,25 +174,33 @@ function setFilterDate() {
   if (isActive.value) {
     return false;
   }
-  if (filters.value.release_start) {
+  if (filters.value?.release_start) {
     const tstart = new Date(startRange);
     const tend = new Date(filters.value.release_start);
     start.value =
       (tend.getFullYear() - tstart.getFullYear()) * 12 +
       (tend.getMonth() - tstart.getMonth());
+  } else {
+    start.value = 0;
   }
-  if (filters.value.release_end) {
+  if (filters.value?.release_end) {
     const tstart = new Date(startRange);
     const tend = new Date(filters.value.release_end);
     end.value =
       (tend.getFullYear() - tstart.getFullYear()) * 12 +
       (tend.getMonth() - tstart.getMonth());
+  } else {
+    end.value = months;
   }
 }
 
-watch(filters, (val) => {
-  setFilterDate();
-});
+watch(
+  filters,
+  (val) => {
+    setFilterDate();
+  },
+  { deep: true }
+);
 
 onMounted(() => {
   // convert
