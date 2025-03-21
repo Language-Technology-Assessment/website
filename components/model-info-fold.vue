@@ -22,7 +22,11 @@
           <label>Link to the model:</label>
           <div class="notes">
             <NuxtLink :to="model.system.link">
-              <Icon icon="iconamoon:link-external-fill"></Icon>
+              <Icon
+                icon="iconamoon:link-external-fill"
+                alt="icon"
+                aria-hidden="true"
+              ></Icon>
               {{ model.system.link }}
             </NuxtLink>
           </div>
@@ -50,7 +54,11 @@
           <label>Link to the organisation:</label>
           <div class="notes">
             <NuxtLink :to="model?.org?.link">
-              <Icon icon="iconamoon:link-external-fill"></Icon>
+              <Icon
+                icon="iconamoon:link-external-fill"
+                alt="icon"
+                aria-hidden="true"
+              ></Icon>
               {{ model.org.link }}
             </NuxtLink>
           </div>

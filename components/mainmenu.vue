@@ -15,7 +15,7 @@
     </button>
     <!-- mobile logo -->
     <NuxtLink to="/" class="mobile-logo-link">
-      <logoname class="mobile-logoname"></logoname>
+      <logoname class="mobile-logoname" aria-hidden="true"></logoname>
     </NuxtLink>
     <!-- content -->
     <div class="frame" @click="menuopen = false">
@@ -28,9 +28,10 @@
             withIcon: !!item.icon,
             exact: $route.fullPath === item.link,
           }"
+          :aria-label="item?.name"
         >
           <span v-if="item.name">{{ item.name }}</span>
-          <Icon :icon="item.icon" v-if="item.icon"></Icon>
+          <Icon :icon="item.icon" v-if="item.icon" aria-hidden="true"></Icon>
         </NuxtLink>
       </div>
       <div class="mid">
@@ -48,13 +49,26 @@
             withIcon: !!item.icon,
             exact: $route.fullPath === item.link,
           }"
+          :aria-label="item?.name"
         >
           <span v-if="item.name">{{ item.name }}</span>
-          <Icon :icon="item.icon" v-if="item.icon"></Icon>
+          <Icon :icon="item.icon" v-if="item.icon" aria-hidden="true"></Icon>
         </NuxtLink>
-        <button class="darkmode" @click.stop="toggleDark()">
-          <Icon class="light-icon" icon="ic:baseline-light-mode"></Icon>
-          <Icon class="dark-icon" icon="ic:round-dark-mode"></Icon>
+        <button
+          class="darkmode"
+          @click.stop="toggleDark()"
+          aria-label="Toggle dark mode"
+        >
+          <Icon
+            class="light-icon"
+            icon="ic:baseline-light-mode"
+            aria-hidden="true"
+          ></Icon>
+          <Icon
+            class="dark-icon"
+            icon="ic:round-dark-mode"
+            aria-hidden="true"
+          ></Icon>
         </button>
       </div>
     </div>
@@ -80,7 +94,6 @@ onMounted(() => {
     afteractive.value = true;
   }, 2500);
 });
-const { locale, setLocale } = useI18n();
 watch(menuopen, (val) => {
   if (val) {
     document.body.classList.add("scroll-block");

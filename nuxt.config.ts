@@ -85,12 +85,15 @@ export default defineNuxtConfig({
     "@nuxtjs/seo",
     "@nuxt/content",
     "@nuxt/image",
-    "@nuxtjs/i18n",
+    // "@nuxtjs/i18n",
     "@pinia/nuxt",
   ],
   image: {
     // dir: resolve(__dirname, "repos/website/"),
     dir: "repos/website",
+  },
+  linkChecker: {
+    skipInspections: ["link-text"],
   },
   robots: {
     robotsTxt: BASE === "/" ? true : false,

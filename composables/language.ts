@@ -1,9 +1,9 @@
 export const useLanguage = () => {
   const route = useRoute();
-  const { locale } = useI18n();
-  const languageCode = computed(() => {
-    return locale.value === "en" ? "" : locale.value;
-  });
+  // const { locale } = useI18n();
+  // const languageCode = computed(() => {
+  //   return locale.value === "en" ? "" : locale.value;
+  // });
   const markdownPath = computed(() => {
     // disabled
     return route.path;
