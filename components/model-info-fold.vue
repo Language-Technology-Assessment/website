@@ -9,7 +9,16 @@
           </div>
           <div class="notes" v-else>(Not available)</div>
           <label>Model type:</label>
-          <div class="notes">{{ model.system.type }}</div>
+          <div class="notes">
+            {{ capitalizeFirstLetter(model.system.type) || "(undefined)" }}
+          </div>
+          <label>Model performance class:</label>
+          <div class="notes">
+            {{
+              capitalizeFirstLetter(model.system.performanceclass) ||
+              "(undefined)"
+            }}
+          </div>
           <label>Link to the model:</label>
           <div class="notes">
             <NuxtLink :to="model.system.link">
