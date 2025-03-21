@@ -169,7 +169,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         less: {
-          additionalData: `@import "@/less/ease.less";@import "@/less/animations.less"; @import "@/less/global.less";`,
+          additionalData: `@import "@/less/ease.less"; @import "@/less/global.less";`,
         },
       },
     },
