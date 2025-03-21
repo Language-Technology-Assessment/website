@@ -85,6 +85,7 @@ export default defineNuxtConfig({
     "@nuxtjs/seo",
     "@nuxt/content",
     "@nuxt/image",
+    "@nuxtjs/critters",
     // "@nuxtjs/i18n",
     "@pinia/nuxt",
   ],
