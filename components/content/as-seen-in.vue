@@ -4,7 +4,7 @@
       <div class="context">
         <label>As seen in</label>
       </div>
-      <div class="images" v-visiblecontainer>
+      <div class="images">
         <NuxtLink
           :to="item.url"
           v-for="item in list.items"

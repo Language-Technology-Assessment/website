@@ -4,7 +4,7 @@
       <div class="context">
         <label>Partners</label>
       </div>
-      <div class="images" v-visiblecontainer v-if="list?.items">
+      <div class="images" v-if="list?.items">
         <NuxtLink
           :to="item.url"
           v-for="item in list.items"
