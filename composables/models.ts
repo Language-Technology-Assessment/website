@@ -98,14 +98,14 @@ function sortModels(ppp: any) {
             x.params[param.ref] = weight;
           }
         });
-      // calculate categories (average of params)
+      // calculate categories (average of params linked to types)
+      const catparams = cat.params
+        .filter((c) =>
+          c.types.some((item: string) => types.includes(item.trim()))
+        )
+        .map((xx) => x.params[xx.ref]);
       x.categories[cat.ref] =
-        cat.params
-          .filter((c) =>
-            c.types.some((item: string) => types.includes(item.trim()))
-          )
-          .map((xx) => x.params[xx.ref])
-          .reduce((a, b) => a + b) / cat.params.length;
+        catparams.reduce((a, b) => a + b) / catparams.length;
     });
     // calculate total average
     x.score =
