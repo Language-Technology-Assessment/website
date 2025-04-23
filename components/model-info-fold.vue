@@ -90,7 +90,9 @@ const { filename, models, categories } = defineProps([
 
 const model = computed(() => {
   if (!filename) return false;
-  return models.find((x) => x.filename === filename);
+  return models.find(
+    (x) => x.filename.toLowerCase() === filename.toLowerCase()
+  );
 });
 </script>
 

@@ -3,31 +3,39 @@
     <ParametersDescriptions></ParametersDescriptions>
     <div class="frame">
       <div class="top-info">
-        <h1 v-if="model?.system">{{ model.system.name || '(undefined)' }}</h1>
-        <h2 v-if="model?.org">by {{ model.org.name || '(undefined)' }}</h2>
-        <scorebar :score="model.score" v-if="model?.score" :style="{ '--fg': color(model.score) }"></scorebar>
+        <h1 v-if="model?.system">{{ model.system.name || "(undefined)" }}</h1>
+        <h2 v-if="model?.org">by {{ model.org.name || "(undefined)" }}</h2>
+        <scorebar
+          :score="model.score"
+          v-if="model?.score"
+          :style="{ '--fg': color(model.score) }"
+        ></scorebar>
       </div>
-      <ModelInfoFold :filename="route.params.model" :models="models" :categories="props.categories"></ModelInfoFold>
+      <ModelInfoFold
+        :filename="route.params.model"
+        :models="models"
+        :categories="props.categories"
+      ></ModelInfoFold>
       <contribute></contribute>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-const { color } = useModels()
-const props = defineProps(['models', 'categories'])
+const { color } = useModels();
+const props = defineProps(["models", "categories"]);
 const models = computed(() => {
-  return props.models
-})
-const route = useRoute()
+  return props.models;
+});
+const route = useRoute();
 const model = computed(() => {
-  const pad = route.params.model
-  return models.value.find(x => x.filename === pad)
-})
+  const pad = route.params.model;
+  return models.value.find(
+    (x) => x.filename.toLowerCase() === pad.toLowerCase()
+  );
+});
 
-
-onMounted(async () => {
-})
+onMounted(async () => {});
 </script>
 
 <style lang="less" scoped>
@@ -43,7 +51,7 @@ onMounted(async () => {
 
   :deep(.scorebar) {
     --bg: var(--bg3);
-    --sb-height: .75rem;
+    --sb-height: 0.75rem;
     width: 16rem;
     max-width: 80%;
     margin: 0 auto 4rem;
@@ -51,7 +59,7 @@ onMounted(async () => {
 
   h1 {
     font-size: 3rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     text-align: center;
     width: 100%;
   }
@@ -73,9 +81,7 @@ onMounted(async () => {
 }
 
 @media (max-width: 40rem) {
-
   .top-info {
-
     h1 {
       font-size: 2rem;
     }
