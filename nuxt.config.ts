@@ -155,6 +155,19 @@ export default defineNuxtConfig({
           );
         }
       });
+      const newsPages = await glob("./repos/website/pages/news/**/*.md");
+      const guidePages = await glob("./repos/website/pages/guides/**/*.md");
+      // Add news routes
+      newsPages.map((file) => {
+        const filename = parse(file).name;
+        nitroConfig.prerender.routes?.push(`/news/${filename}`);
+      });
+
+      // Add guides routes
+      guidePages.map((file) => {
+        const filename = parse(file).name;
+        nitroConfig.prerender.routes?.push(`/guides/${filename}`);
+      });
     },
     "nitro:build:public-assets": async (nitro) => {
       const publicDir = nitro.options.output.publicDir;
