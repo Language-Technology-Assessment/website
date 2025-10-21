@@ -1,6 +1,6 @@
 <template>
   <div
-    class="landing relative mt-0 mb-4 flex h-screen max-h-none min-h-80 justify-center overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:mb-[30vh] lg:h-auto lg:min-h-[50vh] portrait:max-h-[46rem]"
+    class="landing relative mt-0 mb-4 flex max-h-none min-h-[80vh] justify-center overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:mb-[calc(100vh-14rem-24rem)] lg:h-auto lg:min-h-[40vh] portrait:max-h-[46rem]"
     :class="{ 'opacity-0': !isVisible, 'opacity-100': isVisible }"
     ref="mainelement"
   >
@@ -13,14 +13,14 @@
     >
       <img
         src="/sphere2.svg"
-        class="sphere pointer-events-none absolute top-[60vh] -right-[30vw] z-[-1] flex w-full overflow-visible opacity-30 transition-all duration-2000 ease-out"
+        class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out lg:top-[60vh] lg:scale-100"
         :class="{ 'translate-y-50 opacity-0': !isVisible }"
       />
     </div>
 
     <!-- text -->
     <div
-      class="relative z-0 flex w-full items-center overflow-visible portrait:pb-8 portrait:max-[30rem]:pb-4 starting:translate-y-40 starting:opacity-0"
+      class="relative z-0 flex w-full items-end overflow-visible portrait:pb-8 portrait:max-[30rem]:pb-4 starting:translate-y-40 starting:opacity-0"
       :style="{
         transform: `translateY(${y / 2}px)`,
         opacity: clamp(1 - (y * 2) / height, 0.1, 1),

@@ -1,14 +1,14 @@
 <template>
   <div class="z-3">
     <section class="split-layout news py-12" id="news">
-      <div class="left-side label sticky bottom-8 mb-8 block px-0">News</div>
+      <div class="left-side label sticky top-8 mb-8 block px-0">News</div>
       <div
         class="overflow-auto pb-8"
         v-visiblecontainer
         v-if="visibleData && status === 'success'"
       >
         <NuxtLink
-          class="group/card y-top mr-8 mb-8 inline-flex w-full flex-col border-t border-bc px-0 py-4 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100 sm:aspect-4/3 sm:w-64"
+          class="group/card y-top mr-8 mb-8 inline-flex w-full flex-col border-t border-bc px-0 py-2 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100 sm:aspect-4/3 sm:w-64"
           :to="'/news' + item.path"
           v-for="item in visibleData"
           :key="item.path"
@@ -19,16 +19,9 @@
             {{ item.description }}
           </div>
           <div
-            class="date flex items-end text-tiny font-semibold tracking-wide text-fg2 uppercase no-underline"
+            class="date mb-2 text-tiny font-semibold tracking-wide text-fg2 uppercase no-underline"
           >
-            <div>{{ useToDate(item.date) }}</div>
-            <div class="grow"></div>
-            <div class="leading-none">
-              <Icon
-                name="mdi:arrow-right"
-                class="text-2xl text-link opacity-0 transition-all duration-200 group-hover/card:opacity-100"
-              ></Icon>
-            </div>
+            {{ useToDate(item.date) }}
           </div>
         </NuxtLink>
       </div>

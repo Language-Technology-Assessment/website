@@ -1,5 +1,7 @@
 <template>
-  <div class="transition-opacity delay-500 duration-1000 starting:opacity-0">
+  <div
+    class="border-t border-bc py-4 transition-opacity delay-500 duration-1000 starting:opacity-0"
+  >
     <div class="split-layout">
       <div class="left-side">
         <div class="mb-4 block px-0 text-xs font-semibold uppercase">

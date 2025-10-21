@@ -7,7 +7,7 @@
     <div class="row flex items-start justify-between">
       <NuxtLink
         to="/"
-        class="group/logo flex cursor-pointer items-center gap-2 self-start no-underline hover:text-link"
+        class="group/logo flex origin-left scale-70 cursor-pointer items-center gap-2 self-start no-underline hover:text-link lg:scale-100"
       >
         <logo class="logo h-auto w-12" />
         <div class="w-22 text-[0.75rem] leading-3.75 font-semibold">
