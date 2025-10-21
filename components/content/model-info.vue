@@ -1,14 +1,22 @@
 <template>
   <div class="model-info">
     <ParametersDescriptions></ParametersDescriptions>
-    <div class="frame">
-      <div class="top-info">
-        <h1 v-if="model?.system">{{ model.system.name || "(undefined)" }}</h1>
-        <h2 v-if="model?.org">by {{ model.org.name || "(undefined)" }}</h2>
+    <div class="frame mx-auto" style="width: var(--maxwidth)">
+      <div class="top-info py-0 pb-8 text-fg">
+        <h1 class="mb-2 w-full text-center text-5xl" v-if="model?.system">
+          {{ model.system.name || "(undefined)" }}
+        </h1>
+        <h2
+          class="mt-0 mb-8 w-full !text-center font-normal text-fg2"
+          v-if="model?.org"
+        >
+          by {{ model.org.name || "(undefined)" }}
+        </h2>
         <scorebar
           :score="model.score"
           v-if="model?.score"
           :style="{ '--fg': color(model.score) }"
+          class="scorebar-custom"
         ></scorebar>
       </div>
       <ModelInfoFold
@@ -31,64 +39,32 @@ const route = useRoute();
 const model = computed(() => {
   const pad = route.params.model;
   return models.value.find(
-    (x) => x.filename.toLowerCase() === pad.toLowerCase()
+    (x) => x.filename.toLowerCase() === pad.toLowerCase(),
   );
 });
 
 onMounted(async () => {});
 </script>
 
-<style lang="less" scoped>
-.model-info {
-  .frame {
-    .row();
-  }
+<style scoped>
+.top-info .scorebar-custom {
+  --bg: var(--color-bg3);
+  --sb-height: 0.75rem;
+  width: 16rem;
+  max-width: 80%;
+  margin: 0 auto 4rem;
 }
-
-.top-info {
-  padding: 0rem 0 2rem;
-  color: var(--fg);
-
-  :deep(.scorebar) {
-    --bg: var(--bg3);
-    --sb-height: 0.75rem;
-    width: 16rem;
-    max-width: 80%;
-    margin: 0 auto 4rem;
-  }
-
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    text-align: center;
-    width: 100%;
-  }
-
-  h2 {
-    text-align: center;
-    width: 100%;
-    margin-top: 0;
-    margin-bottom: 2rem;
-    font-weight: 400;
-    color: var(--fg2);
-  }
-
-  .score {
-    text-align: center;
-    color: var(--fg2);
-    font-size: 0.75rem;
-  }
+.top-info .score {
+  text-align: center;
+  color: var(--color-fg2);
+  font-size: 0.75rem;
 }
-
 @media (max-width: 40rem) {
-  .top-info {
-    h1 {
-      font-size: 2rem;
-    }
-
-    h2 {
-      font-size: 1rem;
-    }
+  .top-info h1 {
+    font-size: 2rem;
+  }
+  .top-info h2 {
+    font-size: 1rem;
   }
 }
 </style>

@@ -1,16 +1,18 @@
 <template>
-  <section class="as-seen-in" id="as-seen-in">
-    <div class="content-frame with-images">
-      <div class="context">
-        <label>As seen in</label>
+  <section class="mb-12" id="as-seen-in">
+    <div class="split-layout">
+      <div class="left-side">
+        <div class="mb-4 block px-0 text-xs font-semibold uppercase">
+          As seen in
+        </div>
       </div>
-      <div class="images">
+      <div class="logo-blocks">
         <NuxtLink
           :to="item.url"
           v-for="item in list.items"
           :title="item.title"
           target="_blank"
-          class="flex"
+          class="logo-block flex"
         >
           <div class="image">
             <NuxtImg
@@ -28,8 +30,3 @@
 <script lang="ts" setup>
 import list from "@/repos/website/as-seen-in.yml";
 </script>
-
-<style lang="less" scoped>
-.as-seen-in {
-}
-</style>

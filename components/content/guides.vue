@@ -1,26 +1,33 @@
 <template>
-  <section class="guides" id="guides">
-    <div class="content-frame">
-      <div class="context">
-        <label>Guides</label>
-      </div>
-      <div
-        class="content"
-        v-visiblecontainer
-        v-if="visibleData && status === 'success'"
+  <section class="split-layout relative z-3 mb-12 py-8" id="guides">
+    <div class="left-side mb-8 block px-0 text-xs font-semibold uppercase">
+      Guides
+    </div>
+    <div
+      class="content grid grid-cols-1 gap-8 overflow-auto pb-8 sm:grid-cols-2"
+      v-visiblecontainer
+      v-if="visibleData && status === 'success'"
+    >
+      <NuxtLink
+        :to="`/guides${item.path}`"
+        v-for="(item, k) in visibleData"
+        :key="item.path"
+        class="mb-8 flex w-100 flex-col border-t border-bc py-3 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:text-link data-visible:opacity-100"
+        v-visible
       >
-        <NuxtLink
-          :to="`/guides${item.path}`"
-          v-for="(item, k) in visibleData"
-          :key="item.path"
+        <div class="title mb-2 text-2xl">{{ item.title }}</div>
+        <div
+          class="description text-normal mb-2 max-w-[20em] leading-5 text-fg2"
         >
-          <div class="title">{{ item.title }}</div>
-          <div class="description">{{ item.description }}</div>
-        </NuxtLink>
-        <button class="showmore" @click="showMore()" v-if="limit < data.length">
-          Show more
-        </button>
-      </div>
+          {{ item.description }}
+        </div>
+        <div class="text-tiny font-semibold tracking-wide text-fg2/50">
+          {{ useToDate(item.date) }} | by {{ item.author }}
+        </div>
+      </NuxtLink>
+      <button class="showmore" @click="showMore()" v-if="limit < data.length">
+        Show more
+      </button>
     </div>
   </section>
 </template>
@@ -28,16 +35,17 @@
 <script lang="ts" setup>
 import type { QueryBuilderParams } from "@nuxt/content/dist/runtime/types";
 const props = defineProps(["perpage"]);
-const limit = ref(props.perpage || 3);
+const limit = ref(10);
+// const limit = ref(props.perpage || 3);
 const perpage = computed(() => {
-  return props.perpage || 3;
+  return 10;
 });
 
 const { data, status } = await useAsyncData("guides", () =>
-  queryCollectionNavigation("guides", ["date", "description"]).order(
+  queryCollectionNavigation("guides", ["date", "description", "author"]).order(
     "date",
-    "DESC"
-  )
+    "DESC",
+  ),
 );
 
 const visibleData = computed(() => {
@@ -51,8 +59,3 @@ function showMore() {
   }
 }
 </script>
-
-<style lang="less" scoped>
-.guides {
-}
-</style>

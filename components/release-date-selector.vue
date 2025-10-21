@@ -1,18 +1,29 @@
 <template>
-  <div class="release-date-selector">
+  <div class="mb-4 select-none">
     <div
-      class="bar"
+      class="relative h-2 w-full cursor-pointer rounded bg-bg2"
       @mousedown="startMove($event)"
       @touchstart="startMove($event)"
       @touchend="isActive = false"
       ref="barElement"
     >
-      <div ref="startElement" class="handle-start" :style="startStyle"></div>
-      <div class="selection" :style="selectionStyle"></div>
-      <div ref="endElement" class="handle-end" :style="endStyle"></div>
+      <div
+        ref="startElement"
+        class="absolute -top-1 left-0 z-[2] h-4 w-1 -translate-x-0.5 cursor-pointer rounded bg-fg2 transition-all duration-75 ease-in-out hover:bg-link active:bg-link"
+        :style="startStyle"
+      ></div>
+      <div
+        class="absolute top-0 left-0 h-full w-0 bg-bg3 transition-all duration-75 ease-in-out"
+        :style="selectionStyle"
+      ></div>
+      <div
+        ref="endElement"
+        class="absolute -top-1 left-0 z-[2] h-4 w-1 -translate-x-0.5 cursor-pointer rounded bg-fg2 transition-all duration-75 ease-in-out hover:bg-link active:bg-link"
+        :style="endStyle"
+      ></div>
     </div>
-    <div class="range-labels">
-      <label>{{ rangeStart }}</label>
+    <div class="flex pt-2 text-tiny font-semibold text-fg2">
+      <label class="flex-1">{{ rangeStart }}</label>
       <label>{{ rangeEnd }}</label>
     </div>
   </div>
@@ -59,12 +70,12 @@ watch(x, (val) => {
     if (isStart.value) {
       start.value = maxRange(
         Math.round(((val - rect.left) / rect.width) * months),
-        true
+        true,
       );
     } else {
       end.value = maxRange(
         Math.round(((val - rect.left) / rect.width) * months),
-        false
+        false,
       );
     }
   }
@@ -134,7 +145,7 @@ function startMove(event: MouseEvent | TouchEvent) {
   isStart.value = getClosestElement(
     event,
     startElement.value,
-    endElement.value
+    endElement.value,
   );
   const rect = event.currentTarget.getBoundingClientRect();
   const x = event.clientX - rect.left;
@@ -149,7 +160,7 @@ function maxRange(number: number, starter: boolean) {
   if (isNaN(number)) return 0;
   return Math.max(
     starter ? 0 : start.value + 1,
-    Math.min(number, starter ? end.value - 1 : months)
+    Math.min(number, starter ? end.value - 1 : months),
   );
 }
 
@@ -199,7 +210,7 @@ watch(
   (val) => {
     setFilterDate();
   },
-  { deep: true }
+  { deep: true },
 );
 
 onMounted(() => {
@@ -207,58 +218,3 @@ onMounted(() => {
   setFilterDate();
 });
 </script>
-
-<style lang="less" scoped>
-.release-date-selector {
-  user-select: none;
-}
-.bar {
-  width: 100%;
-  height: 0.5rem;
-  background: var(--bg3);
-  border-radius: 0.25rem;
-  position: relative;
-  cursor: pointer;
-
-  .selection {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    background: var(--fg2);
-  }
-
-  .handle-start,
-  .handle-end {
-    position: absolute;
-    top: -0.25rem;
-    left: 0;
-    width: 0.25rem;
-    height: calc(100% + 0.5rem);
-    background: var(--fg);
-    border-radius: 0.25rem;
-    cursor: pointer;
-    z-index: 2;
-    transform: translatex(-0.125rem);
-    &:hover {
-      background: var(--g3);
-    }
-  }
-
-  .selection,
-  .handle-end,
-  .handle-start {
-    transition: all 0.05s ease;
-  }
-}
-
-.range-labels {
-  display: flex;
-  font-size: 0.6rem;
-  padding-top: 0.5rem;
-  > *:first-child {
-    flex: 1;
-  }
-}
-</style>

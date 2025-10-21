@@ -1,6 +1,12 @@
 <template>
-  <div class="mainfooter" :class="{ loaded }">
-    <div class="frame">
+  <div
+    class="mt-8 bg-bg2 pt-8 pb-12 text-xs leading-[1.4] text-fg2 opacity-0 transition-all duration-1000"
+    :class="{ 'opacity-100': loaded }"
+  >
+    <div
+      class="mx-auto max-w-[30rem] text-center"
+      style="width: var(--maxwidth)"
+    >
       <ContentRenderer :value="page" v-if="page && status === 'success'">
         <template #empty></template>
       </ContentRenderer>
@@ -23,32 +29,3 @@ onMounted(() => {
   }, 500);
 });
 </script>
-
-<style lang="less" scoped>
-.mainfooter {
-  opacity: 0;
-  transition: all 1s ease;
-
-  &.loaded {
-    opacity: 1;
-  }
-
-  .frame {
-    .row();
-
-    :deep(p) {
-      // width: var(--pwidth);
-      // max-width: var(--maxwidth);
-      margin: 0 auto;
-    }
-  }
-
-  margin-top: 2rem;
-  font-size: 0.75rem;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
-  color: var(--fg2);
-  background: var(--bg2);
-  line-height: 1.4;
-}
-</style>

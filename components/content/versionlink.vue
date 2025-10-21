@@ -5,17 +5,15 @@
 </template>
 
 <script lang="ts" setup>
-import websiteInfo from '@/repos/website/.info.json'
-import dataInfo from '@/repos/data/.info.json'
-import { useDateFormat } from '@vueuse/core'
+import websiteInfo from "@/repos/website/.info.json";
+import dataInfo from "@/repos/data/.info.json";
+import { useDateFormat } from "@vueuse/core";
 
 const data = computed(() => {
-  return props.repo === 'website' ? websiteInfo : dataInfo
-})
-const props = defineProps(['repo'])
+  return props.repo === "website" ? websiteInfo : dataInfo;
+});
+const props = defineProps(["repo"]);
 const commitDate = computed(() => {
-  return useDateFormat(data.value.date, 'DD MMM YYYY')
-})
+  return useDateFormat(data.value.date, "DD MMMM YYYY");
+});
 </script>
-
-<style lang="less" scoped></style>

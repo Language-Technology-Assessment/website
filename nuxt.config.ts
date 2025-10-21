@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import ViteYaml from "@modyfi/vite-plugin-yaml";
+import tailwindcss from "@tailwindcss/vite";
 import svgLoader from "vite-svg-loader";
 import fs from "fs";
 import { join, resolve, basename, dirname, parse } from "node:path";
@@ -12,6 +13,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
   pages: true,
+  css: ["@/assets/css/tailwind.css"],
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {
@@ -46,6 +48,11 @@ export default defineNuxtConfig({
       posthogHost: "https://eu.i.posthog.com",
     },
   },
+  postcss: {
+    plugins: {
+      "@tailwindcss/postcss": true,
+    },
+  },
   site: {
     indexable: process.env.NUXT_SITE_ENV === "production",
     url: "https://osai-index.eu",
@@ -53,17 +60,6 @@ export default defineNuxtConfig({
     defaultOgImage: "/osai-index-logo.png",
   },
 
-  i18n: {
-    baseUrl: "https://osai-index.eu",
-    strategy: "no_prefix",
-    defaultLocale: "en",
-    locales: [
-      {
-        code: "en",
-        language: "en-US",
-      },
-    ],
-  },
   modules: [
     [
       "./modules/github.module",
@@ -84,6 +80,7 @@ export default defineNuxtConfig({
     ],
     "@nuxtjs/seo",
     "@nuxt/content",
+    "@nuxt/icon",
     "@nuxt/image",
     "@nuxtjs/critters",
     // "@nuxtjs/i18n",
@@ -127,7 +124,7 @@ export default defineNuxtConfig({
         let name = basename(file);
         if (
           !name.match(
-            /(a_submission_template\.yaml|^_parameters|^readme\.md|^\.)/
+            /(a_submission_template\.yaml|^_parameters|^readme\.md|^\.)/,
           )
         ) {
           const filename = name.replace(".yaml", "");
@@ -145,13 +142,13 @@ export default defineNuxtConfig({
         let name = basename(file);
         if (
           !name.match(
-            /(a_submission_template\.yaml|^_parameters|^readme\.md|^\.)/
+            /(a_submission_template\.yaml|^_parameters|^readme\.md|^\.)/,
           )
         ) {
           const filename = name.replace(".yaml", "");
           // extendPages
           nitroConfig.prerender.routes?.push(
-            `/model/${filename.toLowerCase()}`
+            `/model/${filename.toLowerCase()}`,
           );
         }
       });
@@ -175,20 +172,15 @@ export default defineNuxtConfig({
         join(publicDir, "CNAME"),
         process.env.NUXT_SITE_ENV === "preview"
           ? "preview.osai-index.eu"
-          : "osai-index.eu"
+          : "osai-index.eu",
       );
     },
   },
   vite: {
-    css: {
-      preprocessorOptions: {
-        less: {
-          additionalData: `@import "@/less/ease.less"; @import "@/less/global.less";`,
-        },
-      },
-    },
+    css: {},
     plugins: [
       ViteYaml(),
+      tailwindcss(),
       svgLoader({
         svgoConfig: {
           multipass: true,

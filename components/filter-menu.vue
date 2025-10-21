@@ -1,158 +1,225 @@
 <template>
-  <div class="filter-menu" :class="{ open }">
+  <div
+    class="sticky top-0 transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
+  >
     <!--  frame -->
-    <div class="frame" @click.stop>
-      <button class="close" @click="open = false">
-        <Icon icon="ic:round-close"></Icon>
+    <div
+      class="relative top-0 right-0 z-[999] mx-auto h-screen w-96 max-w-full transform overflow-auto border border-bc bg-bg p-8 transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
+      @click.stop
+      :class="{
+        'opacity-100': open,
+        '': !open,
+        'rounded-l-lg': !small,
+        'rounded-lg': small,
+      }"
+    >
+      <!-- close button -->
+      <button
+        class="fixed top-0 right-0 z-[2] m-4 bg-transparent text-2xl text-fg2 hover:text-link"
+        @click="open = false"
+        :class="{ hidden: !open }"
+      >
+        <Icon name="ic:round-close"></Icon>
       </button>
-      <div class="group">
-        <label
-          ><span>Model type:</span
-          ><button @click="delete filters.type" v-if="filters.type">
-            clear
-          </button></label
-        >
-        <div class="types multibutton">
-          <!-- <button
-            class="filterbutton"
-            :class="{ active: !('type' in filters) || filters.type === '' }"
-            @click="delete filters.type"
-          >
-            All
-          </button> -->
+
+      <!-- toggle view -->
+      <Section>
+        <!-- <label class="filter-label">
+          <span>Select view:</span>
+        </label> -->
+        <div class="multibutton" v-if="!small">
+          <button @click="setView('bars')" :data-active="view === 'bars'">
+            <span>List</span>
+            <Icon name="solar:list-outline"></Icon>
+          </button>
+          <button @click="setView('grid')" :data-active="view === 'grid'">
+            <span>Grid </span>
+            <Icon name="mingcute:dot-grid-fill"></Icon>
+          </button>
+        </div>
+      </Section>
+
+      <!-- search box -->
+      <Section class="mb-8">
+        <!-- <label class="filter-label">
+          <span>Filter:</span>
+        </label> -->
+        <div class="input-wrapper" :class="{ searchFocus }">
+          <button>
+            <Icon name="iconamoon:search-bold"></Icon>
+          </button>
+          <input
+            type="text"
+            v-model="searchQuery"
+            @focus="searchFocus = true"
+            @blur="searchFocus = false"
+            placeholder="Search..."
+          />
+        </div>
+      </Section>
+
+      <!-- model type -->
+      <Section>
+        <label class="filter-label">
+          <span>Model type:</span>
           <button
-            class="filterbutton"
-            :class="{ active: isActiveType(type.toLowerCase(), filters?.type) }"
+            @click="delete filters.type"
+            v-if="filters.type"
+            class="clear-button"
+          >
+            reset
+          </button>
+        </label>
+        <div class="multibutton">
+          <button
+            :data-active="isActiveType(type.toLowerCase(), filters?.type)"
             @click="filters.type = toggleType(type.toLowerCase(), filters.type)"
             v-for="type in modelTypes"
           >
             {{ type }}
           </button>
         </div>
-        <label
-          ><span>Performance class:</span
-          ><button
+      </Section>
+
+      <!-- performance class -->
+      <Section>
+        <label class="filter-label">
+          <span>Performance class:</span>
+          <button
             @click="delete filters.performanceclass"
             v-if="filters.performanceclass"
+            class="clear-button"
           >
-            clear
-          </button></label
-        >
-        <div class="types multibutton">
-          <!-- <button
-            class="filterbutton"
-            :class="{
-              active:
-                !('performanceclass' in filters) ||
-                filters.performanceclass === '',
-            }"
-            @click="delete filters.performanceclass"
-          >
-            All
-          </button> -->
+            reset
+          </button>
+        </label>
+        <div class="multibutton">
           <button
-            class="filterbutton"
-            :class="{ active: filters?.performanceclass?.includes('limited') }"
+            :data-active="filters?.performanceclass?.includes('limited')"
             @click="togglePerformanceClass('limited')"
           >
             Limited
           </button>
           <button
-            class="filterbutton"
-            :class="{ active: filters?.performanceclass?.includes('full') }"
+            :data-active="filters?.performanceclass?.includes('full')"
             @click="togglePerformanceClass('full')"
           >
             Full
           </button>
           <button
-            class="filterbutton"
-            :class="{ active: filters?.performanceclass?.includes('latest') }"
+            :data-active="filters?.performanceclass?.includes('latest')"
             @click="togglePerformanceClass('latest')"
           >
             Latest
           </button>
         </div>
-      </div>
-      <div class="group">
-        <label>
-          <span>Filter by base model name:</span>
-          <button @click="basemodel = ''">clear</button>
+      </Section>
+
+      <!-- filter by base model name -->
+      <Section>
+        <label class="filter-label">
+          <span class="flex-1">Filter by base model name:</span>
+          <button @click="basemodel = ''" class="clear-button" v-if="basemodel">
+            reset
+          </button>
         </label>
-        <input
-          type="text"
-          v-model="basemodel"
-          placeholder="Base model name..."
-        />
-      </div>
-      <!-- params group -->
-      <div class="group" v-if="open">
-        <div class="categories">
-          <div class="category" v-for="cat in props.categories">
-            <div class="cat-name">{{ cat.name }}</div>
-            <div
-              class="param"
-              v-for="param in filterActiveParams(cat.params)"
-              @click="toggleParam(param.ref)"
-              :class="{ active: param.ref in filters }"
-            >
-              <div class="param-name">{{ param.name }}</div>
-              <div class="icons">
-                <div
-                  class="circle-icon closed-icon"
-                  v-html="closedIcon"
-                  @click.stop="setParamValue(param.ref, 0)"
-                  :class="{
-                    active:
-                      param.ref in filters && filters[param.ref].includes(0),
-                  }"
-                ></div>
-                <div
-                  class="circle-icon partial-icon"
-                  v-html="partialIcon"
-                  @click.stop="setParamValue(param.ref, 0.5)"
-                  :class="{
-                    active:
-                      param.ref in filters && filters[param.ref].includes(0.5),
-                  }"
-                ></div>
-                <div
-                  class="circle-icon open-icon"
-                  v-html="openIcon"
-                  @click.stop="setParamValue(param.ref, 1)"
-                  :class="{
-                    active:
-                      param.ref in filters && filters[param.ref].includes(1),
-                  }"
-                ></div>
-              </div>
-            </div>
-          </div>
+        <div class="input-wrapper">
+          <button>
+            <Icon name="iconamoon:search-bold"></Icon>
+          </button>
+          <input
+            type="text"
+            v-model="basemodel"
+            placeholder="Base model name..."
+          />
         </div>
-      </div>
+      </Section>
+
       <!-- filter by year -->
-      <div class="group">
-        <label>
-          <span>Filter by release date:</span>
-          <button @click="clearReleaseDate()">clear</button>
+      <Section>
+        <label class="filter-label">
+          <span class="flex-1">Filter by release date:</span>
+          <button
+            @click="clearReleaseDate()"
+            class="clear-button"
+            v-if="filters.release_start || filters.release_end"
+          >
+            reset
+          </button>
         </label>
         <release-date-selector v-model="filters"></release-date-selector>
-      </div>
+      </Section>
+
+      <!-- params group -->
+      <Section class="mb-8 flex-1" v-for="cat in props.categories">
+        <label class="filter-label">
+          <span>{{ cat.name }}</span>
+        </label>
+        <div
+          class="param m-0 mb-1 flex cursor-pointer items-center gap-2 rounded border border-bg3 bg-bg2 p-2 px-3 text-xs text-fg2 opacity-100 select-none hover:bg-bg2 hover:text-fg hover:opacity-100"
+          v-for="param in filterActiveParams(cat.params)"
+          @click="toggleParam(param.ref)"
+          :class="{ 'active text-fg opacity-100': param.ref in filters }"
+        >
+          <div class="param-name flex-1">{{ param.name }}</div>
+          <div class="icons flex gap-2 opacity-100">
+            <div
+              class="circle-icon closed-icon h-4 w-4 text-g1 opacity-[0.125] hover:opacity-50"
+              v-html="closedIcon"
+              @click.stop="setParamValue(param.ref, 0)"
+              :class="{
+                'active !opacity-100':
+                  param.ref in filters && filters[param.ref].includes(0),
+              }"
+            ></div>
+            <div
+              class="circle-icon partial-icon h-4 w-4 text-g2 opacity-[0.125] hover:opacity-50"
+              v-html="partialIcon"
+              @click.stop="setParamValue(param.ref, 0.5)"
+              :class="{
+                'active !opacity-100':
+                  param.ref in filters && filters[param.ref].includes(0.5),
+              }"
+            ></div>
+            <div
+              class="circle-icon open-icon h-4 w-4 text-g3 opacity-[0.125] hover:opacity-50"
+              v-html="openIcon"
+              @click.stop="setParamValue(param.ref, 1)"
+              :class="{
+                'active !opacity-100':
+                  param.ref in filters && filters[param.ref].includes(1),
+              }"
+            ></div>
+          </div>
+        </div>
+      </Section>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue";
-import { onKeyStroke } from "@vueuse/core";
+import { onKeyStroke, useWindowSize } from "@vueuse/core";
 import openIcon from "@/assets/icons/open.svg?raw";
 import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
 const props = defineProps(["categories", "originalModels"]);
 const open = defineModel("open");
 
+const searchFocus = ref(false);
+
 function clearReleaseDate() {
   delete filters.value.release_start;
   delete filters.value.release_end;
+}
+
+const { width } = useWindowSize();
+const small = computed(() => width.value < 800);
+const view = computed(() => {
+  return !small.value ? filters.value?.view || "bars" : "bars";
+});
+
+function setView(view: string) {
+  filters.value.view = view;
 }
 
 function filterActiveParams(paramslist) {
@@ -164,8 +231,8 @@ function filterActiveParams(paramslist) {
       filters.value.type
         .split(",")
         .map((x) => x.trim())
-        .includes(item.trim())
-    )
+        .includes(item.trim()),
+    ),
   );
 }
 
@@ -181,6 +248,15 @@ const basemodel = computed({
   },
   set(val) {
     filters.value.basemodel = val;
+  },
+});
+
+const searchQuery = computed({
+  get() {
+    return filters.value?.q || "";
+  },
+  set(val) {
+    filters.value.q = val;
   },
 });
 
@@ -230,260 +306,81 @@ function setParamValue(paramref, val) {
   }
 }
 
-function toggleModel(modelfilename: string) {
-  if (!("models" in filters.value)) {
-    filters.value.models = [];
-  }
-  if (filters.value.models.includes(modelfilename)) {
-    filters.value.models.splice(filters.value.models.indexOf(modelfilename), 1);
-  } else {
-    filters.value.models.push(modelfilename);
-  }
-  if (filters.value.models.length < 1) {
-    delete filters.value.models;
-  }
-}
+// function toggleModel(modelfilename: string) {
+//   if (!("models" in filters.value)) {
+//     filters.value.models = [];
+//   }
+//   if (filters.value.models.includes(modelfilename)) {
+//     filters.value.models.splice(filters.value.models.indexOf(modelfilename), 1);
+//   } else {
+//     filters.value.models.push(modelfilename);
+//   }
+//   if (filters.value.models.length < 1) {
+//     delete filters.value.models;
+//   }
+// }
 </script>
 
-<style lang="less" scoped>
-.filter-menu {
-  transition: all 0.5s @easeInOutExpo;
-
-  .close {
-    position: fixed;
-    top: 0;
-    right: 0;
-    background: transparent;
-    font-size: 1.5rem;
-    margin: 1rem;
-    z-index: 2;
-    color: var(--fg2);
-
-    &:hover {
-      color: var(--link);
+<style scoped>
+@reference "@/assets/css/tailwind.css";
+/* Custom styles for responsive multibutton layout */
+@media (max-width: 25rem) {
+  .multibutton {
+    flex-direction: column;
+  }
+  .multibutton {
+    button {
+      border: 0 !important;
+      border-bottom: 1px solid var(--bg3) !important;
     }
   }
-
-  .frame {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 1000;
-    width: 24rem;
-    max-width: 100%;
-    z-index: 999;
-    margin: 0 auto;
-    height: 100vh;
-    border-radius: 0 0 0.5rem;
-    transform: translateX(4rem);
-    transition: all 0.5s @easeInOutExpo;
-    overflow: auto;
-    opacity: 0;
-    background: var(--bg);
-    border-left: 1px solid var(--bg3);
-    pointer-events: none;
-    box-shadow: 0 0 1rem var(--shadow);
-    padding: 2rem;
-    padding-top: 4rem;
-    @media (max-width: 50rem) {
-      padding-bottom: 8rem;
-    }
+  .multibutton button:last-child {
+    border: 0 !important;
+    border-bottom: 0 !important;
   }
+}
 
-  &.open {
-    opacity: 1;
+Section {
+  @apply mb-4 py-1;
+}
 
-    .frame {
-      pointer-events: auto;
-      opacity: 1;
-      transform: translateX(0);
-    }
+.filter-label {
+  /* @apply mb-3 flex gap-6 text-xs text-fg2/50; */
+  @apply mb-3 flex gap-3 text-left text-xs text-tiny font-semibold text-fg2 uppercase;
+  span {
+    @apply grow;
   }
+}
+
+.clear-button {
+  @apply m-0 cursor-pointer bg-transparent text-tiny font-semibold text-fg2/50 uppercase hover:text-link;
 }
 
 .multibutton {
-  gap: 0;
-  border: 1px solid var(--bg3);
-  border-radius: 0.25rem;
-  overflow: hidden;
-  font-size: 0.75rem;
-  display: flex;
-  margin-bottom: 1rem;
-  // flex-direction: column;
-
-  > button.filterbutton {
-    border: 0;
-    border-left: 1px solid var(--bg3);
-    border-radius: 0;
-    padding: 0.5rem 0.75rem;
-    margin: 0;
-    color: var(--fg2);
-    text-align: left;
-    flex: 1;
-    text-align: center;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    &:first-child {
-      border-left: 0;
-    }
-
-    &:hover {
-      color: var(--fg);
-      background: transparent;
-    }
-
-    &.active {
-      background: var(--bg3);
-      color: var(--fg);
-      border-left-color: var(--bg);
-    }
-  }
-  @media (max-width: 25rem) {
-    flex-direction: column;
-    > button.filterbutton {
-      border: 0;
-      border-bottom: 1px solid var(--bg3);
-      &:last-child {
-        border-bottom: 0;
-      }
-    }
-  }
-}
-
-.group {
-  flex: 1;
-  margin-bottom: 2rem;
-  padding-top: 0.5rem;
-
-  label {
-    display: flex;
-    gap: 1.5rem;
-    font-size: 0.75rem;
-    margin-bottom: 0.75rem;
-    padding: 0 0.5rem;
-
+  @apply mb-0 flex h-7 gap-0 overflow-hidden rounded border border-bg3 text-tiny font-semibold;
+  button {
+    @apply m-0 flex flex-1 cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-none border-0 border-l border-bg3 bg-bg2 p-1 px-3 text-center text-ellipsis text-fg2/50 uppercase first:border-l-0 hover:!text-link data-[active=true]:bg-bg data-[active=true]:text-fg;
     span {
-      flex: 1;
+      @apply grow text-left;
     }
-
-    div {
-      flex: 1;
-    }
-
-    button {
-      font-size: 0.75rem;
-      margin: 0;
-      background: transparent;
-
-      &:hover {
-        color: var(--fg);
-      }
-    }
-  }
-
-  input[type="text"] {
-    background: var(--bg2);
-    font-size: 0.8rem;
-    &:focus {
-      background: var(--bg3);
+    span.iconify {
+      @apply shrink-0 grow-0 text-xl leading-none;
     }
   }
 }
 
-.categories {
-  gap: 1rem;
-
-  .cat-name {
-    font-size: 0.75rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    color: var(--fg2);
-    // padding-left: 0.75rem;
-    text-align: center;
+.input-wrapper {
+  @apply flex items-center gap-2 rounded border border-bg3 bg-bg2 px-2 py-1 hover:bg-bg3;
+  button {
+    @apply leading-none text-fg2/50;
   }
-
-  .category {
-    flex: 1;
-    margin-bottom: 2rem;
+  input {
+    @apply grow rounded bg-transparent text-sm leading-6 outline-none placeholder:text-fg2/50 focus:text-link;
   }
 }
-
-.param {
-  display: flex;
-  background: var(--bg2);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.25rem;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 0.25rem 0;
-  cursor: pointer;
-  color: var(--fg2);
-  user-select: none;
-  opacity: 1;
-  font-size: 0.75rem;
-
-  .param-name {
-    flex: 1;
-  }
-
-  .icons {
-    display: flex;
-    gap: 0.5rem;
-    opacity: 1;
-  }
-
-  .circle-icon {
-    width: 1rem !important;
-    height: 1rem !important;
-    color: inherit;
-    opacity: 0.125;
-
-    &:hover {
-      opacity: 0.5;
-    }
-
-    &.active {
-      opacity: 1;
-    }
-
-    &.closed-icon {
-      color: var(--g1);
-    }
-
-    &.partial-icon {
-      color: var(--g2);
-    }
-
-    &.open-icon {
-      color: var(--g3);
-    }
-
-    :deep(svg) {
-      width: 100% !important;
-      height: 100% !important;
-      display: block;
-    }
-  }
-
-  &:hover {
-    color: var(--fg);
-    opacity: 1;
-    background: var(--bg2);
-
-    .icons {
-      opacity: 1;
-    }
-  }
-
-  &.active {
-    color: var(--fg);
-    opacity: 1;
-
-    .icons {
-      opacity: 1;
-    }
-  }
+.param .circle-icon :deep(svg) {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 </style>

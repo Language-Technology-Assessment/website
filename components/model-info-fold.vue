@@ -23,7 +23,7 @@
           <div class="notes">
             <NuxtLink :to="model.system.link">
               <Icon
-                icon="iconamoon:link-external-fill"
+                name="iconamoon:link-external-fill"
                 alt="icon"
                 aria-hidden="true"
               ></Icon>
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="sub">
-          <label>Base models:</label>
+          <label>Base models: </label>
           <div class="notes">
             {{ model.system.basemodelname || "(undefined)" }}
           </div>
@@ -55,7 +55,7 @@
           <div class="notes">
             <NuxtLink :to="model?.org?.link">
               <Icon
-                icon="iconamoon:link-external-fill"
+                name="iconamoon:link-external-fill"
                 alt="icon"
                 aria-hidden="true"
               ></Icon>
@@ -80,8 +80,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue";
-
 const { filename, models, categories } = defineProps([
   "filename",
   "models",
@@ -91,15 +89,13 @@ const { filename, models, categories } = defineProps([
 const model = computed(() => {
   if (!filename) return false;
   return models.find(
-    (x) => x.filename.toLowerCase() === filename.toLowerCase()
+    (x) => x.filename.toLowerCase() === filename.toLowerCase(),
   );
 });
 </script>
 
-<style lang="less" scoped>
-.model-info-fold {
-  .frame {
-  }
+<style scoped>
+.model-info-fold .frame {
 }
 
 .info {
@@ -107,65 +103,59 @@ const model = computed(() => {
   display: flex;
   gap: 0;
   font-size: 0.75rem;
-  // background: var(--bc);
   margin-bottom: 2rem;
-  border: 1px solid var(--bc);
+  /* border: 1px solid var(--bc); */
   border-radius: 0.25rem;
   padding: 1rem 0;
+}
 
-  .sub {
-    padding: 0.5rem 1.5rem 0rem 1.5rem;
-    flex: 1;
-    color: var(--fg2);
-    border-left: 1px solid var(--bc);
-    &:first-child {
-      border-left: none;
-    }
+.info .sub {
+  padding: 0.5rem 1.5rem 0rem 1.5rem;
+  flex: 1;
+  color: var(--color-fg2);
+  border-left: 1px solid var(--color-bc);
+}
 
-    label {
-      color: var(--fg);
-      text-transform: none;
-      letter-spacing: 0;
-    }
+.info .sub label {
+  color: var(--color-fg);
+  text-transform: none;
+  letter-spacing: 0;
+}
 
-    a {
-      text-decoration: none;
+.info .sub a {
+  text-decoration: none;
+}
 
-      &:hover {
-        color: var(--link);
-      }
+.info .sub a:hover {
+  color: var(--color-link);
+}
 
-      :deep(svg) {
-        margin-right: 0.25rem;
-      }
-    }
-  }
+.info .sub a :deep(svg) {
+  margin-right: 0.25rem;
+}
 
-  h1,
-  h2 {
-    text-align: left;
-    margin: 0 0 0.5rem;
-    max-width: 100%;
-    line-height: 1.1;
-  }
+.info h1,
+.info h2 {
+  text-align: left;
+  margin: 0 0 0.5rem;
+  max-width: 100%;
+  line-height: 1.1;
+}
 
-  .notes {
-    margin-bottom: 1rem;
-    line-height: 1.4;
-    max-width: 32em;
-  }
+.info .notes {
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  max-width: 32em;
+}
 
-  .score {
-    font-size: 2rem;
-    font-weight: 600;
-    text-align: right;
-  }
+.info .score {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: right;
 }
 
 .categories {
   display: flex;
-  // border-top: 1px solid var(--bc);
-  // border-bottom: 1px solid var(--bc);
   gap: 1rem;
 }
 
@@ -174,15 +164,16 @@ const model = computed(() => {
     display: block;
     margin-bottom: 1rem;
     padding: 0;
+  }
 
-    > .sub {
-      padding: 1rem 1rem 2rem;
-      border-left: none;
-      border-bottom: 1px solid var(--bc);
-      &:last-child {
-        border: none;
-      }
-    }
+  .info > .sub {
+    padding: 1rem 1rem 2rem;
+    border-left: none;
+    border-bottom: 1px solid var(--color-bc);
+  }
+
+  .info > .sub:last-child {
+    border: none;
   }
 
   .categories {

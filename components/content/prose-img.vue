@@ -1,6 +1,6 @@
 <template>
   <NuxtImg
-    class="inline-image"
+    class="block my-8 mx-auto max-w-full"
     :src="props.src"
     sizes="1200px sm:500px md:800px"
   ></NuxtImg>
@@ -12,11 +12,3 @@ defineOptions({
   inheritAttrs: false,
 });
 </script>
-
-<style lang="less" scoped>
-.inline-image {
-  display: block;
-  margin: 1rem auto 2rem;
-  max-width: 100%;
-}
-</style>

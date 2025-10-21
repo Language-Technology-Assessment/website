@@ -1,5 +1,5 @@
 <template>
-  <div class="page loaded finalpath">
+  <div class="page loaded finalpath mt-[14rem]">
     <ModelInfo :models="models" :categories="categories"></ModelInfo>
   </div>
 </template>
@@ -11,7 +11,7 @@ const route = useRoute();
 const interpolate = (template, data) => {
   return template.replace(
     /\{([^}]+)\}/g,
-    (_, path) => getProperty(data, path) ?? ""
+    (_, path) => getProperty(data, path) ?? "",
   );
 };
 
@@ -74,5 +74,3 @@ useSeoMeta({
   },
 });
 </script>
-
-<style lang="less" scoped></style>

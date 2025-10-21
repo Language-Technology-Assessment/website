@@ -1,15 +1,18 @@
 <template>
-  <div class="person">
-    <div class="head">
-      <div class="image">
+  <div
+    class="person my-8 ml-leftplus w-[var(--pwidth)] max-w-[var(--maxwidth)] rounded-lg bg-bg p-6 md:p-6"
+  >
+    <div class="mb-6 flex flex-row items-center gap-4">
+      <div class="h-16 w-16 shrink-0">
         <NuxtImg
           :src="props.image"
           width="400"
           :alt="props.name"
           v-if="props.image"
+          class="h-full w-full rounded-full object-cover"
         ></NuxtImg>
       </div>
-      <div class="name">
+      <div class="text-[1.125rem] font-semibold text-fg">
         {{ props.name }}
       </div>
     </div>
@@ -23,46 +26,13 @@
 const props = defineProps(["image", "name"]);
 </script>
 
-<style lang="less" scoped>
-.person {
-  background: var(--bg2);
-  padding: 1.5rem 2rem;
-  border-radius: 0.5rem;
-  width: var(--pwidth);
-  max-width: var(--maxwidth);
-  margin: 2rem auto 2rem;
-  .head {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    .image {
-      width: 4rem;
-      height: 4rem;
-      flex-shrink: 0;
-      img {
-        border-radius: 100%;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-    .name {
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: var(--fg);
-    }
-  }
-  .content {
-    :deep(p) {
-      width: 100%;
-      max-width: 100%;
-      margin: 0 auto 1rem;
-      font-weight: 400;
-      font-size: 0.8rem;
-      line-height: 1.6;
-    }
-  }
+<style scoped>
+.person .content :deep(p) {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto 1rem;
+  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1.6;
 }
 </style>

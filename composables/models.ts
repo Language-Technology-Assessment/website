@@ -26,7 +26,7 @@ function getParams(cats: Array<any>) {
 
 const projectsList = import.meta.glob(
   ["@/repos/data/*.yaml", "!@/repos/data/a_submission_template.yaml"],
-  { eager: true }
+  { eager: true },
 );
 let latestProjects = ref<any[]>([]);
 if (projectsList) {
@@ -58,12 +58,12 @@ function bg(score: number) {
 
 function color(score: number) {
   if (score < 0.5) {
-    return `color-mix(in srgb, var(--g1), var(--g2) ${Math.round(
-      score * 2 * 100
+    return `color-mix(in srgb, var(--color-g1), var(--color-g2) ${Math.round(
+      score * 2 * 100,
     )}%)`;
   } else {
-    return `color-mix(in srgb, var(--g2), var(--g3) ${Math.round(
-      (score - 0.5) * 2 * 100
+    return `color-mix(in srgb, var(--color-g2), var(--color-g3) ${Math.round(
+      (score - 0.5) * 2 * 100,
     )}%)`;
   }
 }
@@ -101,7 +101,7 @@ function sortModels(ppp: any) {
       // calculate categories (average of params linked to types)
       const catparams = cat.params
         .filter((c) =>
-          c.types.some((item: string) => types.includes(item.trim()))
+          c.types.some((item: string) => types.includes(item.trim())),
         )
         .map((xx) => x.params[xx.ref]);
       x.categories[cat.ref] =
@@ -176,7 +176,7 @@ async function downloadData(version: string) {
       downloadProjectsList.push(projectData);
     }
     const found_parameters_descriptions = data.find(
-      (x) => x.name === "_parameters-descriptions.yml"
+      (x) => x.name === "_parameters-descriptions.yml",
     );
     if (found_parameters_descriptions) {
       const rawYaml = await fetch(found_parameters_descriptions.download_url)
@@ -262,7 +262,7 @@ export const useModels = (version?: string) => {
   } else {
     // use default
     models.value = latestModels.value;
-    date.value = unref(useDateFormat(info.date, "DD MMM YYYY"));
+    date.value = unref(useDateFormat(info.date, "DD MMMM YYYY"));
     url.value = `https://github.com/${info.owner}/${info.repo}`;
   }
 

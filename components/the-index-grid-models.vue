@@ -1,37 +1,41 @@
 <template>
   <div
-    class="grid-models"
+    class="overflow-visible p-0 pb-4"
     ref="clickoutsidetarget"
-    :class="{ somethingisopen: !!open }"
     v-if="models && models.length > 0"
   >
     <table
-      :class="{
-        rowfocus: typeof row === 'number',
-        columnfocus: typeof column === 'number',
-      }"
+      class="w-full min-w-[30rem] border-r border-l border-bg2"
       @mouseleave="modelKey = null"
     >
-      <thead>
-        <tr>
-          <td class="name"></td>
+      <thead class="sticky top-0 z-[1] transition-all duration-300 ease-in-out">
+        <tr class="bg-bg">
+          <td class="opacity-75"></td>
           <td
             v-for="(param, pk) in paramsFiltered"
             :key="param.ref"
-            :class="{ active: column === pk }"
+            class="relative h-[6.5rem] overflow-visible text-fg2"
+            :class="[{ '!text-fg': column === pk }, `z-[${100 - pk}]`]"
           >
-            <div class="param-name" @click="bus.emit(param.ref)">
+            <div
+              class="absolute bottom-2 left-3 w-32 origin-bottom-left -rotate-45 cursor-pointer text-tiny text-ellipsis whitespace-nowrap hover:text-fg"
+              @click="bus.emit(param.ref)"
+            >
               {{ param.name }}
             </div>
           </td>
-          <td class="margin"></td>
+          <td></td>
         </tr>
       </thead>
       <tbody
-        class="model"
+        class="relative cursor-pointer"
         v-for="(item, k) in models"
         :key="item.filename"
-        :class="{ active: row === k }"
+        :class="{
+          'opacity-100': row === k,
+          'bg-bg2': k % 2 === 1,
+          'hover:bg-bg dark:hover:bg-bg3': true,
+        }"
         @mouseenter="row = k"
         @mouseleave="
           row = null;
@@ -40,21 +44,27 @@
         "
       >
         <tr>
-          <td class="info" @click="router.push(`/model/${item.filename}`)">
-            <div class="name">
+          <td
+            class="group/modellink min-w-[20rem] cursor-pointer p-2 pl-12 text-left"
+            @click="router.push(`/model/${item.filename}`)"
+          >
+            <div class="font-semibold group-hover/modellink:underline">
               {{ item.system.name || "(undefined)" }}
             </div>
-            <div class="org" v-if="item?.org">
+            <div class="text-xs text-fg2" v-if="item?.org">
               by {{ item.org.name || "(undefined)" }}
             </div>
-            <div class="basemodel" v-if="item?.org">
+            <div
+              class="before:content-['Base models:'] text-xs text-fg2 before:opacity-50"
+              v-if="item?.org"
+            >
               {{ item.system?.basemodelname || "(unspecified)" }}
             </div>
           </td>
           <td
             v-for="(param, pk) in paramsFiltered"
             :key="param.ref"
-            class="the-score"
+            class="w-8 origin-center text-center transition-transform duration-200 ease-in-out hover:opacity-100"
             @mouseenter="
               column = pk;
               modelKey = k;
@@ -63,41 +73,64 @@
               column = pk;
               modelKey = k;
             "
-            :class="[`is-${item[param.ref]?.class}`, { active: column === pk }]"
+            :class="[
+              {
+                'text-g1': item[param.ref]?.class === 'closed',
+                'text-g2': item[param.ref]?.class === 'partial',
+                'text-g3': item[param.ref]?.class === 'open',
+                'opacity-50': modelKey === k,
+              },
+              { 'opacity-100': column === pk },
+            ]"
           >
             <div
-              class="icon"
+              class="m-0 inline-block h-4 w-4 p-0"
               v-if="item[param.ref]?.class === 'open'"
               v-html="openIcon"
             />
             <div
-              class="icon"
+              class="m-0 inline-block h-4 w-4 p-0"
               v-else-if="item[param.ref]?.class === 'partial'"
               v-html="partialIcon"
             />
             <div
-              class="icon"
+              class="m-0 inline-block h-4 w-4 p-0"
               v-else-if="item[param.ref]?.class === 'closed'"
               v-html="closedIcon"
             />
             <div v-else>-</div>
           </td>
-          <td class="margin"></td>
+          <td class="pr-8"></td>
         </tr>
-        <tr class="param-hover-info" v-if="modelKey === k">
+        <tr
+          class="relative z-[9] h-0 w-full min-w-[40rem] bg-transparent p-0"
+          v-if="modelKey === k"
+        >
           <td></td>
-          <td class="param-content" :colspan="paramsFiltered.length + 1">
+          <td
+            class="relative overflow-visible text-left"
+            :colspan="paramsFiltered.length + 1"
+          >
             <div
-              class="param-content-frame"
+              class="absolute -top-4 -z-[1] w-full animate-[slidedown_0.3s_ease-out] rounded-b bg-bg p-2 px-4 pb-4 text-xs shadow-[0_0.125rem_0.125rem_var(--shadow)] dark:bg-bg3"
               v-if="column !== null && item[paramsFiltered[column].ref]"
             >
-              <div class="name" @click="bus.emit(paramsFiltered[column].ref)">
+              <div
+                class="mb-1 cursor-pointer"
+                @click="bus.emit(paramsFiltered[column].ref)"
+              >
                 {{ paramsFiltered[column].name }}
               </div>
-              <div class="notes" v-if="item[paramsFiltered[column].ref].notes">
+              <div
+                class="mb-1 text-fg2"
+                v-if="item[paramsFiltered[column].ref].notes"
+              >
                 {{ item[paramsFiltered[column].ref].notes }}
               </div>
-              <div class="links" v-if="item[paramsFiltered[column].ref].link">
+              <div
+                class="text-tiny text-fg2"
+                v-if="item[paramsFiltered[column].ref].link"
+              >
                 <NuxtLink
                   :to="item[paramsFiltered[column].ref].link"
                   target="_blank"
@@ -124,7 +157,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue";
 import openIcon from "@/assets/icons/open.svg?raw";
 import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
@@ -148,7 +180,7 @@ const { color, params, categories } = useModels(version);
 const paramsFiltered = computed(() => {
   const temptype = filters?.type?.split(",") || ["text"];
   return params.value.filter(
-    (x) => intersection(x?.types, temptype).length > 0
+    (x) => intersection(x?.types, temptype).length > 0,
   );
 });
 
@@ -162,227 +194,29 @@ function getCatName() {
 }
 </script>
 
-<style lang="less" scoped>
-.grid-models {
-  padding: 0;
-  overflow: visible;
-  padding-bottom: 1rem;
-  @media (max-width: 50rem) {
+<style scoped>
+@keyframes slidedown {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive overflow for mobile */
+@media (max-width: 50rem) {
+  .overflow-visible {
     overflow: auto;
   }
 }
-.icon {
-  width: 1rem;
-  height: 1rem;
-  display: inline-block;
-  padding: 0;
-  margin: 0;
 
-  :deep(svg) {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
-  }
+/* Deep SVG styling for icons */
+.inline-block :deep(svg) {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
-table {
-  width: 100%;
-  min-width: 30rem;
-  // padding-right: 6rem;
-  border-right: 1px solid var(--bg2);
-  border-left: 1px solid var(--bg2);
-  // border-bottom: 2rem solid var(--bg2);
-}
-thead {
-  position: sticky;
-  top: calc(4.25rem - 1px);
-  z-index: 1;
-  transition: all 0.3s ease;
-
-  .nottop.scroll-up & {
-    position: relative;
-    top: 0;
-  }
-  td {
-    // border-bottom: 1px solid var(--bg3);
-    position: relative;
-    height: 6.5rem;
-    overflow: visible;
-    color: var(--fg);
-    background: var(--bg2);
-    &:first-child {
-      // background: transparent;
-      opacity: 0.75;
-    }
-  }
-}
-table.rowfocus tbody {
-  opacity: 0.5;
-  transition: all 0.1s ease;
-  &.active {
-    opacity: 1;
-  }
-}
-table.columnfocus {
-  thead {
-    td {
-      opacity: 1;
-      .param-name {
-        color: var(--fg2) !important;
-      }
-      &.active {
-        opacity: 1;
-        .param-name {
-          color: var(--fg) !important;
-        }
-      }
-    }
-  }
-}
-.param-name {
-  position: absolute;
-  font-size: 0.6rem;
-  color: var(--fg2);
-  transform: rotate(-45deg);
-  bottom: 0.5rem;
-  left: 0.75rem;
-  transform-origin: bottom left;
-  width: 8rem;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  &:hover {
-    color: var(--fg);
-    &:after {
-      content: "?";
-    }
-  }
-}
-
-tbody {
-  position: relative;
-  tr {
-    cursor: pointer;
-    position: relative;
-  }
-  &:nth-child(odd) {
-    background-color: var(--bg);
-  }
-  td {
-    text-align: center;
-    &:first-child {
-      text-align: left;
-    }
-    &:last-child {
-      padding-right: 2rem;
-    }
-  }
-
-  tr.param-hover-info {
-    background: transparent;
-    height: 0;
-    padding: 0;
-    position: relative;
-    z-index: 9;
-    width: 100%;
-    min-width: 40rem;
-    td {
-      text-align: left;
-    }
-
-    .param-content {
-      position: relative;
-      overflow: visible;
-      .param-content-frame {
-        position: absolute;
-        background: var(--bg);
-        width: 100%;
-        top: -1rem;
-        font-size: 0.75rem;
-        padding: 0.5rem 1rem 1rem;
-        border-radius: 0 0 0.25rem 0.25rem;
-        box-shadow: 0 0.125rem 0.125rem var(--shadow);
-
-        .slidedown();
-        z-index: -1;
-        .dark & {
-          background: var(--bg3);
-        }
-        .name {
-          margin-bottom: 0.25rem;
-        }
-        .notes {
-          color: var(--fg2);
-          margin-bottom: 0.25rem;
-        }
-        .links {
-          font-size: 0.6rem;
-          color: var(--fg2);
-        }
-      }
-    }
-  }
-  &:hover {
-    background: var(--bg);
-    .dark & {
-      background: var(--bg3);
-    }
-    td {
-      &.the-score {
-        opacity: 0.5;
-      }
-      &:first-child {
-        // background: transparent;
-      }
-    }
-  }
-}
-
-.info {
-  padding: 0.5rem 0.5rem 0.75rem 3rem;
-  min-width: 20rem;
-  .name {
-  }
-  .org {
-    font-size: 0.75rem;
-    color: var(--fg2);
-  }
-  .basemodel {
-    font-size: 0.75rem;
-    color: var(--fg2);
-    &:before {
-      content: "Base models: ";
-      opacity: 0.5;
-    }
-  }
-  &:hover {
-    .name {
-      text-decoration: underline;
-    }
-  }
-}
-.the-score {
-  width: 2rem;
-  transition: transform 0.2s ease;
-  transform-origin: center;
-  &:hover {
-    opacity: 1 !important;
-  }
-}
-.is-closed {
-  color: var(--g1);
-}
-
-.is-partial {
-  color: var(--g2);
-}
-
-.is-open {
-  color: var(--g3);
-}
-
-each(range(1, 100, 1), {
-  thead td:nth-child(@{value}) {
-    z-index: 100 - @value
-  }
-});
 </style>

@@ -1,22 +1,8 @@
 <template>
-  <div
-    style="width: 100%; height: 100%; background: #fcfaf0; font-family: 'inter'"
-  >
-    <div
-      style="
-        width: 100%;
-        height: 100%;
-        color: #003399;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      "
-    >
-      <img
-        src="/osai-index-logo-text-blue.svg"
-        style="width: 12rem; height: 12rem; margin-bottom: 4rem"
-      />
-      <div style="font-size: 2rem">
+  <div class="w-full h-full bg-[#fcfaf0] font-inter">
+    <div class="w-full h-full text-[#003399] flex items-center justify-center">
+      <img src="/osai-index-logo-text-blue.svg" class="w-48 h-48 mb-16" />
+      <div class="text-3xl">
         {{ title }}
       </div>
     </div>
@@ -33,16 +19,3 @@ withDefaults(
   }
 );
 </script>
-
-<style lang="less" scoped>
-.og-image {
-  width: 100%;
-  height: 100%;
-  background: var(--bg);
-  font-size: 3rem;
-  display: flex;
-  .frame {
-    color: #000;
-  }
-}
-</style>

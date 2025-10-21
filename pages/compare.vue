@@ -1,20 +1,26 @@
 <template>
-  <div class="compare loaded finalpath">
+  <div class="max-w-full overflow-auto loaded finalpath">
     <ClientOnly>
-      <div class="frame">
-        <div class="names">
+      <div class="table p-8 rounded-none md:p-2">
+        <div
+          class="names sticky top-0 bg-bg z-20 transition-all duration-200 scroll-up:nottop:top-[3.2rem] scroll-up:nottop:delay-250"
+        >
           <NuxtLink
             :to="`/model/${model.filename}`"
-            class="model-name"
+            class="model-name block relative text-center no-underline bg-bg2 p-6 rounded border-b-2 border-bg text-xl"
             v-for="(model, k) in modelsList"
           >
             <div class="name" v-if="model?.system">
               {{ model.system.name || "(undefined)" }}
             </div>
-            <div class="org" v-if="model?.org">
+            <div class="org text-sm text-fg2" v-if="model?.org">
               by {{ model.org.name || "(undefined)" }}
             </div>
-            <div class="count">{{ k + 1 }}/{{ modelsList.length }}</div>
+            <div
+              class="count text-fg2 text-[0.65rem] absolute top-0 left-0 px-2 py-1 opacity-50 rounded-bl"
+            >
+              {{ k + 1 }}/{{ modelsList.length }}
+            </div>
           </NuxtLink>
         </div>
         <div class="category" v-for="cat in categories">
@@ -114,98 +120,28 @@ useSeoMeta({
 });
 </script>
 
-<style lang="less" scoped>
-.compare {
-  max-width: 100%;
-  overflow: auto;
+<style scoped>
+/* Additional scoped CSS for specific behaviors not easily covered by Tailwind */
+.table > div {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 0.25rem;
+  justify-content: center;
 }
-
-.frame {
-  .row();
-  display: table;
-  padding: 2rem;
-  border-radius: 0;
-
-  > div {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 0.25rem;
-    justify-content: center;
-
-    > a {
-      width: 20rem;
-      flex: 1;
-    }
-  }
-
-  .names {
-    position: sticky;
-    top: 0;
-    background: var(--bg);
-    z-index: 20;
-    transition: all 0.2s ease;
-
-    .scroll-up.nottop & {
-      top: 3.2rem;
-      transition-delay: 0.25s;
-    }
-  }
-  @media (max-width: 40rem) {
-    padding: 0.5rem;
-    > div {
-      gap: 0.5rem;
-    }
+@media (max-width: 40rem) {
+  .table > div {
+    gap: 0.5rem;
   }
 }
-
-.model-name {
-  background: var(--bg2);
-  padding: 1.5rem;
-  border-radius: 0.25rem;
-  border-bottom: 2px solid var(--bg);
-  font-size: 1.25rem;
-  position: relative;
-  text-align: center;
-  display: block;
-  text-decoration: none;
-
-  .count {
-    color: var(--fg2);
-    font-size: 0.65rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 0.25rem 0.5rem;
-    opacity: 0.5;
-    border-radius: 0 0 0 0.25rem;
-  }
-
-  &:hover {
-    .org {
-      text-decoration: underline;
-    }
-  }
-
-  .org {
-    font-size: 0.75rem;
-    color: var(--fg2);
-  }
-}
-
-.frame > div > a,
-.frame > .category > .category {
-  width: 20rem;
-  max-width: 20rem;
-  @media (max-width: 30rem) {
+@media (max-width: 30rem) {
+  .table > div > a,
+  .table > .category > .category {
     width: calc(100vw - 2rem);
     max-width: calc(100vw - 2rem);
   }
 }
-
-:deep(.category) {
-  .category-bar {
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
+.category :deep(.category-bar) {
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 </style>

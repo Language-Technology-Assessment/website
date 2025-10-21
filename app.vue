@@ -5,7 +5,7 @@
     <!-- menu -->
     <Mainmenu></Mainmenu>
     <!-- page content -->
-    <NuxtPage class="page" keep-alive></NuxtPage>
+    <NuxtPage keep-alive></NuxtPage>
     <!-- footer -->
     <Mainfooter key="main-footer"></Mainfooter>
   </div>
@@ -33,33 +33,28 @@ onMounted(() => {
   console.log({ env: config.public.NUXT_SITE_ENV });
 });
 </script>
-<style lang="less">
-@import "@/less/elements.less";
-
-.app {
-  &:before {
-    content: "";
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg2);
-    pointer-events: none;
-    z-index: 999;
-    transition: all 0.5s ease;
-    opacity: 1;
-
-    @media (prefers-color-scheme: dark) {
-      background: #1b1f28;
-    }
+<style>
+/* Initial paint overlay for smooth theme/background load */
+.app::before {
+  content: "";
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg2);
+  pointer-events: none;
+  z-index: 999;
+  transition: all 0.5s ease;
+  opacity: 1;
+}
+@media (prefers-color-scheme: dark) {
+  .app::before {
+    background: #1b1f28;
   }
-
-  &.mounted {
-    &:before {
-      content: none;
-      opacity: 0;
-    }
-  }
+}
+.app.mounted::before {
+  content: none;
+  opacity: 0;
 }
 </style>

@@ -26,7 +26,7 @@ export default defineContentConfig({
           image: z.string(),
           status: z.enum(["published", "draft"]),
         }),
-      })
+      }),
     ),
     news: defineCollection(
       asSeoCollection({
@@ -43,7 +43,7 @@ export default defineContentConfig({
           image: z.string(),
           status: z.enum(["published", "draft"]),
         }),
-      })
+      }),
     ),
     guides: defineCollection(
       asSeoCollection({
@@ -57,9 +57,10 @@ export default defineContentConfig({
           description: z.string(),
           date: z.date(),
           image: z.string(),
+          author: z.string(),
           status: z.enum(["published", "draft"]),
         }),
-      })
+      }),
     ),
   },
 });

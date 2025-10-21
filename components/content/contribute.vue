@@ -1,14 +1,15 @@
 <template>
-  <div class="contribute">
-    <div class="last-updated" v-if="commitDate">
+  <div class="py-16 mx-auto text-center">
+    <div class="text-xs mb-4 text-fg2 !important" v-if="commitDate">
       Last updated {{ commitDate }}
     </div>
-    <div>
+    <div class="mb-8 text-fg2">
       <slot>Is this information not up to date?</slot>
     </div>
     <NuxtLink
       :to="`https://github.com/${info.owner}/${info.repo}/blob/preview/${route.params.model}.yaml`"
       target="_blank"
+      class="bg-bg border border-bc px-6 py-2 no-underline rounded-md hover:text-link hover:bg-bg3"
     >
       <slot name="button">Contribute here -></slot>
     </NuxtLink>
@@ -29,43 +30,13 @@ const { data: commitDate } = await useAsyncData(
     const path = modelref ? `&path=/${modelref}.yaml` : "";
 
     const data = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/commits?per_page=1${path}`
+      `https://api.github.com/repos/${owner}/${repo}/commits?per_page=1${path}`,
     )
       .then((response) => response.json())
       .catch((err) => console.warn(err));
     if (!data[0]?.commit?.committer?.date) return false;
     const latestCommit = data[0];
-    return useDateFormat(latestCommit.commit.committer.date, "DD MMM YYYY");
-  }
+    return useDateFormat(latestCommit.commit.committer.date, "DD MMMM YYYY");
+  },
 );
 </script>
-
-<style lang="less" scoped>
-.contribute {
-  padding: 4rem 0;
-  margin: 0 auto;
-  text-align: center;
-
-  > div {
-    margin-bottom: 2rem;
-    color: var(--fg2);
-  }
-
-  a {
-    background: var(--bg2);
-    padding: 0.5rem 1.5rem;
-    text-decoration: none;
-    border-radius: 0.25rem;
-
-    &:hover {
-      color: var(--link);
-      background: var(--bg3);
-    }
-  }
-}
-
-.last-updated {
-  font-size: 0.7rem;
-  margin-bottom: 1rem !important;
-}
-</style>

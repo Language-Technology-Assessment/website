@@ -1,22 +1,56 @@
 <template>
-  <div class="landing" ref="mainelement">
+  <div
+    class="landing relative mt-0 mb-4 flex h-screen max-h-none min-h-80 justify-center overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:mb-[30vh] lg:h-auto lg:min-h-[50vh] portrait:max-h-[46rem]"
+    :class="{ 'opacity-0': !isVisible, 'opacity-100': isVisible }"
+    ref="mainelement"
+  >
     <div
-      class="frame"
-      :style="{ transform: `translateY(${y / 2}px)`, opacity: 1 - y / height }"
+      class="fixed top-0 right-0 bottom-0 left-0 overflow-visible"
+      :style="{
+        transform: `translateY(${y / -2}px)`,
+        opacity: clamp(1 - y / height, 0.3, 1),
+      }"
     >
-      <NuxtPicture
-        src="/images/sphere.png"
-        sizes="800px lg:1200px"
-        class="sphere"
-        format="webp,png"
-      ></NuxtPicture>
-      <div class="animation-frame">
-        <div class="slot">
-          <slot></slot>
-        </div>
-        <div class="notesframe" :style="{ opacity: 1 - (y / height) * 2 }">
-          <div class="notes">
-            <slot name="notes"></slot>
+      <img
+        src="/sphere2.svg"
+        class="sphere pointer-events-none absolute top-[60vh] -right-[30vw] z-[-1] flex w-full overflow-visible opacity-30 transition-all duration-2000 ease-out"
+        :class="{ 'translate-y-50 opacity-0': !isVisible }"
+      />
+    </div>
+
+    <!-- text -->
+    <div
+      class="relative z-0 flex w-full items-center overflow-visible portrait:pb-8 portrait:max-[30rem]:pb-4 starting:translate-y-40 starting:opacity-0"
+      :style="{
+        transform: `translateY(${y / 2}px)`,
+        opacity: clamp(1 - (y * 2) / height, 0.1, 1),
+      }"
+    >
+      <div
+        class="split-layout"
+        :style="{ opacity: 1 - (y * 2) / height + '!important' }"
+      >
+        <div class="left-side"></div>
+        <div class="">
+          <div
+            class="slot mb-8 max-w-[24em] font-[InterDisplay] text-4xl [&>p]:leading-[1.2]"
+          >
+            <slot></slot>
+          </div>
+          <NuxtLink
+            to="/about"
+            class="label mb-12 block no-underline transition-opacity delay-1000 duration-1000 starting:opacity-0"
+            v-if="isVisible"
+            >Read more -></NuxtLink
+          >
+          <div
+            class="notesframe right-0 z-[4] max-w-80 text-xs delay-2000 duration-1000 starting:!opacity-0"
+            :style="{ opacity: 1 - (y / height) * 2 }"
+            v-if="isVisible"
+          >
+            <div class="notes leading-4 opacity-50 [&>p]:leading-[1.4]">
+              <slot name="notes"></slot>
+            </div>
           </div>
         </div>
       </div>
@@ -25,14 +59,22 @@
 </template>
 
 <script lang="ts" setup>
-import { useWindowScroll, useWindowSize } from "@vueuse/core";
+import { useWindowScroll, useWindowSize, clamp } from "@vueuse/core";
 const slots = useSlots();
 const mainelement = ref(null);
 const { y } = useWindowScroll();
 const { height } = useWindowSize();
-const getSlotChildrenText = (children) =>
+const isVisible = ref(false);
+
+onMounted(() => {
+  nextTick(() => {
+    isVisible.value = true;
+  });
+});
+
+const getSlotChildrenText = (children: any) =>
   children
-    .map((node) => {
+    .map((node: any) => {
       if (!node.children || typeof node.children === "string")
         return node.children || "";
       else if (Array.isArray(node.children))
@@ -43,168 +85,42 @@ const getSlotChildrenText = (children) =>
     .join("");
 </script>
 
-<style lang="less" scoped>
-@keyframes landin {
-  100% {
-    opacity: 1;
-    transform: translateY(0rem);
-  }
+<style>
+@reference "@/assets/css/tailwind.css";
+/* Deep selectors and specific styling that can't be converted to Tailwind classes */
+.landing .frame .logo :deep(path) {
+  fill: var(--fg);
 }
 
-.landing {
-  height: calc(100vh - 4rem);
-  margin-bottom: 1rem;
-  position: relative;
-  background: var(--bg2);
-  margin-top: 0 !important;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  padding-top: 8rem;
-  min-height: 32rem;
-
-  @media (max-width: 50rem) {
-    margin-bottom: 1rem;
-  }
-  @media (orientation: portrait), (min-width: 50rem) {
-    max-height: 46rem;
-  }
-
-  .frame {
-    display: block;
-    position: relative;
-    z-index: 3;
-    overflow: visible;
-    .row();
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: 2rem;
-
-    @media (orientation: portrait) {
-      padding-bottom: 2rem;
-      @media (max-width: 30rem) {
-        padding-bottom: 1rem;
-      }
-    }
-
-    .logo {
-      margin-bottom: 2rem;
-      max-width: 100%;
-      margin: 0 auto 2rem;
-      display: block;
-      width: 10rem;
-
-      :deep(path) {
-        fill: var(--fg);
-      }
-    }
-
-    .animation-frame {
-      opacity: 0;
-      // transform: scale(.9);
-      transform: translateY(2rem);
-      transform-origin: top left;
-      animation: landin 2s @easeInOutExpo 0.25s 1 forwards;
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      font-size: 1.5rem;
-      font-family: "InterDisplay", "Helvetica Neue", Helvetica, sans-serif;
-
-      padding-top: 0;
-
-      .slot {
-        margin-bottom: 2rem;
-      }
-    }
-
-    :deep(h1) {
-      font-size: 3rem;
-      width: 9.55em;
-      text-align: left;
-      margin: 0 0 2rem;
-      font-family: "InterDisplay", "Helvetica Neue", Helvetica, sans-serif;
-    }
-
-    :deep(p) {
-      margin: 0 0 1rem;
-      width: 20em;
-      max-width: 100%;
-      color: var(--fg);
-    }
-
-    :deep(.animation-frame > .slot > p > a) {
-      background: var(--fg);
-      color: var(--bg);
-      text-decoration: none;
-      border-radius: 0.25rem;
-      padding: 0.5em 1em;
-      margin-top: 0.5em;
-      display: inline-block;
-      margin-right: 1em;
-      font-size: 0.75rem;
-      font-weight: 600;
-
-      &:hover {
-        background: var(--link);
-      }
-    }
-  }
-}
-
-.notesframe {
-  right: 0;
-  // left: 0;
-  // bottom: 2rem;
-  font-size: 0.75rem;
-  width: 20rem;
-  z-index: 4;
-
-  .notes {
-    // .row();
-    opacity: 0.5;
-
-    :deep(p) {
-      margin: 0;
-      width: 26rem;
-      width: 100%;
-      color: var(--fg2);
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-}
-
-.sphere {
-  position: absolute;
-  opacity: 0.5;
-  z-index: 1;
-
-  top: 20vh;
-  height: 70vh;
-
-  right: -33vw;
+.landing .frame p {
+  margin: 0 0 1rem;
+  /* max-width: 20em; */
+  max-width: none;
   width: 100%;
+}
 
-  display: flex;
-  overflow: visible;
-  :deep(img) {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: auto;
-    width: 100%;
-    object-fit: cover;
-    object-position: top;
-  }
-  @media (orientation: portrait) and (max-width: 70rem) {
-    width: 150vw;
-    left: -25vw;
-    bottom: 0;
-    opacity: 0.25;
-    height: 20rem;
-  }
+.animation-frame > .slot > p > a {
+  background: var(--fg);
+  color: var(--bg);
+  text-decoration: none;
+  border-radius: 0.25rem;
+  padding: 0.5em 1em;
+  margin-top: 0.5em;
+  display: inline-block;
+  margin-right: 1em;
+}
+
+.animation-frame > .slot > p > a:hover {
+  background: var(--link);
+}
+
+.sphere img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: auto;
+  width: 100%;
+  object-fit: cover;
+  object-position: top;
 }
 </style>

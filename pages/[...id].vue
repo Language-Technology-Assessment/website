@@ -1,10 +1,11 @@
 <template>
   <div
-    class="page"
+    class="main-element mt-[14rem]"
     ref="element"
     :class="{ loaded, finalpath: status !== 'pending' }"
   >
-    <ContentRenderer :value="data" v-if="data">
+    <NewsSidebar v-if="$route.path.startsWith('/news')" />
+    <ContentRenderer :value="data" v-if="data" class="page">
       <template #not-found>
         <div class="not-found">Page not found.</div>
       </template>
@@ -35,7 +36,7 @@ const { data, error, status } = await useAsyncData(
       return await queryCollection("pages").path(route.path).first();
     }
     return res;
-  }
+  },
 );
 
 onMounted(() => {
@@ -71,7 +72,7 @@ useHead(
         ? `${titleChunk} | European Open Source AI Index`
         : "European Open Source AI Index";
     },
-  }
+  },
 );
 
 const seo = computed(() => {
@@ -92,20 +93,9 @@ const seo = computed(() => {
 useSeoMeta(seo.value);
 </script>
 
-<style lang="less">
-.page {
-  // opacity: 0;
-
-  // &.loaded.finalpath {
-  //   opacity: 1;
-  // }
-
-  :root:not([path="/"]) & {
-    margin-top: 14rem !important;
-
-    @media (max-width: 60rem) {
-      margin-top: 14rem !important;
-    }
-  }
+<style>
+.main-element {
+  /* retain page-specific margin behavior from Less */
+  padding-top: 0;
 }
 </style>

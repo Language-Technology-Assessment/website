@@ -23,7 +23,7 @@ const score = computed(() => {
 });
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .scorebar {
   height: var(--sb-height, 0.5rem);
   width: var(--sb-width, 5rem);
@@ -32,22 +32,19 @@ const score = computed(() => {
   background: var(--bg);
   overflow: hidden;
   transition: all 1s ease;
-
-  .score {
-    position: absolute;
-    background: var(--fg);
-    top: 0;
-    left: 0;
-    height: 100%;
-    transition: all 0.3s @easeInOutExpo;
-  }
-
-  &.isNotVisible {
-    opacity: 0;
-
-    .score {
-      width: 0 !important;
-    }
-  }
+}
+.scorebar .score {
+  position: absolute;
+  background: var(--fg);
+  top: 0;
+  left: 0;
+  height: 100%;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.scorebar.isNotVisible {
+  opacity: 0;
+}
+.scorebar.isNotVisible .score {
+  width: 0 !important;
 }
 </style>

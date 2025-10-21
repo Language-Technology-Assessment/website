@@ -1,16 +1,19 @@
 <template>
   <section class="partners" id="partners">
-    <div class="content-frame with-images">
-      <div class="context">
-        <label>Partners</label>
+    <div class="split-layout">
+      <div class="left-side">
+        <div class="mb-4 block px-0 text-xs font-semibold uppercase">
+          Partners
+        </div>
       </div>
-      <div class="images" v-if="list?.items">
+      <div class="logo-blocks" v-if="list?.items">
         <NuxtLink
           :to="item.url"
           v-for="item in list.items"
           :title="item.title"
           target="_blank"
-          class="flex"
+          class="logo-block flex"
+          v-visible
         >
           <div class="image">
             <NuxtImg
@@ -28,8 +31,3 @@
 <script lang="ts" setup>
 import list from "@/repos/website/partners.yml";
 </script>
-
-<style lang="less" scoped>
-.as-seen-in {
-}
-</style>

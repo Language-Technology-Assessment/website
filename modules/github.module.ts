@@ -28,10 +28,10 @@ function writeInfo({
       date: info.data[0].commit.author.date,
       url: info.data[0].url.replace(
         "https://api.github.com/repos/",
-        "https://github.com/"
+        "https://github.com/",
       ),
     }),
-    "utf8"
+    "utf8",
   );
 }
 
@@ -120,7 +120,7 @@ async function getRepo({
     } catch (err) {
       console.warn(err);
       throw Error(
-        `Could not create repos directoy for github repository ${owner}/${repo}.`
+        `Could not create repos directoy for github repository ${owner}/${repo}.`,
       );
     }
   } else if (fs.existsSync(dir)) {
@@ -130,7 +130,7 @@ async function getRepo({
     } catch (err) {
       console.warn(err);
       throw Error(
-        `Could not delete existing directory for github repository ${owner}/${repo}.`
+        `Could not delete existing directory for github repository ${owner}/${repo}.`,
       );
     }
   }
@@ -141,7 +141,7 @@ async function getRepo({
   } catch (err) {
     console.warn(err);
     throw Error(
-      `Could not create directory ${dir} for github repository ${owner}/${repo}.`
+      `Could not create directory ${dir} for github repository ${owner}/${repo}.`,
     );
   }
 
@@ -152,7 +152,10 @@ async function getRepo({
   const response = await octokit.repos.downloadTarballArchive({
     owner,
     repo,
-    ref: process.env.NUXT_SITE_ENV === "preview" ? "preview" : "HEAD",
+    ref:
+      process.env.BRANCH || process.env.NUXT_SITE_ENV === "preview"
+        ? "preview"
+        : "HEAD",
   });
   const buffer = Buffer.from(response.data);
   fs.writeFileSync("./repo.tar", buffer);

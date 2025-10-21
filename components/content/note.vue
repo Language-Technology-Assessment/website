@@ -1,28 +1,16 @@
 <template>
-  <div class="note">
+  <div
+    class="note w-[var(--pwidth)] max-w-[var(--maxwidth)] text-[0.75rem] mx-auto mb-[1em] rounded font-semibold text-fg2"
+  >
     <slot></slot>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup></script>
 
-</script>
-
-<style lang="less" scoped>
-.note {
-  width: var(--pwidth);
-  max-width: var(--maxwidth);
-  font-size: 0.75rem;
-  margin: 0 auto 1em;
-  border-radius: 0.25em;
-  font-weight: 600;
-  color: var(--fg2);
-  // position: absolute;
-  // bottom: 0;
-
-  :deep(p) {
-    max-width: 100%;
-    margin-bottom: 0.5em;
-  }
+<style scoped>
+.note :deep(p) {
+  max-width: 100%;
+  margin-bottom: 0.5em;
 }
 </style>
