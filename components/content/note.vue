@@ -1,8 +1,8 @@
 <template>
   <div
-    class="note w-[var(--pwidth)] max-w-[var(--maxwidth)] text-[0.75rem] mx-auto mb-[1em] rounded font-semibold text-fg2"
+    class="note mb-[1em] ml-leftplus w-[30em] max-w-container-max text-[0.75rem] font-semibold text-fg2"
   >
-    <slot></slot>
+    <slot mdc-unwrap="p"></slot>
   </div>
 </template>
 

@@ -2,9 +2,7 @@
   <section class="partners" id="partners">
     <div class="split-layout">
       <div class="left-side">
-        <div class="mb-4 block px-0 text-xs font-semibold uppercase">
-          Partners
-        </div>
+        <div class="label">Partners</div>
       </div>
       <div class="logo-blocks" v-if="list?.items">
         <NuxtLink

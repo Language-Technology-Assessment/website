@@ -57,10 +57,6 @@ const { stop } = useIntersectionObserver(
 
 <style scoped>
 @reference "@/assets/css/tailwind.css";
-
-h1 {
-}
-
 h1 > span {
   @apply relative inline-block;
   clip-path: inset(0 100% 0 0);

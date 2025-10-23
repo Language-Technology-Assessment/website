@@ -1,6 +1,6 @@
 <template>
   <div
-    class="main-element mt-20 md:mt-[14rem]"
+    class="main-element mt-[30vh] pt-0 md:mt-[14rem]"
     ref="element"
     :class="{ loaded, finalpath: status !== 'pending' }"
   >
@@ -92,10 +92,3 @@ const seo = computed(() => {
 
 useSeoMeta(seo.value);
 </script>
-
-<style>
-.main-element {
-  /* retain page-specific margin behavior from Less */
-  padding-top: 0;
-}
-</style>

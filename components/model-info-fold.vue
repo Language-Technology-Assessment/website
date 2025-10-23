@@ -1,74 +1,82 @@
 <template>
   <div class="model-info-fold" @click.stop>
     <div class="frame" v-if="model">
-      <div class="info">
-        <div class="sub">
+      <div class="mb-8 gap-0 rounded text-left text-xs lg:flex">
+        <div class="model-info-fold-column">
           <label>About the model:</label>
-          <div class="notes" v-if="model?.system?.notes">
+          <div v-if="model?.system?.notes">
             {{ model.system.notes }}
           </div>
-          <div class="notes" v-else>(Not available)</div>
+          <div v-else>(Not available)</div>
           <label>Model type:</label>
-          <div class="notes">
+          <div>
             {{ capitalizeFirstLetter(model.system.type) || "(undefined)" }}
           </div>
           <label>Model performance class:</label>
-          <div class="notes">
+          <div>
             {{
               capitalizeFirstLetter(model.system.performanceclass) ||
               "(undefined)"
             }}
           </div>
           <label>Link to the model:</label>
-          <div class="notes">
-            <NuxtLink :to="model.system.link">
+          <div>
+            <NuxtLink
+              :to="model.system.link"
+              class="no-underline hover:text-link"
+            >
               <Icon
                 name="iconamoon:link-external-fill"
                 alt="icon"
                 aria-hidden="true"
+                class="mr-1"
               ></Icon>
               {{ model.system.link }}
             </NuxtLink>
           </div>
         </div>
-        <div class="sub">
+        <div class="model-info-fold-column">
           <label>Base models: </label>
-          <div class="notes">
+          <div>
             {{ model.system.basemodelname || "(undefined)" }}
           </div>
           <label>End model:</label>
-          <div class="notes">
+          <div>
             {{ model.system.endmodelname || "(undefined)" }}
           </div>
           <label>End model license:</label>
-          <div class="notes">
+          <div>
             {{ model.system.endmodellicense || "(undefined)" }}
           </div>
         </div>
-        <div class="sub">
+        <div class="model-info-fold-column">
           <label>About the organisation:</label>
-          <div class="notes" v-if="model?.org?.notes">
+          <div v-if="model?.org?.notes">
             {{ model.org.notes }}
           </div>
-          <div class="notes" v-else>(Not available)</div>
+          <div v-else>(Not available)</div>
           <label>Link to the organisation:</label>
-          <div class="notes">
-            <NuxtLink :to="model?.org?.link">
+          <div>
+            <NuxtLink
+              :to="model?.org?.link"
+              class="no-underline hover:text-link"
+            >
               <Icon
                 name="iconamoon:link-external-fill"
                 alt="icon"
                 aria-hidden="true"
+                class="mr-1"
               ></Icon>
               {{ model.org.link }}
             </NuxtLink>
           </div>
           <label>Model release date:</label>
-          <div class="notes">
+          <div>
             {{ formatReleaseDate(model.system?.releasedate) || "(undefined)" }}
           </div>
         </div>
       </div>
-      <div class="categories">
+      <div class="gap-4 lg:flex">
         <category
           v-for="category in categories"
           :model="model"
@@ -89,95 +97,20 @@ const { filename, models, categories } = defineProps([
 const model = computed(() => {
   if (!filename) return false;
   return models.find(
-    (x) => x.filename.toLowerCase() === filename.toLowerCase(),
+    (x: any) => x.filename.toLowerCase() === filename.toLowerCase(),
   );
 });
 </script>
 
 <style scoped>
-.model-info-fold .frame {
-}
-
-.info {
-  text-align: left;
-  display: flex;
-  gap: 0;
-  font-size: 0.75rem;
-  margin-bottom: 2rem;
-  /* border: 1px solid var(--bc); */
-  border-radius: 0.25rem;
-  padding: 1rem 0;
-}
-
-.info .sub {
-  padding: 0.5rem 1.5rem 0rem 1.5rem;
-  flex: 1;
-  color: var(--color-fg2);
-  border-left: 1px solid var(--color-bc);
-}
-
-.info .sub label {
-  color: var(--color-fg);
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.info .sub a {
-  text-decoration: none;
-}
-
-.info .sub a:hover {
-  color: var(--color-link);
-}
-
-.info .sub a :deep(svg) {
-  margin-right: 0.25rem;
-}
-
-.info h1,
-.info h2 {
-  text-align: left;
-  margin: 0 0 0.5rem;
-  max-width: 100%;
-  line-height: 1.1;
-}
-
-.info .notes {
-  margin-bottom: 1rem;
-  line-height: 1.4;
-  max-width: 32em;
-}
-
-.info .score {
-  font-size: 2rem;
-  font-weight: 600;
-  text-align: right;
-}
-
-.categories {
-  display: flex;
-  gap: 1rem;
-}
-
-@media (max-width: 50rem) {
-  .info {
-    display: block;
-    margin-bottom: 1rem;
-    padding: 0;
-  }
-
-  .info > .sub {
-    padding: 1rem 1rem 2rem;
-    border-left: none;
-    border-bottom: 1px solid var(--color-bc);
-  }
-
-  .info > .sub:last-child {
-    border: none;
-  }
-
-  .categories {
-    display: block;
+@reference "@/assets/css/tailwind.css";
+.model-info-fold-column {
+  @apply flex-1 border-t border-bc py-2 leading-relaxed text-fg lg:border-t-0 lg:border-l lg:px-6;
+  label {
+    @apply text-tiny font-semibold tracking-wider text-fg2 uppercase;
+    + div {
+      @apply mb-2;
+    }
   }
 }
 </style>

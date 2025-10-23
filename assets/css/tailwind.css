@@ -3,6 +3,7 @@
 /* Enable class-based dark mode (html/body with .dark) */
 @custom-variant dark (&:where(.dark, .dark *));
 @custom-variant down (&:where(.scroll-down, .scroll-down *));
+@custom-variant up (&:where(.scroll-up, .scroll-up *));
 
 @import "./typography.css";
 
@@ -26,8 +27,8 @@
   --color-bc: #c3cfdd;
   --color-bc: #d4dde6;
 
-  --color-bg: #ffffff;
-  --color-bg2: #f1f3f4;
+  --color-bg: #f2f3f6;
+  --color-bg2: #e1e4e5;
   --color-bg3: #c9d0d6;
   --color-fg: #140779;
   --color-fg2: #3c62ae;
@@ -63,8 +64,7 @@
 
 /* Theme tokens */
 :root {
-  --width: 84rem;
-  --width: 120rem;
+  --width: 90rem;
   --maxwidth: calc(100% - 8rem);
   --pwidth: 36rem;
   --left: calc(100% / 5);
@@ -139,11 +139,11 @@
   @apply w-full lg:flex lg:items-start lg:gap-24;
 }
 .left-side {
-  @apply w-left shrink-0;
+  @apply mb-12 w-left shrink-0 sm:mb-0;
 }
 
 .label {
-  @apply text-xs font-semibold uppercase;
+  @apply text-xs font-semibold tracking-wider text-fg2 uppercase;
 }
 
 .logo-blocks {
@@ -178,6 +178,10 @@
   }
 }
 
+.label-date {
+  @apply text-tiny font-semibold tracking-wide text-fg2 uppercase no-underline;
+}
+
 button.showmore {
   @apply cursor-pointer text-xs;
   text-decoration: none;
@@ -193,11 +197,15 @@ button.showmore {
 
 .page {
   @apply mx-auto min-h-screen w-container max-w-container-max pb-12;
+
+  section {
+    @apply mb-32;
+  }
   > *:first-child {
     /* @apply mt-[12rem]; */
   }
   p {
-    @apply mb-4 w-[30em] max-w-full;
+    @apply mb-4 w-full max-w-full sm:w-[30em];
     + #the-index {
       @apply mt-12;
     }
@@ -210,7 +218,7 @@ button.showmore {
   }
 
   h1 {
-    @apply mt-4 mb-12 max-w-container-max text-3xl leading-9 font-light md:leading-12 lg:text-4xl;
+    @apply mt-4 mb-12 max-w-container-max text-3xl leading-9 font-light sm:text-4xl sm:leading-12;
   }
 
   > h1 {
@@ -218,7 +226,7 @@ button.showmore {
   }
 
   h2 {
-    @apply mt-24 mb-4 ml-leftplus w-prose max-w-container-max text-left text-2xl leading-[1.2] font-normal;
+    @apply mt-24 mb-10 ml-leftplus w-prose max-w-container-max text-left text-2xl leading-[1.2] font-normal;
     a {
       @apply no-underline;
     }

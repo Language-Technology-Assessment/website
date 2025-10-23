@@ -1,13 +1,16 @@
 <template>
-  <div class="model-info">
+  <div class="">
     <ParametersDescriptions></ParametersDescriptions>
-    <div class="frame mx-auto" style="width: var(--maxwidth)">
-      <div class="top-info py-0 pb-8 text-fg">
-        <h1 class="mb-2 w-full text-center text-5xl" v-if="model?.system">
+    <div class="row">
+      <div class="py-0 pb-8 text-fg">
+        <h1
+          class="mb-2 w-full text-center text-5xl sm:text-4xl"
+          v-if="model?.system"
+        >
           {{ model.system.name || "(undefined)" }}
         </h1>
         <h2
-          class="mt-0 mb-8 w-full !text-center font-normal text-fg2"
+          class="mt-0 mb-8 w-full text-center font-normal text-fg2 sm:text-base"
           v-if="model?.org"
         >
           by {{ model.org.name || "(undefined)" }}
@@ -15,8 +18,13 @@
         <scorebar
           :score="model.score"
           v-if="model?.score"
-          :style="{ '--fg': color(model.score) }"
-          class="scorebar-custom"
+          :style="{
+            '--fg': color(model.score),
+            '--bg': 'var(--color-bg3)',
+            '--sb-height': '0.75rem',
+            '--sb-width': '16rem',
+          }"
+          class="mx-auto mb-16"
         ></scorebar>
       </div>
       <ModelInfoFold
@@ -37,34 +45,12 @@ const models = computed(() => {
 });
 const route = useRoute();
 const model = computed(() => {
-  const pad = route.params.model;
+  const pad = route.params.model as string;
+  if (!pad) return null;
   return models.value.find(
-    (x) => x.filename.toLowerCase() === pad.toLowerCase(),
+    (x: any) => x.filename.toLowerCase() === pad.toLowerCase(),
   );
 });
 
 onMounted(async () => {});
 </script>
-
-<style scoped>
-.top-info .scorebar-custom {
-  --bg: var(--color-bg3);
-  --sb-height: 0.75rem;
-  width: 16rem;
-  max-width: 80%;
-  margin: 0 auto 4rem;
-}
-.top-info .score {
-  text-align: center;
-  color: var(--color-fg2);
-  font-size: 0.75rem;
-}
-@media (max-width: 40rem) {
-  .top-info h1 {
-    font-size: 2rem;
-  }
-  .top-info h2 {
-    font-size: 1rem;
-  }
-}
-</style>

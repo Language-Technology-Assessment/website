@@ -1,22 +1,25 @@
 <template>
   <div
-    class="person my-8 ml-leftplus w-[var(--pwidth)] max-w-[var(--maxwidth)] rounded-lg bg-bg p-6 md:p-6"
+    class="person my-8 inline-block w-1/3 max-w-[var(--maxwidth)] rounded-lg border border-bc p-6"
   >
-    <div class="mb-6 flex flex-row items-center gap-4">
-      <div class="h-16 w-16 shrink-0">
+    <div
+      class="flex cursor-pointer flex-col items-center gap-4"
+      @click="open = !open"
+    >
+      <div class="h-32 w-32 shrink-0">
         <NuxtImg
           :src="props.image"
-          width="400"
+          width="800"
           :alt="props.name"
           v-if="props.image"
           class="h-full w-full rounded-full object-cover"
         ></NuxtImg>
       </div>
-      <div class="text-[1.125rem] font-semibold text-fg">
+      <div class="text-center text-[1.125rem] text-fg">
         {{ props.name }}
       </div>
     </div>
-    <div class="content">
+    <div class="content" v-if="open">
       <slot></slot>
     </div>
   </div>
@@ -24,6 +27,7 @@
 
 <script lang="ts" setup>
 const props = defineProps(["image", "name"]);
+const open = ref(false);
 </script>
 
 <style scoped>

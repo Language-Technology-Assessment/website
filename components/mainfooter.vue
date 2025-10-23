@@ -4,13 +4,12 @@
     :class="{ 'opacity-100': loaded }"
   >
     <div class="row">
-      <div
-        class="mx-auto ml-leftplus max-w-[30rem] text-left"
-        style="width: var(--maxwidth)"
-      >
-        <ContentRenderer :value="page" v-if="page && status === 'success'">
-          <template #empty></template>
-        </ContentRenderer>
+      <div class="mx-auto ml-leftplus w-prose max-w-container-max text-left">
+        <ContentRenderer
+          :value="page"
+          v-if="page && status === 'success'"
+          unwrap="p"
+        />
       </div>
     </div>
   </div>

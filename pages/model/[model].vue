@@ -1,5 +1,5 @@
 <template>
-  <div class="page loaded finalpath mt-[14rem]">
+  <div class="loaded finalpath mt-[14rem]">
     <ModelInfo :models="models" :categories="categories"></ModelInfo>
   </div>
 </template>

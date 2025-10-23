@@ -4,7 +4,7 @@
   >
     <!--  frame -->
     <div
-      class="relative top-0 right-0 z-[999] mx-auto h-screen w-96 max-w-full transform overflow-auto border border-bc bg-bg p-8 transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
+      class="relative top-0 right-0 z-[999] mx-auto h-screen w-96 max-w-full transform overflow-auto border border-bc border-r-bg3 bg-bg p-8 transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
       @click.stop
       :class="{
         'opacity-100': open,

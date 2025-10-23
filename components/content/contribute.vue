@@ -1,18 +1,17 @@
 <template>
-  <div class="py-16 mx-auto text-center">
-    <div class="text-xs mb-4 text-fg2 !important" v-if="commitDate">
+  <div class="mx-auto py-16 text-center">
+    <div class="!important mb-4 text-xs text-fg2" v-if="commitDate">
       Last updated {{ commitDate }}
     </div>
     <div class="mb-8 text-fg2">
       <slot>Is this information not up to date?</slot>
     </div>
-    <NuxtLink
-      :to="`https://github.com/${info.owner}/${info.repo}/blob/preview/${route.params.model}.yaml`"
+    <ActionButton
+      :link="`https://github.com/${info.owner}/${info.repo}/blob/preview/${route.params.model}.yaml`"
       target="_blank"
-      class="bg-bg border border-bc px-6 py-2 no-underline rounded-md hover:text-link hover:bg-bg3"
     >
-      <slot name="button">Contribute here -></slot>
-    </NuxtLink>
+      Contribute here ->
+    </ActionButton>
   </div>
 </template>
 

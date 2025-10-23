@@ -1,9 +1,21 @@
 <template>
   <div
-    class="landing relative mt-0 mb-4 flex max-h-none min-h-[80vh] justify-center overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:mb-[calc(100vh-14rem-24rem)] lg:h-auto lg:min-h-[40vh] portrait:max-h-[46rem]"
+    class="landing relative mt-0 mb-4 flex max-h-none min-h-[60vh] justify-center overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:mb-[calc(100vh-45rem)] lg:h-auto lg:min-h-[40vh] portrait:max-h-[46rem]"
     :class="{ 'opacity-0': !isVisible, 'opacity-100': isVisible }"
     ref="mainelement"
   >
+    <!-- <div
+      class="fixed top-28 left-0 z-20 transition-all duration-300 down:top-8"
+    >
+      <div class="row">
+        <div
+          class="mb-3 cursor-pointer text-xs font-semibold tracking-wider text-fg2 uppercase hover:text-link"
+          v-for="item in submenu"
+        >
+          {{ item }}
+        </div>
+      </div>
+    </div> -->
     <div
       class="fixed top-0 right-0 bottom-0 left-0 overflow-visible"
       :style="{
@@ -33,18 +45,19 @@
         <div class="left-side"></div>
         <div class="">
           <div
-            class="slot mb-8 max-w-[24em] font-[InterDisplay] text-4xl [&>p]:leading-[1.2]"
+            class="slot mb-2 max-w-[24em] font-[InterDisplay] text-4xl sm:mb-8 [&>p]:leading-[1.2]"
           >
             <slot></slot>
           </div>
-          <NuxtLink
-            to="/about"
-            class="label mb-12 block no-underline transition-opacity delay-1000 duration-1000 starting:opacity-0"
+          <ActionButton
+            link="/about"
+            class="block transition-opacity delay-1000 duration-1000 starting:opacity-0"
             v-if="isVisible"
-            >Read more -></NuxtLink
           >
+            Read more ->
+          </ActionButton>
           <div
-            class="notesframe right-0 z-[4] max-w-80 text-xs delay-2000 duration-1000 starting:!opacity-0"
+            class="notesframe right-0 z-[4] max-w-80 pt-8 text-xs delay-2000 duration-1000 sm:pt-24 starting:!opacity-0"
             :style="{ opacity: 1 - (y / height) * 2 }"
             v-if="isVisible"
           >
@@ -65,10 +78,13 @@ const mainelement = ref(null);
 const { y } = useWindowScroll();
 const { height } = useWindowSize();
 const isVisible = ref(false);
-
+const submenu = ref([]);
 onMounted(() => {
   nextTick(() => {
     isVisible.value = true;
+  });
+  document.body.querySelectorAll(".label").forEach((label) => {
+    submenu.value.push(label.textContent || "");
   });
 });
 

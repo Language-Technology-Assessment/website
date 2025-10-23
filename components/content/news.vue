@@ -1,32 +1,31 @@
 <template>
-  <div class="z-3">
-    <section class="split-layout news py-12" id="news">
-      <div class="left-side label sticky top-8 mb-8 block px-0">News</div>
-      <div
-        class="overflow-auto pb-8"
-        v-visiblecontainer
-        v-if="visibleData && status === 'success'"
+  <section class="split-layout news z-3" id="news">
+    <div class="left-side label">News</div>
+    <div
+      class="overflow-auto pb-8"
+      v-visiblecontainer
+      v-if="visibleData && status === 'success'"
+    >
+      <NuxtLink
+        class="group/card y-top mr-8 mb-8 inline-flex w-full flex-col border-l border-bc px-4 py-0 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100 sm:aspect-4/3 sm:w-64"
+        :to="'/news' + item.path"
+        v-for="item in visibleData"
+        :key="item.path"
+        v-visible
       >
-        <NuxtLink
-          class="group/card y-top mr-8 mb-8 inline-flex w-full flex-col border-t border-bc px-0 py-2 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100 sm:aspect-4/3 sm:w-64"
-          :to="'/news' + item.path"
-          v-for="item in visibleData"
-          :key="item.path"
-          v-visible
-        >
-          <div class="title mb-4 text-xl leading-6">{{ item.title }}</div>
-          <div class="title text-xs leading-5 text-fg2">
-            {{ item.description }}
-          </div>
-          <div
-            class="date mb-2 text-tiny font-semibold tracking-wide text-fg2 uppercase no-underline"
-          >
-            {{ useToDate(item.date) }}
-          </div>
-        </NuxtLink>
+        <div class="title mb-2 text-xl leading-6">{{ item.title }}</div>
+        <div class="title mb-4 text-xs leading-5 text-fg2">
+          {{ item.description }}
+        </div>
+        <div class="label-date">
+          {{ useToDate(item.date) }}
+        </div>
+      </NuxtLink>
+      <div>
+        <ActionButton link="/news">Read all news -></ActionButton>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup>

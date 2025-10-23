@@ -2,9 +2,7 @@
   <section class="mb-12" id="as-seen-in">
     <div class="split-layout">
       <div class="left-side">
-        <div class="mb-4 block px-0 text-xs font-semibold uppercase">
-          As seen in
-        </div>
+        <div class="label">As seen in</div>
       </div>
       <div class="logo-blocks">
         <NuxtLink

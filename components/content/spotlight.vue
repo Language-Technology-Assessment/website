@@ -1,18 +1,17 @@
 <template>
-  <div
-    class="border-t border-bc py-4 transition-opacity delay-500 duration-1000 starting:opacity-0"
+  <section
+    class="transition-opacity delay-500 duration-1000 starting:opacity-0"
+    id="spotlight"
   >
     <div class="split-layout">
       <div class="left-side">
-        <div class="mb-4 block px-0 text-xs font-semibold uppercase">
-          Explore open source AI
-        </div>
+        <div class="label">Explore open source AI</div>
       </div>
-      <div class="content">
+      <div class="content grow">
         <slot></slot>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
