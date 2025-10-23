@@ -45,7 +45,7 @@
       >
         <tr>
           <td
-            class="group/modellink min-w-[20rem] cursor-pointer p-2 pl-12 text-left"
+            class="group/modellink min-w-[10rem] cursor-pointer p-2 pl-4 text-left xl:min-w-[20rem] xl:pl-12"
             @click="router.push(`/model/${item.filename}`)"
           >
             <div class="font-semibold group-hover/modellink:underline">

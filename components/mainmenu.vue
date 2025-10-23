@@ -12,7 +12,7 @@
     <div class="row relative z-10 flex items-center justify-between">
       <NuxtLink
         to="/"
-        class="group/logo pointer-events-auto flex origin-left scale-70 cursor-pointer items-center gap-2 self-start no-underline hover:text-link lg:scale-100"
+        class="group/logo pointer-events-auto flex origin-left scale-80 cursor-pointer items-center gap-2 self-start no-underline hover:text-link lg:scale-100"
       >
         <logo class="logo h-auto w-12" />
         <div class="w-22 text-[0.75rem] leading-3.75 font-semibold">
@@ -40,7 +40,7 @@
 
     <!-- menu -->
     <div
-      class="pointer-events-auto fixed top-0 right-0 z-50 h-screen w-full max-w-full overflow-auto bg-bg2/50 drop-shadow-lg backdrop-blur-sm transition-all sm:w-[24rem]"
+      class="pointer-events-auto fixed top-0 right-0 z-50 h-screen w-full max-w-full overflow-auto bg-bg2/50 drop-shadow-lg backdrop-blur-sm transition-all select-none sm:w-[24rem]"
       :class="{
         'pointer-events-auto translate-x-0 opacity-100 duration-200': menuopen,
         'pointer-events-none translate-x-12 opacity-0 duration-200': !menuopen,

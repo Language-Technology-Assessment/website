@@ -1,6 +1,7 @@
 <template>
   <div
-    class="sticky top-0 transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
+    class="fixed top-0 hidden transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)] xl:sticky xl:block"
+    :class="{}"
   >
     <!--  frame -->
     <div

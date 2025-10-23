@@ -7,7 +7,7 @@
       <div class="left-side">
         <div class="label">Explore open source AI</div>
       </div>
-      <div class="content grow">
+      <div class="content grow" :style="{ '--spacing-leftplus': '0' }">
         <slot></slot>
       </div>
     </div>

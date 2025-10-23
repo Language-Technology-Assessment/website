@@ -1,5 +1,9 @@
 <template>
-  <div class="mx-auto mb-12 flex w-full items-start" id="the-index">
+  <div
+    class="mx-auto mb-12 flex w-full items-start"
+    id="the-index"
+    :class="{ 'ml-leftplus': props.hideFilters }"
+  >
     <!-- filter menu -->
     <FilterMenu
       v-model:open="filterscreenOpen"
@@ -16,7 +20,7 @@
         {
           sticky: isvisible,
           '!max-w-[50rem] rounded-lg': props.hideFilters,
-          'rounded-r-lg border-l-0': !props.hideFilters,
+          'rounded-lg lg:rounded-r-lg lg:border-l-0': !props.hideFilters,
         },
       ]"
       ref="el"

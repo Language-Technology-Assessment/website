@@ -139,7 +139,7 @@
   @apply w-full lg:flex lg:items-start lg:gap-24;
 }
 .left-side {
-  @apply mb-12 w-left shrink-0 sm:mb-0;
+  @apply mb-4 w-left shrink-0 sm:mb-0;
 }
 
 .label {

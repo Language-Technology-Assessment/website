@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-auto flex-1 px-12 py-4 pb-8"
+    class="mx-auto flex-1 px-4 py-4 pb-8 sm:px-12 lg:px-8 lg:py-0 xl:px-12 xl:py-4"
     ref="clickoutsidetarget"
     @touchstart="openParam = false"
     :class="{

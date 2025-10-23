@@ -26,7 +26,7 @@
         </NuxtLink>
       </div>
       <div>
-        <ActionButton link="/news">Read all guides -></ActionButton>
+        <ActionButton link="/guides">Read all guides -></ActionButton>
       </div>
     </div>
   </section>
