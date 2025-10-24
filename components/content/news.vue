@@ -2,12 +2,12 @@
   <section class="split-layout news z-3" id="news">
     <div class="left-side label">News</div>
     <div
-      class="overflow-auto pb-8"
+      class="grid grid-cols-1 gap-8 overflow-auto pb-8 sm:grid-cols-2 lg:grid-cols-3"
       v-visiblecontainer
       v-if="visibleData && status === 'success'"
     >
       <NuxtLink
-        class="group/card y-top mr-8 mb-8 inline-flex w-full flex-col border-l border-bc px-4 py-0 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100 sm:aspect-4/3 sm:w-64"
+        class="group/card y-top mr-8 mb-8 w-full flex-col border-l border-bc px-4 py-0 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100 sm:aspect-4/3 sm:w-64"
         :to="'/news' + item.path"
         v-for="item in visibleData"
         :key="item.path"

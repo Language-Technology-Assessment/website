@@ -1,26 +1,26 @@
 <template>
-  <div
-    class="person my-8 inline-block w-1/3 max-w-[var(--maxwidth)] rounded-lg border border-bc p-6"
-  >
+  <div class="person relative my-8 flex max-w-[var(--maxwidth)] gap-8 text-sm">
     <div
-      class="flex cursor-pointer flex-col items-center gap-4"
+      class="flex shrink-0 cursor-pointer flex-col items-center"
       @click="open = !open"
     >
-      <div class="h-32 w-32 shrink-0">
+      <div class="h-16 w-16 shrink-0">
         <NuxtImg
           :src="props.image"
-          width="800"
+          width="400"
           :alt="props.name"
           v-if="props.image"
           class="h-full w-full rounded-full object-cover"
         ></NuxtImg>
       </div>
-      <div class="text-center text-[1.125rem] text-fg">
+      <!-- <div class="text-center font-semibold text-fg">
         {{ props.name }}
-      </div>
+      </div> -->
     </div>
-    <div class="content" v-if="open">
-      <slot></slot>
+    <div class="content">
+      <div class="w-[32em]">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -29,14 +29,3 @@
 const props = defineProps(["image", "name"]);
 const open = ref(false);
 </script>
-
-<style scoped>
-.person .content :deep(p) {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto 1rem;
-  font-weight: 400;
-  font-size: 0.8rem;
-  line-height: 1.6;
-}
-</style>

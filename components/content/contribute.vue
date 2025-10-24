@@ -3,7 +3,7 @@
     <div class="!important mb-4 text-xs text-fg2" v-if="commitDate">
       Last updated {{ commitDate }}
     </div>
-    <div class="mb-8 text-fg2">
+    <div class="mb-4 text-fg2">
       <slot>Is this information not up to date?</slot>
     </div>
     <ActionButton

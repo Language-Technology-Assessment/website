@@ -33,6 +33,7 @@
   --color-fg: #140779;
   --color-fg2: #3c62ae;
   --color-link: #0077ff;
+  --color-link: #0042c7;
   --color-bc: #d4dde6;
 
   --color-shadow: #00000033;
@@ -136,14 +137,14 @@
 }
 
 .split-layout {
-  @apply w-full lg:flex lg:items-start lg:gap-24;
+  @apply w-full xl:flex xl:items-start xl:gap-24;
 }
 .left-side {
-  @apply mb-4 w-left shrink-0 sm:mb-0;
+  @apply mb-4 w-left shrink-0 xl:mb-0;
 }
 
 .label {
-  @apply text-xs font-semibold tracking-wider text-fg2 uppercase;
+  @apply text-xs font-semibold tracking-wider text-fg2;
 }
 
 .logo-blocks {
@@ -199,7 +200,7 @@ button.showmore {
   @apply mx-auto min-h-screen w-container max-w-container-max pb-12;
 
   section {
-    @apply mb-32;
+    @apply mb-32 scroll-mt-24;
   }
   > *:first-child {
     /* @apply mt-[12rem]; */
@@ -218,7 +219,7 @@ button.showmore {
   }
 
   h1 {
-    @apply mt-4 mb-12 max-w-container-max text-3xl leading-9 font-light sm:text-4xl sm:leading-12;
+    @apply mt-4 mb-12 max-w-container-max text-3xl leading-9 font-light sm:text-4xl sm:leading-11;
   }
 
   > h1 {
@@ -235,7 +236,7 @@ button.showmore {
   h4,
   h5,
   h6 {
-    @apply mt-8 mb-4 ml-leftplus w-prose max-w-container-max text-left text-lg leading-[1.2] font-normal;
+    @apply mt-16 mb-4 ml-leftplus w-prose max-w-container-max text-left text-lg leading-[1.2] font-semibold;
     a {
       @apply no-underline;
     }

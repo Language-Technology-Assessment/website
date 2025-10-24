@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-leftplus flex max-w-container-max gap-12">
+  <div class="ml-leftplus gap-12">
     <slot></slot>
   </div>
 </template>

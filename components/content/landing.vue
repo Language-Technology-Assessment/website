@@ -1,19 +1,21 @@
 <template>
   <div
-    class="landing relative mt-0 mb-4 flex max-h-none min-h-[60vh] justify-center overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:mb-[calc(100vh-45rem)] lg:h-auto lg:min-h-[40vh] portrait:max-h-[46rem]"
+    class="landing relative mt-0 mb-4 flex max-h-none min-h-[60vh] justify-center overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:mb-[calc(100vh-45rem)] lg:h-auto lg:min-h-[45vh] portrait:max-h-[46rem]"
     :class="{ 'opacity-0': !isVisible, 'opacity-100': isVisible }"
     ref="mainelement"
   >
     <!-- <div
-      class="fixed top-28 left-0 z-20 transition-all duration-300 down:top-8"
+      class="fixed bottom-8 left-0 z-20 hidden transition-all duration-300 lg:block"
     >
       <div class="row">
-        <div
-          class="mb-3 cursor-pointer text-xs font-semibold tracking-wider text-fg2 uppercase hover:text-link"
+        <NuxtLink
+          :to="`#${item.id}`"
+          class="mb-3 block cursor-pointer text-xs font-semibold tracking-wider text-fg2 no-underline hover:text-link"
           v-for="item in submenu"
         >
-          {{ item }}
-        </div>
+          {{ item.text }}
+        </NuxtLink>
+        <Icon name="mdi:chevron-down" class="-ml-0.5 text-sm text-fg2" />
       </div>
     </div> -->
     <div
@@ -32,7 +34,7 @@
 
     <!-- text -->
     <div
-      class="relative z-0 flex w-full items-end overflow-visible portrait:pb-8 portrait:max-[30rem]:pb-4 starting:translate-y-40 starting:opacity-0"
+      class="relative z-0 flex w-full items-start overflow-visible portrait:pb-8 portrait:max-[30rem]:pb-4 starting:translate-y-40 starting:opacity-0"
       :style="{
         transform: `translateY(${y / 2}px)`,
         opacity: clamp(1 - (y * 2) / height, 0.1, 1),
@@ -57,11 +59,13 @@
             Read more ->
           </ActionButton>
           <div
-            class="notesframe right-0 z-[4] max-w-80 pt-8 text-xs delay-2000 duration-1000 sm:pt-24 starting:!opacity-0"
+            class="notesframe right-0 z-[4] max-w-80 pt-8 text-xs delay-2000 duration-1000 sm:pt-8 starting:!opacity-0"
             :style="{ opacity: 1 - (y / height) * 2 }"
             v-if="isVisible"
           >
-            <div class="notes leading-4 opacity-50 [&>p]:leading-[1.4]">
+            <div
+              class="notes leading-4 opacity-50 transition-opacity duration-1000 hover:opacity-100 [&>p]:leading-[1.4]"
+            >
               <slot name="notes"></slot>
             </div>
           </div>
@@ -78,27 +82,35 @@ const mainelement = ref(null);
 const { y } = useWindowScroll();
 const { height } = useWindowSize();
 const isVisible = ref(false);
-const submenu = ref([]);
+const submenu = ref<Array<{ text: string; id: string }>>([]);
 onMounted(() => {
   nextTick(() => {
     isVisible.value = true;
   });
   document.body.querySelectorAll(".label").forEach((label) => {
-    submenu.value.push(label.textContent || "");
+    const text = label.textContent || "";
+    const id = label.id || text.toLowerCase().replace(/\s+/g, "-");
+    submenu.value.push({ text, id });
   });
 });
 
-const getSlotChildrenText = (children: any) =>
-  children
+const getSlotChildrenText = (children: any) => {
+  const result = children
     .map((node: any) => {
       if (!node.children || typeof node.children === "string")
-        return node.children || "";
+        return { text: node.children || "", id: node.props?.id || "" };
       else if (Array.isArray(node.children))
         return getSlotChildrenText(node.children);
       else if (node.children.default)
         return getSlotChildrenText(node.children.default());
     })
-    .join("");
+    .filter(Boolean);
+
+  return {
+    text: result.map((item: any) => item.text).join(""),
+    id: result.find((item: any) => item.id)?.id || "",
+  };
+};
 </script>
 
 <style>

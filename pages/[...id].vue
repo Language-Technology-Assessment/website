@@ -5,7 +5,11 @@
     :class="{ loaded, finalpath: status !== 'pending' }"
   >
     <NewsSidebar v-if="$route.path.startsWith('/news')" />
-    <ContentRenderer :value="data" v-if="data" class="page">
+    <ContentRenderer
+      :value="data"
+      v-if="data"
+      class="page transition-opacity duration-1000 starting:opacity-0"
+    >
       <template #not-found>
         <div class="not-found">Page not found.</div>
       </template>
