@@ -1,13 +1,22 @@
 <template>
-  <div class="max-w-full overflow-auto loaded finalpath">
+  <div class="loaded finalpath max-w-full overflow-auto">
+    <div
+      v-if="!modelsList"
+      class="flex h-screen w-full items-center justify-center"
+    >
+      <div>
+        Please visit <NuxtLink to="/the-index">the index</NuxtLink> to select
+        models to compare.
+      </div>
+    </div>
     <ClientOnly>
-      <div class="table p-8 rounded-none md:p-2">
+      <div class="table rounded-none p-8 md:p-2">
         <div
-          class="names sticky top-0 bg-bg z-20 transition-all duration-200 scroll-up:nottop:top-[3.2rem] scroll-up:nottop:delay-250"
+          class="names scroll-up:nottop:top-[3.2rem] scroll-up:nottop:delay-250 sticky top-0 z-20 bg-bg transition-all duration-200"
         >
           <NuxtLink
             :to="`/model/${model.filename}`"
-            class="model-name block relative text-center no-underline bg-bg2 p-6 rounded border-b-2 border-bg text-xl"
+            class="model-name relative block rounded border-b-2 border-bg bg-bg2 p-6 text-center text-xl no-underline"
             v-for="(model, k) in modelsList"
           >
             <div class="name" v-if="model?.system">
@@ -17,7 +26,7 @@
               by {{ model.org.name || "(undefined)" }}
             </div>
             <div
-              class="count text-fg2 text-[0.65rem] absolute top-0 left-0 px-2 py-1 opacity-50 rounded-bl"
+              class="count absolute top-0 left-0 rounded-bl px-2 py-1 text-[0.65rem] text-fg2 opacity-50"
             >
               {{ k + 1 }}/{{ modelsList.length }}
             </div>
@@ -43,7 +52,7 @@ const route = useRoute();
 const interpolate = (template, data) => {
   return template.replace(
     /\{([^}]+)\}/g,
-    (_, path) => getProperty(data, path) ?? ""
+    (_, path) => getProperty(data, path) ?? "",
   );
 };
 
