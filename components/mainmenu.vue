@@ -81,15 +81,13 @@
 </template>
 
 <script lang="ts" setup>
-import { useDark, useToggle } from "@vueuse/core";
+import { useToggle } from "@vueuse/core";
 import logo from "@/repos/website/images/logo-dark.svg?component";
 import logoname from "@/repos/website/images/logo2-name-c.svg?component";
 import menu from "@/repos/website/menu.yml";
 const menuopen = ref(false);
 const active = ref(false);
 const afteractive = ref(false);
-const isDark = useDark();
-const toggleDark = useToggle(isDark);
 
 function test(text?: string) {
   console.log("test", text);

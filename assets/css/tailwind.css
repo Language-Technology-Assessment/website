@@ -93,7 +93,7 @@
 @layer base {
   html,
   body {
-    @apply bg-bg2 font-normal text-fg transition-colors duration-2000 ease-in-out;
+    @apply bg-bg2 font-normal text-fg transition-colors duration-0 ease-in-out;
     font-size: 18px;
   }
   a {
@@ -200,7 +200,7 @@
     }
   }
   > p {
-    @apply mr-auto mb-4 ml-leftplus w-prose max-w-full leading-[1.4] sm:max-w-container-max;
+    @apply mr-auto mb-4 ml-leftplus w-prose max-w-full leading-[1.6] sm:max-w-container-max;
     + .bars {
       margin-top: 4rem;
     }

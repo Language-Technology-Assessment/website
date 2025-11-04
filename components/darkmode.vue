@@ -1,7 +1,7 @@
 <template>
   <button
     class="darkmode group/button mb-1 flex cursor-pointer items-center gap-0.5 rounded-full border border-bg bg-fg px-1.5 py-1 text-sm leading-0 text-bg hover:bg-link"
-    @click.stop="toggleDark()"
+    @click.stop="isDark = !isDark"
     aria-label="Toggle dark mode"
   >
     <Icon
@@ -18,7 +18,5 @@
 </template>
 
 <script lang="ts" setup>
-import { useDark, useToggle } from "@vueuse/core";
-const isDark = useDark();
-const toggleDark = useToggle(isDark);
+const { isDark } = useDark();
 </script>
