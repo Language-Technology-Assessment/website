@@ -25,7 +25,7 @@
         ></scorebar>
         <div
           v-if="Object.keys(modelsToGuide).includes(route.params.model)"
-          class="mx-auto mb-8 max-w-full rounded-xl px-8 py-0 text-center"
+          class="mx-auto mb-8 max-w-full rounded-xl py-0 text-center"
         >
           <div class="mb-6 text-xs font-semibold text-fg2">
             Find this model in our guide{{
@@ -38,8 +38,8 @@
               class="inline-block w-80 max-w-full rounded-lg border border-bc px-5 py-8 no-underline hover:bg-bg hover:text-link"
               v-for="model in modelsToGuide[route.params.model]"
             >
-              <div class="text-lg">{{ model.title }}</div>
-              <div class="text-xs text-fg2" v-if="model.author">
+              <div class="mb-1 text-lg leading-6">{{ model.title }}</div>
+              <div class="mb-1 text-xs text-fg2" v-if="model.author">
                 by {{ model.author }}
               </div>
               <div class="text-xs text-fg2">{{ useToDate(model.date) }}</div>
