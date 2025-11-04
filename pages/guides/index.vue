@@ -7,7 +7,7 @@
       <div class="content">
         <NuxtLink
           class="group/card y-top mb-8 block w-[38rem] max-w-container-max flex-col border-t border-bc py-3 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 data-visible:opacity-100"
-          :to="'/news' + item.path"
+          :to="'/guides' + item.path"
           v-for="item in data"
           :key="item.path"
           v-visible

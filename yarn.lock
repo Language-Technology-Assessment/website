@@ -421,6 +421,13 @@
   dependencies:
     tslib "^2.4.0"
 
+"@iconify-json/iconamoon@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@iconify-json/iconamoon/-/iconamoon-1.2.2.tgz#403a6b745a99f9e11774b64f44007ea7e46c11dd"
+  integrity sha512-Xn7YeSDniPgutPr0qil/iQwQelq975OYQ/i2twGjcK4DjGOXBrBC+6q45WtVuQbFfXzM7bgijv4yVnxy0OqUdQ==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify/collections@^1.0.579":
   version "1.0.601"
   resolved "https://registry.yarnpkg.com/@iconify/collections/-/collections-1.0.601.tgz#316dc1daf9f5065e51a5d9e727b1dae8aa76998e"

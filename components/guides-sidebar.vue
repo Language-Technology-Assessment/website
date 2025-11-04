@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-const { data, status } = await useAsyncData("guides", () =>
+const { data, status, error } = await useAsyncData("guides", () =>
   queryCollection("guides")
     .where("status", "=", "published")
     .order("date", "DESC")
