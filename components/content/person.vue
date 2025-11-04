@@ -1,7 +1,9 @@
 <template>
-  <div class="person relative my-8 flex max-w-[var(--maxwidth)] gap-8 text-sm">
+  <div
+    class="person relative my-8 flex max-w-[var(--maxwidth)] min-w-0 gap-8 text-sm"
+  >
     <div
-      class="flex shrink-0 cursor-pointer flex-col items-center"
+      class="flex min-w-0 shrink-0 cursor-pointer flex-col items-center"
       @click="open = !open"
     >
       <div class="h-16 w-16 shrink-0">
@@ -13,14 +15,18 @@
           class="h-full w-full rounded-full object-cover"
         ></NuxtImg>
       </div>
-      <!-- <div class="text-center font-semibold text-fg">
-        {{ props.name }}
-      </div> -->
     </div>
-    <div class="content">
-      <div class="w-[32em]">
+    <div class="">
+      <div class="mb-2 max-w-full" :class="{ 'line-clamp-3': !open }">
         <slot></slot>
       </div>
+      <button
+        @click="open = !open"
+        class="label flex cursor-pointer items-center gap-1 font-semibold hover:text-link"
+      >
+        Read {{ open ? "less" : "more" }}
+        <Icon :name="open ? 'mdi:chevron-up' : 'mdi:chevron-down'" />
+      </button>
     </div>
   </div>
 </template>

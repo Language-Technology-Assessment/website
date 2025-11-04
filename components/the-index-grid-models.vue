@@ -45,7 +45,7 @@
       >
         <tr>
           <td
-            class="group/modellink min-w-[10rem] cursor-pointer p-2 pl-4 text-left xl:min-w-[20rem] xl:pl-12"
+            class="group/modellink min-w-[10rem] cursor-pointer p-2 pl-4 text-left xl:min-w-[20rem] xl:pl-6"
             @click="router.push(`/model/${item.filename}`)"
           >
             <div class="font-semibold group-hover/modellink:underline">
@@ -55,7 +55,7 @@
               by {{ item.org.name || "(undefined)" }}
             </div>
             <div
-              class="before:content-['Base models:'] text-xs text-fg2 before:opacity-50"
+              class="text-xs text-fg2 before:opacity-50 before:content-['Base_models:_']"
               v-if="item?.org"
             >
               {{ item.system?.basemodelname || "(unspecified)" }}

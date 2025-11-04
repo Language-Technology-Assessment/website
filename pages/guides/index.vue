@@ -2,7 +2,7 @@
   <div class="mt-[14rem]">
     <div class="row split-layout">
       <div class="left-side">
-        <div class="label">Latest news overview:</div>
+        <div class="label">Latest guides:</div>
       </div>
       <div class="content">
         <NuxtLink
@@ -28,8 +28,8 @@
 <script lang="ts" setup>
 const props = defineProps(["perpage"]);
 
-const { data } = await useAsyncData("news", () =>
-  queryCollection("news")
+const { data } = await useAsyncData("guides", () =>
+  queryCollection("guides")
     .where("status", "=", "published")
     .order("date", "DESC")
     .all(),

@@ -16,7 +16,6 @@
         'opacity-100':
           store.selected.includes(item.filename) ||
           (!!open && item.filename === open.filename),
-        'opacity-30': open && item.filename !== open.filename,
       }"
     >
       <div

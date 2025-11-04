@@ -2,11 +2,11 @@
   <div class="row split-layout hidden h-0 xl:block">
     <div class="left-side sticky top-0">
       <div class="mb-8">
-        <div class="label mb-2 text-sm leading-5 text-fg2">Latest News:</div>
+        <div class="label mb-2 text-sm leading-5 text-fg2">Latest Guides:</div>
       </div>
       <NuxtLink
         class="group/card y-top mr-8 mb-2 block w-[16rem] flex-col border-t border-bc px-0 py-2 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 data-visible:opacity-100"
-        :to="'/news' + item.path"
+        :to="'/guides' + item.path"
         v-for="item in data"
         :key="item.path"
         v-visible
@@ -28,8 +28,8 @@
 </template>
 
 <script lang="ts" setup>
-const { data, status } = await useAsyncData("news", () =>
-  queryCollection("news")
+const { data, status } = await useAsyncData("guides", () =>
+  queryCollection("guides")
     .where("status", "=", "published")
     .order("date", "DESC")
     .all(),

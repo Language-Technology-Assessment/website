@@ -43,12 +43,22 @@
   --color-g3: #0066ff;
 
   --text-tiny: 0.6rem;
+  --font-display: "InterDisplay", "Inter", sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-semibold: 500;
 
   --spacing-container: var(--width);
   --spacing-container-max: var(--maxwidth);
   --spacing-prose: var(--pwidth);
   --spacing-left: var(--left);
   --spacing-leftplus: calc(var(--left) + 6rem);
+}
+
+@media (max-width: 80rem) {
+  :root {
+    --spacing-leftplus: 0;
+  }
 }
 
 :root.dark {
@@ -77,14 +87,6 @@
   }
   @media (max-width: 60rem) {
     --maxwidth: calc(100% - 2rem);
-  }
-}
-
-/* Custom animations */
-@keyframes landin {
-  100% {
-    opacity: 1;
-    transform: translateY(0rem);
   }
 }
 
@@ -140,11 +142,14 @@
   @apply w-full xl:flex xl:items-start xl:gap-24;
 }
 .left-side {
-  @apply mb-4 w-left shrink-0 xl:mb-0;
+  @apply mb-4 w-left shrink-0 overflow-hidden xl:mb-0;
 }
 
 .label {
-  @apply text-xs font-semibold tracking-wider text-fg2;
+  @apply text-xs font-normal tracking-wider text-fg2;
+}
+.label-date {
+  @apply text-tiny font-semibold tracking-wide text-fg2 uppercase no-underline;
 }
 
 .logo-blocks {
@@ -179,23 +184,6 @@
   }
 }
 
-.label-date {
-  @apply text-tiny font-semibold tracking-wide text-fg2 uppercase no-underline;
-}
-
-button.showmore {
-  @apply cursor-pointer text-xs;
-  text-decoration: none;
-  color: var(--fg2);
-  text-transform: uppercase;
-  &:hover {
-    text-decoration: underline;
-    background: transparent;
-    color: var(--link);
-    transition: color 0.1s ease !important;
-  }
-}
-
 .page {
   @apply mx-auto min-h-screen w-container max-w-container-max pb-12;
 
@@ -212,7 +200,7 @@ button.showmore {
     }
   }
   > p {
-    @apply mr-auto mb-4 ml-leftplus w-prose max-w-container-max leading-[1.4];
+    @apply mr-auto mb-4 ml-leftplus w-prose max-w-full leading-[1.4] sm:max-w-container-max;
     + .bars {
       margin-top: 4rem;
     }
@@ -227,7 +215,7 @@ button.showmore {
   }
 
   h2 {
-    @apply mt-24 mb-10 ml-leftplus w-prose max-w-container-max text-left text-2xl leading-[1.2] font-normal;
+    @apply mt-24 mb-4 ml-leftplus w-prose max-w-container-max text-left text-2xl leading-[1.2] font-normal;
     a {
       @apply no-underline;
     }
@@ -272,7 +260,7 @@ button.showmore {
   blockquote {
     @apply mr-auto ml-leftplus w-prose max-w-container-max italic;
     p {
-      @apply border-l-2 border-bc pl-8;
+      @apply border-l-2 border-bc pl-4;
     }
   }
 }

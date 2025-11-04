@@ -3,10 +3,7 @@
     <ParametersDescriptions></ParametersDescriptions>
     <div class="row">
       <div class="py-0 pb-8 text-fg">
-        <h1
-          class="mb-2 w-full text-center text-5xl sm:text-4xl"
-          v-if="model?.system"
-        >
+        <h1 class="mb-12 w-full text-center text-5xl" v-if="model?.system">
           {{ model.system.name || "(undefined)" }}
         </h1>
         <h2

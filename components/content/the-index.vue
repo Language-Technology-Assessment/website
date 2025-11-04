@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-auto mb-12 flex w-full items-start"
+    class="mx-auto mb-12 flex items-start"
     id="the-index"
     :class="{ 'ml-leftplus': props.hideFilters }"
   >
@@ -20,7 +20,8 @@
         {
           sticky: isvisible,
           '!max-w-[50rem] rounded-lg': props.hideFilters,
-          'rounded-lg lg:rounded-r-lg lg:border-l-0': !props.hideFilters,
+          'rounded-lg lg:rounded-l-none! lg:rounded-r-lg lg:border-l-0':
+            !props.hideFilters,
         },
       ]"
       ref="el"
@@ -29,7 +30,7 @@
       <ParametersDescriptions :descriptions="descriptions" :params="params" />
       <!-- metadata -->
       <div
-        class="left-0 z-10 mb-2 flex w-full items-center gap-4 rounded-lg bg-transparent py-0 text-[0.65rem] text-fg2 sm:mb-6"
+        class="left-0 z-10 mb-2 flex w-full items-center gap-4 bg-transparent py-0 text-[0.65rem] text-fg2 sm:mb-6"
       >
         <div class="flex-1"></div>
         <NuxtLink
