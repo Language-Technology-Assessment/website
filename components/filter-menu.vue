@@ -1,14 +1,19 @@
 <template>
   <div
-    class="fixed top-0 hidden transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)] xl:sticky xl:block"
-    :class="{}"
+    class="fixed top-0 left-0 z-[999] h-screen w-screen cursor-pointer bg-bg3/90"
+    v-if="open"
+    @click="open = false"
+  ></div>
+  <div
+    class="fixed top-0 left-0 hidden transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)] xl:sticky xl:block"
+    :class="{ 'fixed! top-0 z-[1000] block!': open }"
   >
     <!--  frame -->
     <div
-      class="relative top-0 right-0 z-[999] mx-auto h-screen w-96 max-w-full transform overflow-auto border border-bc border-r-bg3 bg-bg p-8 transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
+      class="relative top-0 right-0 z-[999] mx-auto h-screen w-96 max-w-screen transform overflow-auto border border-bc border-r-bg3 bg-bg p-8 transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
       @click.stop
       :class="{
-        'opacity-100': open,
+        'rounded-none opacity-100': open,
         '': !open,
         'rounded-l-lg': !small,
         'rounded-lg': small,
@@ -16,7 +21,7 @@
     >
       <!-- close button -->
       <button
-        class="fixed top-0 right-0 z-[2] m-4 bg-transparent text-2xl text-fg2 hover:text-link"
+        class="fixed top-0 right-0 z-[2] m-4 cursor-pointer bg-transparent text-2xl text-fg2 hover:text-link"
         @click="open = false"
         :class="{ hidden: !open }"
       >
@@ -24,11 +29,11 @@
       </button>
 
       <!-- toggle view -->
-      <section>
+      <section v-if="!small">
         <!-- <label class="filter-label">
           <span>Select view:</span>
         </label> -->
-        <div class="multibutton" v-if="!small">
+        <div class="multibutton">
           <button @click="setView('bars')" :data-active="view === 'bars'">
             <span>List</span>
             <Icon name="solar:list-outline"></Icon>
@@ -41,7 +46,7 @@
       </section>
 
       <!-- search box -->
-      <section class="mb-8">
+      <section class="mt-8 mb-8 sm:mt-0">
         <!-- <label class="filter-label">
           <span>Filter:</span>
         </label> -->
@@ -325,19 +330,16 @@ function setParamValue(paramref, val) {
 <style scoped>
 @reference "@/assets/css/tailwind.css";
 /* Custom styles for responsive multibutton layout */
-@media (max-width: 25rem) {
+@media (max-width: 20rem) {
   .multibutton {
-    flex-direction: column;
-  }
-  .multibutton {
+    @apply h-auto! flex-col;
     button {
-      border: 0 !important;
-      border-bottom: 1px solid var(--bg3) !important;
+      @apply border-0! border-b! border-bg;
+      &:last-child {
+        border: 0 !important;
+        border-bottom: 0 !important;
+      }
     }
-  }
-  .multibutton button:last-child {
-    border: 0 !important;
-    border-bottom: 0 !important;
   }
 }
 

@@ -20,7 +20,7 @@
         {
           sticky: isvisible,
           '!max-w-[50rem] rounded-lg': props.hideFilters,
-          'rounded-lg lg:rounded-l-none! lg:rounded-r-lg lg:border-l-0':
+          'rounded-lg xl:rounded-l-none! xl:rounded-r-lg xl:border-l-0':
             !props.hideFilters,
         },
       ]"
@@ -53,6 +53,14 @@
           ></Icon>
         </NuxtLink>
       </div>
+
+      <!-- filters button -->
+      <button
+        class="text-normal relative top-0 right-0 left-0 z-[2] mb-2 ml-4 block w-36 cursor-pointer rounded-full border-bc bg-bg2 px-4 py-1.5 text-fg2 hover:bg-bg3 hover:text-link sm:mb-8 sm:ml-12 lg:ml-8 xl:hidden"
+        @click="filterscreenOpen = true"
+      >
+        Show filters
+      </button>
 
       <!-- content -->
       <div class="flex-1">
