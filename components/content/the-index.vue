@@ -56,7 +56,7 @@
 
       <!-- filters button -->
       <button
-        class="text-normal relative top-0 right-0 left-0 z-[2] mb-2 ml-4 block w-36 cursor-pointer rounded-full border-bc bg-bg2 px-4 py-1.5 text-fg2 hover:bg-bg3 hover:text-link sm:mb-8 sm:ml-12 lg:ml-8 xl:hidden"
+        class="text-normal relative top-0 right-0 left-0 z-[2] mb-2 ml-4 block w-36 cursor-pointer rounded-full border-bc bg-bg2 px-4 py-1.5 text-fg hover:bg-bg3 hover:text-link sm:mb-8 sm:ml-12 lg:ml-8 xl:hidden"
         @click="filterscreenOpen = true"
       >
         Show filters

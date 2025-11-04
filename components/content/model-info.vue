@@ -23,6 +23,28 @@
           }"
           class="mx-auto mb-16"
         ></scorebar>
+        <div
+          v-if="Object.keys(modelsToGuide).includes(route.params.model)"
+          class="mb-8 text-center"
+        >
+          <div class="mb-4 text-sm text-fg2">
+            Find this model in our guide{{
+              modelsToGuide[route.params.model].length > 1 ? "s" : ""
+            }}:
+          </div>
+
+          <div
+            v-for="model in modelsToGuide[route.params.model]"
+            class="mb-2 block text-center"
+          >
+            <NuxtLink
+              :to="'/guides/' + model.slug"
+              class="mx-auto inline-block rounded-full bg-bg3 px-5 py-1.5 no-underline hover:bg-bg3 hover:text-link"
+            >
+              {{ model.title }}
+            </NuxtLink>
+          </div>
+        </div>
       </div>
       <ModelInfoFold
         :filename="route.params.model"
@@ -37,6 +59,7 @@
 <script lang="ts" setup>
 const { color } = useModels();
 const props = defineProps(["models", "categories"]);
+const { modelsToGuide } = useModelsToGuide();
 const models = computed(() => {
   return props.models;
 });

@@ -12,8 +12,8 @@
         >
           {{ data.title }}
         </h1>
-        <div class="text-fg2">by {{ data.author }}</div>
-        <div class="text-fg2">{{ useToDate(data.date) }}</div>
+        <div class="text-fg2" v-if="data.author">by {{ data.author }}</div>
+        <div class="text-fg2" v-if="data.date">{{ useToDate(data.date) }}</div>
       </div>
     </div>
     <GuidesSidebar v-if="$route.path.startsWith('/guides')" />

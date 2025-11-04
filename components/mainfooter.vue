@@ -4,7 +4,7 @@
     :class="{ 'opacity-100': loaded }"
   >
     <div class="row">
-      <div class="mx-auto ml-leftplus w-prose max-w-container-max text-left">
+      <div class="mx-auto w-prose max-w-container-max text-center">
         <ContentRenderer
           :value="page"
           v-if="page && status === 'success'"

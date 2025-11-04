@@ -204,6 +204,76 @@ export default defineNuxtConfig({
           : "osai-index.eu",
       );
     },
+    "build:before": async function () {
+      const results = {};
+      const models = await glob("./repos/data/*.yaml");
+
+      // Function to find models mentioned in guide files
+      const findModelsInGuides = async (modelName: string) => {
+        const guideFiles = await glob("./repos/website/pages/guides/**/*.md");
+        const mentioningGuides = [];
+
+        for (const guideFile of guideFiles) {
+          try {
+            const content = readFileSync(guideFile, "utf-8");
+            const lines = content.split("\n");
+
+            // Look for lines starting with "models:" and check if model is mentioned
+            for (let i = 0; i < lines.length; i++) {
+              if (typeof lines[i] !== "string") continue;
+              const line = lines[i].trim();
+              if (line.startsWith("models:")) {
+                // Check this line and subsequent lines for the model name
+                let j = i;
+                while (
+                  j < lines.length &&
+                  (j === i ||
+                    lines[j].startsWith(" ") ||
+                    lines[j].startsWith("-"))
+                ) {
+                  const asYaml = matter(content).data;
+                  if (
+                    lines[j].toLowerCase().includes(modelName.toLowerCase()) &&
+                    asYaml?.status === "published"
+                  ) {
+                    mentioningGuides.push({
+                      slug: parse(guideFile).name,
+                      title: asYaml.title,
+                      date: asYaml.date,
+                      author: asYaml.author,
+                    });
+                    break;
+                  }
+                  j++;
+                }
+              }
+            }
+          } catch (error) {
+            console.warn(`Error reading guide file ${guideFile}:`, error);
+          }
+        }
+
+        return mentioningGuides;
+      };
+
+      for (let i in models) {
+        const model = models[i];
+        if (!model) continue;
+        const filename = parse(model).name;
+
+        // Find which guides mention this model
+        const mentioningGuides = await findModelsInGuides(filename);
+        if (mentioningGuides.length > 0) {
+          results[filename] = mentioningGuides;
+        }
+      }
+
+      // Log the complete results
+      fs.writeFileSync(
+        "./repos/models-in-guides.json",
+        JSON.stringify(results, null, 2),
+      );
+    },
   },
   vite: {
     css: {},
