@@ -24,7 +24,7 @@
       </button>
 
       <!-- toggle view -->
-      <Section>
+      <section>
         <!-- <label class="filter-label">
           <span>Select view:</span>
         </label> -->
@@ -38,10 +38,10 @@
             <Icon name="mingcute:dot-grid-fill"></Icon>
           </button>
         </div>
-      </Section>
+      </section>
 
       <!-- search box -->
-      <Section class="mb-8">
+      <section class="mb-8">
         <!-- <label class="filter-label">
           <span>Filter:</span>
         </label> -->
@@ -57,10 +57,10 @@
             placeholder="Search..."
           />
         </div>
-      </Section>
+      </section>
 
       <!-- model type -->
-      <Section>
+      <section>
         <label class="filter-label">
           <span>Model type:</span>
           <button
@@ -80,10 +80,10 @@
             {{ type }}
           </button>
         </div>
-      </Section>
+      </section>
 
       <!-- performance class -->
-      <Section>
+      <section>
         <label class="filter-label">
           <span>Performance class:</span>
           <button
@@ -114,10 +114,10 @@
             Latest
           </button>
         </div>
-      </Section>
+      </section>
 
       <!-- filter by base model name -->
-      <Section>
+      <section>
         <label class="filter-label">
           <span class="flex-1">Filter by base model name:</span>
           <button @click="basemodel = ''" class="clear-button" v-if="basemodel">
@@ -134,10 +134,10 @@
             placeholder="Base model name..."
           />
         </div>
-      </Section>
+      </section>
 
       <!-- filter by year -->
-      <Section>
+      <section>
         <label class="filter-label">
           <span class="flex-1">Filter by release date:</span>
           <button
@@ -149,10 +149,10 @@
           </button>
         </label>
         <release-date-selector v-model="filters"></release-date-selector>
-      </Section>
+      </section>
 
       <!-- params group -->
-      <Section class="mb-8 flex-1" v-for="cat in props.categories">
+      <section class="mb-8 flex-1" v-for="cat in props.categories">
         <label class="filter-label">
           <span>{{ cat.name }}</span>
         </label>
@@ -193,7 +193,7 @@
             ></div>
           </div>
         </div>
-      </Section>
+      </section>
     </div>
   </div>
 </template>
