@@ -33,7 +33,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { QueryBuilderParams } from "@nuxt/content/dist/runtime/types";
 const props = defineProps(["perpage"]);
 const limit = ref(10);
 // const limit = ref(props.perpage || 3);
@@ -41,11 +40,10 @@ const perpage = computed(() => {
   return 10;
 });
 
-const { data, status } = await useAsyncData("guides", () =>
-  queryCollectionNavigation("guides", ["date", "description", "author"]).order(
-    "date",
-    "DESC",
-  ),
+const { data, status } = await useAsyncData("guides-landing", () =>
+  queryCollectionNavigation("guides", ["date", "description", "author"])
+    .where("status", "=", "published")
+    .order("date", "DESC"),
 );
 
 const visibleData = computed(() => {
@@ -53,9 +51,9 @@ const visibleData = computed(() => {
 });
 
 function showMore() {
-  limit.value = limit.value + perpage.value;
-  if (limit.value > data.value.length) {
-    limit.value = data.value.length;
-  }
+  // limit.value = limit.value + perpage.value;
+  // if (limit.value > data.value.length) {
+  //   limit.value = data.value.length;
+  // }
 }
 </script>

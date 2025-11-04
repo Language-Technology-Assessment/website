@@ -25,6 +25,7 @@
     "better-sqlite3": "^12.4.1",
     "dot-prop": "^9.0.0",
     "fast-glob": "^3.3.3",
+    "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
     "lodash-es": "^4.17.21",
     "nuxt": "^4.1.2",

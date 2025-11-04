@@ -5,6 +5,8 @@ import svgLoader from "vite-svg-loader";
 import fs from "fs";
 import { join, resolve, basename, dirname, parse } from "node:path";
 import glob from "fast-glob";
+import { readFileSync } from "fs";
+import matter from "gray-matter";
 
 const BASE = process.env.NUXT_APP_BASE_URL || "/";
 const ISPREVIEW = process.env.NUXT_SITE_ENV === "preview";
@@ -104,21 +106,48 @@ export default defineNuxtConfig({
         let dir = basename(dirname(x));
         let p = parse(x);
         let fromroot = x.split("pages")[1];
-        if (dir !== "guides" && dir !== "news") {
-          const name = fromroot.replace(/\.md$/, "");
+        if (dir !== "guides" && dir !== "news" && fromroot) {
           if (p.name === "index") {
             urls.push(parse(fromroot).dir);
           } else {
             urls.push(fromroot.replace(/\.md$/, ""));
           }
         }
-        if (dir === "guides") {
-          urls.push(`/guides/${p.name}`);
-        }
-        if (dir === "news") {
-          urls.push(`/news/${p.name}`);
-        }
       });
+      // Helper function to parse frontmatter and check status
+      const parseFileAndCheckStatus = (filePath: string) => {
+        try {
+          const content = readFileSync(filePath, "utf-8");
+          const { data } = matter(content);
+          return data.status === "published";
+        } catch (error) {
+          console.warn(`Error parsing ${filePath}:`, error);
+          return false;
+        }
+      };
+
+      // news+guides - only include published articles
+      const newsPages = await glob("./repos/website/pages/news/**/*.md");
+      const guidePages = await glob("./repos/website/pages/guides/**/*.md");
+
+      // Add news routes (only published)
+      for (const file of newsPages) {
+        const isPublished = parseFileAndCheckStatus(file);
+        if (isPublished) {
+          const filename = parse(file).name;
+          urls.push(`/news/${filename}`);
+        }
+      }
+
+      // Add guides routes (only published)
+      for (const file of guidePages) {
+        const isPublished = parseFileAndCheckStatus(file);
+        if (isPublished) {
+          const filename = parse(file).name;
+          urls.push(`/guides/${filename}`);
+        }
+      }
+      // models
       const models = await glob("./repos/data/*.yaml");
       models.map((file) => {
         let name = basename(file);
@@ -147,7 +176,7 @@ export default defineNuxtConfig({
         ) {
           const filename = name.replace(".yaml", "");
           // extendPages
-          nitroConfig.prerender.routes?.push(
+          nitroConfig.prerender?.routes?.push(
             `/model/${filename.toLowerCase()}`,
           );
         }
@@ -157,13 +186,13 @@ export default defineNuxtConfig({
       // Add news routes
       newsPages.map((file) => {
         const filename = parse(file).name;
-        nitroConfig.prerender.routes?.push(`/news/${filename}`);
+        nitroConfig.prerender?.routes?.push(`/news/${filename}`);
       });
 
       // Add guides routes
       guidePages.map((file) => {
         const filename = parse(file).name;
-        nitroConfig.prerender.routes?.push(`/guides/${filename}`);
+        nitroConfig.prerender?.routes?.push(`/guides/${filename}`);
       });
     },
     "nitro:build:public-assets": async (nitro) => {
