@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2 w-full min-w-0 grow rounded bg-bg pt-4 pb-8">
+  <div class="mb-2 w-200 max-w-full min-w-0 grow rounded bg-bg pt-4 pb-8">
     <div
       class="relative mb-8 flex flex-col items-center gap-1 rounded px-4 pt-8 pb-4 text-base leading-relaxed"
     >
@@ -18,7 +18,7 @@
     </div>
     <div class="params w-full min-w-0">
       <div
-        class="mb-0 flex w-full min-w-0 gap-3 px-6 py-4 pr-4"
+        class="mb-0 flex w-full min-w-0 gap-3 px-3 py-4 pr-4 xl:px-6"
         v-for="param in category.params.filter((x: any) =>
           x.types.some((item: string) =>
             model.system.type
@@ -29,7 +29,7 @@
         )"
       >
         <!-- param score icon -->
-        <div class="w-8 shrink-0 grow-0 pl-0 text-center">
+        <div class="w-5 shrink-0 grow-0 pl-0 text-center xl:w-8">
           <div
             class="mt-0.5 h-5 w-5 shrink-0 [&>svg]:block [&>svg]:h-full [&>svg]:w-full"
             v-if="model[param.ref]?.class === 'open'"
