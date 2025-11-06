@@ -50,6 +50,7 @@ export default defineNuxtModule({
       // check if github options are defined
       // console.log(JSON.stringify(moduleOptions, null, " "));
       // if (!('githuboptions' in nuxt.options) || !nuxt.options.githuboptions || !Array.isArray(nuxt.options.githuboptions)) return
+      console.log("github module build:before starts...");
       if (
         !("repositories" in moduleOptions) ||
         !Array.isArray(moduleOptions.repositories)
@@ -57,9 +58,13 @@ export default defineNuxtModule({
         return;
       }
       // check if .env githubtoken exists
-      if (!process.env.githubtoken) return;
+      if (!process.env.githubtoken) {
+        console.log("github token not found");
+        return;
+      }
       // loop through repositories
       for (let i in moduleOptions.repositories) {
+        console.log("get repo ", moduleOptions.repositories[i]);
         await getRepo(moduleOptions.repositories[i]);
       }
     });
