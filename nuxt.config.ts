@@ -285,6 +285,12 @@ export default defineNuxtConfig({
         }
       }
 
+      try {
+        fs.mkdirSync("./repos");
+      } catch (err) {
+        console.warn(err);
+        throw Error(`Could not create repos directoy.`);
+      }
       // Log the complete results
       fs.writeFileSync(
         "./repos/models-in-guides.json",
