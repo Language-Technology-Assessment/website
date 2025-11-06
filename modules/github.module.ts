@@ -89,15 +89,17 @@ async function getRepo({
   const infoPath = resolve(dir, ".info.json");
 
   // define GITHUBMODULE=true in local dev .env, otherwise using github action to include all repos
-  if (!process.env.GITHUBMODULE) {
-    if (!fs.existsSync(infoPath)) {
-      // add info to .info.json
-      const octokit = new Octokit({ auth: githubtoken });
-      const info = await octokit.rest.repos.getCommit({ owner, repo });
-      writeInfo({ owner, repo, infoPath, info });
-    }
-    return;
-  }
+
+  // disabled for statichost.eu
+  // if (!process.env.GITHUBMODULE) {
+  //   if (!fs.existsSync(infoPath)) {
+  //     // add info to .info.json
+  //     const octokit = new Octokit({ auth: githubtoken });
+  //     const info = await octokit.rest.repos.getCommit({ owner, repo });
+  //     writeInfo({ owner, repo, infoPath, info });
+  //   }
+  //   return;
+  // }
 
   const octokit = new Octokit({ auth: githubtoken });
 
