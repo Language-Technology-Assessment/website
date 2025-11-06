@@ -12,8 +12,8 @@
         >
           {{ data.title }}
         </h1>
-        <div class="text-fg2">by {{ data.author }}</div>
-        <div class="text-fg2">{{ useToDate(data.date) }}</div>
+        <div class="mb-1 text-xs text-fg2">by {{ data.author }}</div>
+        <div class="text-xs text-fg2">{{ useToDate(data.date) }}</div>
       </div>
     </div>
     <NewsSidebar v-if="$route.path.startsWith('/news')" />

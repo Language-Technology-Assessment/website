@@ -205,7 +205,15 @@ export default defineNuxtConfig({
       );
     },
     "build:before": async function () {
-      const results = {};
+      const results: Record<
+        string,
+        Array<{
+          slug: string;
+          title?: string;
+          date?: string;
+          author?: string;
+        }>
+      > = {};
       const models = await glob("./repos/data/*.yaml");
 
       // Function to find models mentioned in guide files
@@ -220,20 +228,29 @@ export default defineNuxtConfig({
 
             // Look for lines starting with "models:" and check if model is mentioned
             for (let i = 0; i < lines.length; i++) {
-              if (typeof lines[i] !== "string") continue;
-              const line = lines[i].trim();
+              const currentLine = lines[i];
+              if (typeof currentLine !== "string") continue;
+              const line = currentLine.trim();
               if (line.startsWith("models:")) {
                 // Check this line and subsequent lines for the model name
                 let j = i;
-                while (
-                  j < lines.length &&
-                  (j === i ||
-                    lines[j].startsWith(" ") ||
-                    lines[j].startsWith("-"))
-                ) {
+                while (j < lines.length) {
+                  const currentLineAtJ = lines[j];
+                  if (!currentLineAtJ) break;
+
+                  if (
+                    j !== i &&
+                    !currentLineAtJ.startsWith(" ") &&
+                    !currentLineAtJ.startsWith("-")
+                  ) {
+                    break;
+                  }
+
                   const asYaml = matter(content).data;
                   if (
-                    lines[j].toLowerCase().includes(modelName.toLowerCase()) &&
+                    currentLineAtJ
+                      .toLowerCase()
+                      .includes(modelName.toLowerCase()) &&
                     asYaml?.status === "published"
                   ) {
                     mentioningGuides.push({

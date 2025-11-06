@@ -8,12 +8,16 @@
       <div class="left-side"></div>
       <div class="right-side grow">
         <h1
-          class="mb-8 w-prose max-w-container-max font-display text-4xl font-light"
+          class="mb-8 w-prose max-w-container-max font-display text-4xl font-light xl:text-5xl"
         >
           {{ data.title }}
         </h1>
-        <div class="text-fg2" v-if="data.author">by {{ data.author }}</div>
-        <div class="text-fg2" v-if="data.date">{{ useToDate(data.date) }}</div>
+        <div class="mb-1 text-sm text-fg2" v-if="data.author">
+          by {{ data.author }}
+        </div>
+        <div class="text-sm text-fg2" v-if="data.date">
+          {{ useToDate(data.date) }}
+        </div>
       </div>
     </div>
     <GuidesSidebar v-if="$route.path.startsWith('/guides')" />

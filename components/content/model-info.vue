@@ -24,19 +24,21 @@
           class="mx-auto mb-16"
         ></scorebar>
         <div
-          v-if="Object.keys(modelsToGuide).includes(route.params.model)"
+          v-if="
+            Object.keys(modelsToGuide).includes(String(route?.params?.model))
+          "
           class="mx-auto mb-8 max-w-full rounded-xl py-0 text-center"
         >
           <div class="mb-6 text-xs font-semibold text-fg2">
             Find this model in our guide{{
-              modelsToGuide[route.params.model].length > 1 ? "s" : ""
+              modelsToGuide[String(route?.params?.model)].length > 1 ? "s" : ""
             }}:
           </div>
           <div class="flex flex-wrap items-start justify-center gap-4">
             <NuxtLink
               :to="'/guides/' + model.slug"
               class="inline-block w-80 max-w-full rounded-lg border border-bc px-5 py-8 no-underline hover:bg-bg hover:text-link"
-              v-for="model in modelsToGuide[route.params.model]"
+              v-for="model in modelsToGuide[String(route?.params?.model)]"
             >
               <div class="mb-1 text-lg leading-6">{{ model.title }}</div>
               <div class="mb-1 text-xs text-fg2" v-if="model.author">
