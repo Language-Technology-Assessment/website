@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup>
+import dataRaw from "~/repos/website/data.json?raw";
 import { getProperty } from "dot-prop";
 const route = useRoute();
 
@@ -15,9 +16,7 @@ const interpolate = (template, data) => {
   );
 };
 
-const { data: SEO } = useAsyncData("seo", () => {
-  return import("@/repos/website/SEO.yml").then((module) => module.default);
-});
+const SEO = ref(JSON.parse(dataRaw));
 
 const { categories, models } = useModels(String(route.query?.version));
 definePageMeta({
