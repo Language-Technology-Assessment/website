@@ -288,8 +288,7 @@ export default defineNuxtConfig({
       try {
         fs.mkdirSync("./repos");
       } catch (err) {
-        console.warn(err);
-        throw Error(`Could not create repos directoy.`);
+        console.warn("fine");
       }
       // Log the complete results
       fs.writeFileSync(
