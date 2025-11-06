@@ -58,7 +58,7 @@ export default defineNuxtModule({
         return;
       }
       // check if .env githubtoken exists
-      if (!process.env.githubtoken) {
+      if (!process.env.githubtoken && !process.env.GITHUBTOKEN) {
         console.log("github token not found");
         return;
       }
@@ -88,7 +88,7 @@ async function getRepo({
     return;
   }
 
-  const githubtoken = process.env.githubtoken;
+  const githubtoken = process.env.githubtoken || process.env.GITHUBTOKEN;
   const rootdir = resolve(__dirname, "../repos");
   const dir = resolve(rootdir, name);
   const infoPath = resolve(dir, ".info.json");
