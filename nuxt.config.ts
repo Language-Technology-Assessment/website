@@ -13,7 +13,7 @@ const ISPREVIEW = process.env.NUXT_SITE_ENV === "preview";
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   pages: true,
   css: ["@/assets/css/tailwind.css"],
   app: {
@@ -84,9 +84,9 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxt/icon",
     "@nuxt/image",
-    "@nuxtjs/critters",
-    // "@nuxtjs/i18n",
+    "@nuxtjs/critters", // "@nuxtjs/i18n",
     "@pinia/nuxt",
+    "@nuxtjs/mdc",
   ],
   image: {
     // dir: resolve(__dirname, "repos/website/"),
@@ -295,6 +295,19 @@ export default defineNuxtConfig({
         "./repos/models-in-guides.json",
         JSON.stringify(results, null, 2),
       );
+
+      const modelcount = models.length;
+      fs.writeFileSync(
+        "./repos/modelcount.json",
+        JSON.stringify({ modelcount }, null, 2),
+      );
+    },
+  },
+  mdc: {
+    components: {
+      map: {
+        a: "a",
+      },
     },
   },
   vite: {

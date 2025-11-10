@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="mx-auto mb-12 flex items-start"
-    id="the-index"
-    :class="{ 'ml-leftplus': props.hideFilters }"
-  >
+  <div class="the-index mx-auto mb-12 flex items-start" id="the-index">
     <!-- filter menu -->
     <FilterMenu
       v-model:open="filterscreenOpen"
@@ -15,7 +11,7 @@
       v-if="!props.hideFilters"
     />
     <div
-      class="relative w-full max-w-full grow items-start gap-16 overflow-hidden border border-bc bg-bg px-0 py-0"
+      class="relative mx-auto w-full max-w-full grow items-start gap-16 overflow-visible border border-bc bg-bg px-0 py-0"
       :class="[
         {
           sticky: isvisible,

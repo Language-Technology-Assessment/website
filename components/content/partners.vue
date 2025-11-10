@@ -1,27 +1,19 @@
 <template>
   <section class="partners" id="partners">
-    <div class="split-layout">
-      <div class="left-side">
-        <div class="label">Partners</div>
-      </div>
-      <div class="logo-blocks" v-if="list?.items">
-        <NuxtLink
-          :to="item.url"
-          v-for="item in list.items"
-          :title="item.title"
-          target="_blank"
-          class="logo-block flex"
-          v-visible
-        >
-          <div class="image">
-            <NuxtImg
-              :src="item.image"
-              sizes="300px"
-              :alt="item.title"
-            ></NuxtImg>
-          </div>
-        </NuxtLink>
-      </div>
+    <div class="label">Partners</div>
+    <div class="logo-blocks" v-if="list?.items">
+      <NuxtLink
+        :to="item.url"
+        v-for="item in list.items"
+        :title="item.title"
+        target="_blank"
+        class="logo-block flex"
+        v-visible
+      >
+        <div class="image">
+          <NuxtImg :src="item.image" sizes="300px" :alt="item.title"></NuxtImg>
+        </div>
+      </NuxtLink>
     </div>
   </section>
 </template>

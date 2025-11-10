@@ -1,83 +1,92 @@
 <template>
-  <div
-    class="landing relative mt-0 mb-4 flex max-h-none min-h-[60vh] justify-center overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:mb-[calc(100vh-45rem)] lg:h-auto lg:min-h-[45vh] portrait:max-h-[46rem]"
-    :class="{ 'opacity-0': !isVisible, 'opacity-100': isVisible }"
-    ref="mainelement"
-  >
-    <!-- <div
-      class="fixed bottom-8 left-0 z-20 hidden transition-all duration-300 lg:block"
-    >
-      <div class="row">
-        <NuxtLink
-          :to="`#${item.id}`"
-          class="mb-3 block cursor-pointer text-xs font-semibold tracking-wider text-fg2 no-underline hover:text-link"
-          v-for="item in submenu"
-        >
-          {{ item.text }}
-        </NuxtLink>
-        <Icon name="mdi:chevron-down" class="-ml-0.5 text-sm text-fg2" />
-      </div>
-    </div> -->
+  <div>
     <div
-      class="fixed top-0 right-0 bottom-0 left-0 overflow-visible"
-      :style="{
-        transform: `translateY(${y / -2}px)`,
-        opacity: clamp(1 - y / height, 0.3, 1),
-      }"
-    >
-      <img
-        src="/sphere2.svg"
-        class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out lg:top-[60vh] lg:scale-100"
-        :class="{ 'translate-y-50 opacity-0': !isVisible }"
-      />
-    </div>
-
-    <!-- text -->
-    <div
-      class="relative z-0 flex w-full items-start overflow-visible portrait:pb-8 portrait:max-[30rem]:pb-4 starting:translate-y-40 starting:opacity-0"
-      :style="{
-        transform: `translateY(${y / 2}px)`,
-        opacity: clamp(1 - (y * 2) / height, 0.1, 1),
-      }"
+      class="landing mt-0 mb-4 max-h-none min-h-[60vh] overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:h-auto lg:min-h-[calc(80vh-14rem)] portrait:max-h-[46rem]"
+      :class="{ 'opacity-0': !isVisible, 'opacity-100': isVisible }"
+      ref="mainelement"
     >
       <div
-        class="split-layout"
-        :style="{ opacity: 1 - (y * 2) / height + '!important' }"
+        class="pointer-events-none fixed top-0 right-0 bottom-0 left-0 overflow-visible"
+        :style="{
+          transform: `translateY(${y / -2}px)`,
+          opacity: clamp(1 - y / height, 0.3, 1),
+        }"
       >
-        <div class="left-side"></div>
-        <div class="">
+        <img
+          src="/sphere2.svg"
+          class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out lg:top-[60vh] lg:scale-100"
+          :class="{ 'translate-y-50 scale-0! opacity-0': !isVisible }"
+        />
+      </div>
+
+      <!-- text -->
+      <div
+        class="items-between relative z-0 flex w-full overflow-visible portrait:pb-8 portrait:max-[30rem]:pb-4 starting:translate-y-40 starting:opacity-0"
+        :style="{
+          transform: `translateY(${y / 2}px)`,
+          opacity: clamp(1 - (y * 2) / height, 0.1, 1),
+        }"
+      >
+        <div
+          class="items-between mx-auto flex flex-col justify-between text-center"
+          :style="{ opacity: 1 - (y * 2) / height + '!important' }"
+        >
           <div
             class="slot mb-2 max-w-[24em] font-[InterDisplay] text-4xl sm:mb-8 [&>p]:leading-[1.2]"
           >
-            <slot></slot>
-          </div>
-          <ActionButton
-            link="/about"
-            class="block transition-opacity delay-1000 duration-1000 starting:opacity-0"
-            v-if="isVisible"
-          >
-            Read more ->
-          </ActionButton>
-          <div
-            class="notesframe right-0 z-[4] max-w-80 pt-8 text-xs delay-2000 duration-1000 sm:pt-8 starting:!opacity-0"
-            :style="{ opacity: 1 - (y / height) * 2 }"
-            v-if="isVisible"
-          >
-            <div
-              class="notes leading-4 opacity-50 transition-opacity duration-1000 hover:opacity-100 [&>p]:leading-[1.4]"
-            >
-              <slot name="notes"></slot>
+            <Appear :text="props.title" v-if="props.title"></Appear>
+            <div>
+              <ActionButton
+                v-for="item in props.links"
+                :link="item.link"
+                class="block transition-opacity delay-1000 duration-1000 starting:opacity-0"
+                v-if="isVisible"
+              >
+                {{ item.text }} ->
+              </ActionButton>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="pb-4">
+    <div
+      class="notesframe right-0 z-[4] mx-auto w-full max-w-full pt-4 text-center text-tiny delay-1000 duration-1000 sm:pt-4 starting:!opacity-0"
+      :style="{ opacity: 1 - (y / height) * 2 }"
+      v-if="isVisible"
+    >
+      <div
+        class="notes transition-colros hover:text-f leading-4 text-fg2 duration-300 [&>p]:leading-[1.4]"
+      >
+        <MDC :value="props.notes" v-if="props.notes" />
+      </div>
+    </div>
+  </div>
+  <!-- <div
+    class="sticky top-12 left-0 z-20 hidden transition-all duration-300 lg:block up:top-28"
+  >
+    <div class="">
+      <NuxtLink
+        :to="`#${item.id}`"
+        class="mb-3 block cursor-pointer text-xs font-semibold tracking-wider text-fg2 no-underline hover:text-link"
+        v-for="item in submenu"
+      >
+        {{ item.text }}
+      </NuxtLink>
+      <Icon name="mdi:chevron-down" class="-ml-0.5 text-sm text-fg2" />
+    </div>
+  </div> -->
 </template>
 
 <script lang="ts" setup>
 import { useWindowScroll, useWindowSize, clamp } from "@vueuse/core";
 const slots = useSlots();
+const props = defineProps({
+  title: String,
+  links: Array<{ text: string; link: string }>,
+  notes: String,
+});
 const mainelement = ref(null);
 const { y } = useWindowScroll();
 const { height } = useWindowSize();

@@ -10,7 +10,7 @@
   >
     <!--  frame -->
     <div
-      class="relative top-0 right-0 z-[999] mx-auto h-screen w-96 max-w-screen transform overflow-auto border border-bc border-r-bg3 bg-bg p-8 transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
+      class="relative top-0 right-0 z-[999] mx-auto h-screen w-96 max-w-screen transform overflow-auto border border-bc border-r-bg3 bg-bg p-8 transition-opacity duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
       @click.stop
       :class="{
         'rounded-none opacity-100': open,
@@ -29,7 +29,7 @@
       </button>
 
       <!-- toggle view -->
-      <section v-if="!small">
+      <div class="filtersection" v-if="!small">
         <!-- <label class="filter-label">
           <span>Select view:</span>
         </label> -->
@@ -43,10 +43,10 @@
             <Icon name="mingcute:dot-grid-fill"></Icon>
           </button>
         </div>
-      </section>
+      </div>
 
       <!-- search box -->
-      <section class="mt-8 mb-8 sm:mt-0">
+      <div class="filtersection mt-8 mb-8 sm:mt-0">
         <!-- <label class="filter-label">
           <span>Filter:</span>
         </label> -->
@@ -62,10 +62,10 @@
             placeholder="Search..."
           />
         </div>
-      </section>
+      </div>
 
       <!-- model type -->
-      <section>
+      <div class="filtersection">
         <label class="filter-label">
           <span>Model type:</span>
           <button
@@ -85,10 +85,10 @@
             {{ type }}
           </button>
         </div>
-      </section>
+      </div>
 
       <!-- performance class -->
-      <section>
+      <div class="filtersection">
         <label class="filter-label">
           <span>Performance class:</span>
           <button
@@ -119,10 +119,10 @@
             Latest
           </button>
         </div>
-      </section>
+      </div>
 
       <!-- filter by base model name -->
-      <section>
+      <div class="filtersection">
         <label class="filter-label">
           <span class="flex-1">Filter by base model name:</span>
           <button @click="basemodel = ''" class="clear-button" v-if="basemodel">
@@ -139,10 +139,10 @@
             placeholder="Base model name..."
           />
         </div>
-      </section>
+      </div>
 
       <!-- filter by year -->
-      <section>
+      <div class="filtersection">
         <label class="filter-label">
           <span class="flex-1">Filter by release date:</span>
           <button
@@ -154,10 +154,10 @@
           </button>
         </label>
         <release-date-selector v-model="filters"></release-date-selector>
-      </section>
+      </div>
 
       <!-- params group -->
-      <section class="mb-8 flex-1" v-for="cat in props.categories">
+      <div class="filtersection flex-1" v-for="cat in props.categories">
         <label class="filter-label">
           <span>{{ cat.name }}</span>
         </label>
@@ -198,7 +198,7 @@
             ></div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   </div>
 </template>
@@ -343,7 +343,7 @@ function setParamValue(paramref, val) {
   }
 }
 
-Section {
+.filtersection {
   @apply mb-4 py-1;
 }
 

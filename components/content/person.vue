@@ -1,6 +1,6 @@
 <template>
   <div
-    class="person relative my-8 flex max-w-[var(--maxwidth)] min-w-0 gap-8 text-sm"
+    class="person relative mx-auto my-8 flex w-prose max-w-container-max min-w-0 gap-8 text-sm"
   >
     <div
       class="flex min-w-0 shrink-0 cursor-pointer flex-col items-center"

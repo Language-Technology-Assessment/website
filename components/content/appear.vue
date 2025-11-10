@@ -1,5 +1,5 @@
 <template>
-  <h1 ref="target" style="filter: url(#textedit)">
+  <h1 ref="target" class="mx-auto font-display" style="filter: url(#textedit)">
     <span
       v-for="(word, index) in words"
       :key="index"
@@ -60,6 +60,7 @@ const { stop } = useIntersectionObserver(
 h1 > span {
   @apply relative inline-block;
   clip-path: inset(0 100% 0 0);
+  transform-origin: center;
   opacity: 0;
   transition:
     clip-path 0.1s cubic-bezier(0.4, 0, 0.2, 1),

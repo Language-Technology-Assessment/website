@@ -103,7 +103,7 @@
   /* Scrollbar styling for all elements */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--bg3) var(--bg2);
+    scrollbar-color: var(--color-bg3) var(--color-bg2);
   }
 
   *::-webkit-scrollbar {
@@ -112,21 +112,21 @@
   }
 
   *::-webkit-scrollbar-track {
-    background: var(--bg2);
+    background: var(--color-bg2);
     border-radius: 4px;
   }
 
   *::-webkit-scrollbar-thumb {
-    background: var(--bg3);
+    background: var(--color-bg3);
     border-radius: 4px;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: var(--fg2);
+    background: var(--color-fg2);
   }
 
   *::-webkit-scrollbar-corner {
-    background: var(--bg2);
+    background: var(--color-bg2);
   }
 }
 
@@ -138,11 +138,19 @@
   @apply mx-auto w-[var(--width)] max-w-[var(--maxwidth)] px-0;
 }
 
+section {
+  @apply mx-auto w-[var(--width)] max-w-full border-t border-bc pt-2;
+  > .label {
+    @apply mb-24 font-semibold;
+  }
+}
+
 .split-layout {
-  @apply w-full xl:flex xl:items-start xl:gap-24;
+  /*@apply w-full xl:flex xl:items-start xl:gap-24;*/
 }
 .left-side {
-  @apply mb-4 w-left shrink-0 overflow-hidden xl:mb-0;
+  /*@apply mb-4 w-left shrink-0 overflow-hidden xl:mb-0;*/
+  @apply mb-12 text-center;
 }
 
 .label {
@@ -159,7 +167,7 @@
 .logo-block {
   @apply relative rounded-md border border-fg/5;
   img {
-    @apply aspect-2/1 w-full border-[1.5rem] border-transparent object-contain object-center opacity-50 lg:border-[1rem] xl:border-[1rem];
+    @apply aspect-2/1 w-full border-[1.5rem] border-transparent object-contain object-center opacity-50 lg:border-[2rem] xl:border-[2.5rem];
     .dark & {
       filter: invert() saturate(0.3);
     }
@@ -194,20 +202,20 @@
     /* @apply mt-[12rem]; */
   }
   p {
-    @apply mb-4 w-full max-w-full sm:w-[30em];
+    @apply mx-auto mb-4 w-full max-w-full sm:w-[30em];
     + #the-index {
       @apply mt-12;
     }
   }
   > p {
-    @apply mr-auto mb-4 ml-leftplus w-prose max-w-full leading-[1.6] sm:max-w-container-max;
+    @apply mx-auto mb-4 w-prose max-w-full leading-[1.6] sm:max-w-container-max;
     + .bars {
       margin-top: 4rem;
     }
   }
 
   h1 {
-    @apply mt-4 mb-12 max-w-container-max text-3xl leading-9 font-light sm:text-4xl sm:leading-11;
+    @apply mt-4 mb-12 max-w-container-max text-center text-3xl leading-9 font-light sm:text-4xl sm:leading-11;
   }
 
   > h1 {
@@ -215,7 +223,7 @@
   }
 
   h2 {
-    @apply mt-24 mb-4 ml-leftplus w-prose max-w-container-max text-left text-2xl leading-[1.2] font-normal;
+    @apply mx-auto mt-32 mb-12 w-prose max-w-container-max text-center text-2xl leading-[1.2] font-normal;
     a {
       @apply no-underline;
     }
@@ -224,7 +232,7 @@
   h4,
   h5,
   h6 {
-    @apply mt-16 mb-4 ml-leftplus w-prose max-w-container-max text-left text-lg leading-[1.2] font-semibold;
+    @apply mx-auto mt-16 mb-4 w-prose max-w-container-max text-left text-lg leading-[1.2] font-semibold;
     a {
       @apply no-underline;
     }
@@ -241,7 +249,7 @@
   }
   ul,
   ol {
-    @apply mb-4 ml-leftplus w-prose max-w-container-max;
+    @apply mx-auto mb-4 w-prose max-w-container-max;
     li {
       @apply mb-4;
     }

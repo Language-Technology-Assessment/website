@@ -1,29 +1,31 @@
 <template>
-  <section class="split-layout news z-3" id="news">
-    <div class="left-side label">News</div>
+  <section class="news z-3" id="latest-news">
+    <div class="label">Latest news</div>
     <div
-      class="grid grid-cols-1 gap-8 overflow-auto pb-8 sm:grid-cols-2 lg:grid-cols-3"
+      class="grid justify-start gap-4 overflow-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 xl:grid-cols-4"
       v-visiblecontainer
       v-if="visibleData && status === 'success'"
     >
       <NuxtLink
-        class="group/card y-top mr-8 mb-8 w-full flex-col border-l border-bc px-4 py-0 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100 sm:aspect-4/3 sm:w-64"
+        class="group/card y-top mb-8 w-full flex-col px-0 py-0 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100"
         :to="'/news' + item.path"
         v-for="item in visibleData"
         :key="item.path"
         v-visible
       >
-        <div class="title mb-2 text-xl leading-6">{{ item.title }}</div>
-        <div class="title mb-4 text-xs leading-5 text-fg2">
-          {{ item.description }}
-        </div>
-        <div class="label-date">
+        <div class="label-date mb-3 group-hover/card:text-link/50!">
           {{ useToDate(item.date) }}
         </div>
+        <div class="title mb-2 text-xl leading-6">{{ item.title }}</div>
+        <div
+          class="title mb-4 text-xs leading-5 text-fg2 group-hover/card:text-link/50"
+        >
+          {{ item.description }}
+        </div>
       </NuxtLink>
-      <div>
-        <ActionButton link="/news">Read all news -></ActionButton>
-      </div>
+    </div>
+    <div class="row mx-auto text-center">
+      <ActionButton link="/news">Read all news -></ActionButton>
     </div>
   </section>
 </template>

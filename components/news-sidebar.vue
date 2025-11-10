@@ -1,11 +1,11 @@
 <template>
   <div class="row split-layout hidden h-0 xl:block">
-    <div class="left-side sticky top-0">
+    <div class="left-side sticky top-0 text-left">
       <div class="mb-8">
         <div class="label mb-2 text-sm leading-5 text-fg2">Latest News:</div>
       </div>
       <NuxtLink
-        class="group/card y-top mr-8 mb-2 block w-[16rem] flex-col border-t border-bc px-0 py-2 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 data-visible:opacity-100"
+        class="group/card y-top mr-8 mb-2 block w-[16rem] flex-col border-t border-bc px-0 py-2 text-left align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 data-visible:opacity-100"
         :to="'/news' + item.path"
         v-for="item in data"
         :key="item.path"
