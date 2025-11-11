@@ -4,21 +4,14 @@
     ref="element"
     :class="{ loaded, finalpath: status !== 'pending' }"
   >
-    <div class="row split-layout mb-24">
-      <div class="left-side"></div>
-      <div class="right-side grow">
-        <h1
-          class="mb-8 w-prose max-w-container-max font-display text-4xl font-light xl:text-5xl"
-        >
-          {{ data.title }}
-        </h1>
-        <div class="mb-1 text-sm text-fg2" v-if="data.author">
-          by {{ data.author }}
-        </div>
-        <div class="text-sm text-fg2" v-if="data.date">
-          {{ useToDate(data.date) }}
-        </div>
-      </div>
+    <div class="mx-auto mb-24 text-center">
+      <h1
+        class="mx-auto mb-8 w-prose max-w-container-max font-display text-4xl font-light"
+      >
+        {{ data.title }}
+      </h1>
+      <div class="mb-1 text-xs text-fg2">by {{ data.author }}</div>
+      <div class="text-xs text-fg2">{{ useToDate(data.date) }}</div>
     </div>
     <GuidesSidebar v-if="$route.path.startsWith('/guides')" />
     <ContentRenderer

@@ -139,9 +139,9 @@
 }
 
 section {
-  @apply mx-auto w-[var(--width)] max-w-full border-t border-bc pt-2;
+  @apply mx-auto w-[var(--width)] max-w-full;
   > .label {
-    @apply mb-24 font-semibold;
+    @apply mb-24 border-t border-bc pt-2 font-semibold;
   }
 }
 
@@ -269,6 +269,17 @@ section {
     @apply mr-auto ml-leftplus w-prose max-w-container-max italic;
     p {
       @apply border-l-2 border-bc pl-4;
+    }
+  }
+
+  > table {
+    @apply mx-auto my-12 rounded-xl border border-bc text-sm;
+    th {
+      @apply font-normal text-fg2;
+    }
+    th,
+    td {
+      @apply border border-bc px-3 py-1.5;
     }
   }
 }

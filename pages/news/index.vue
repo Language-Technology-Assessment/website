@@ -1,20 +1,22 @@
 <template name="/news">
   <section class="mt-[14rem]">
-    <div class="label">Latest news overview:</div>
-    <div class="content">
+    <div class="mb-24 text-center font-display text-3xl font-light">
+      News overview:
+    </div>
+    <div class="content mb-24">
       <NuxtLink
-        class="group/card y-top mx-auto mb-8 block w-[38rem] max-w-container-max flex-col border-t border-bc py-3 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 data-visible:opacity-100"
+        class="group/card y-top mx-auto mb-8 block w-[32rem] max-w-container-max flex-col border-t border-bc py-3 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 data-visible:opacity-100"
         :to="'/news' + item.path"
         v-for="item in data"
         :key="item.path"
         v-visible
       >
+        <div class="label-date mb-2">
+          {{ useToDate(item.date) }}
+        </div>
         <div class="title mb-2 text-2xl leading-7">{{ item.title }}</div>
         <div class="title mb-2 w-[32em] max-w-full leading-5 text-fg2">
           {{ item.description }}
-        </div>
-        <div class="label-date mb-2">
-          {{ useToDate(item.date) }}
         </div>
       </NuxtLink>
     </div>

@@ -13,7 +13,6 @@
       <div class="mb-1 text-xs text-fg2">by {{ data.author }}</div>
       <div class="text-xs text-fg2">{{ useToDate(data.date) }}</div>
     </div>
-    <NewsSidebar v-if="$route.path.startsWith('/news')" />
     <ContentRenderer
       :value="data"
       v-if="data"
@@ -26,6 +25,7 @@
         <div class="empty"></div>
       </template>
     </ContentRenderer>
+    <NewsSidebar v-if="$route.path.startsWith('/news')" />
   </div>
 </template>
 

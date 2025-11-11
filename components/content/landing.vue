@@ -15,7 +15,7 @@
         <img
           src="/sphere2.svg"
           class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out lg:top-[60vh] lg:scale-100"
-          :class="{ 'translate-y-50 scale-0! opacity-0': !isVisible }"
+          :class="{ 'translate-y-50 scale-100! opacity-0': !isVisible }"
         />
       </div>
 
@@ -35,6 +35,19 @@
             class="slot mb-2 max-w-[24em] font-[InterDisplay] text-4xl sm:mb-8 [&>p]:leading-[1.2]"
           >
             <Appear :text="props.title" v-if="props.title"></Appear>
+            <div class="pb-4">
+              <div
+                class="notesframe right-0 z-[4] mx-auto w-full max-w-full text-center text-xs delay-1000 duration-1000 starting:!opacity-0"
+                :style="{ opacity: 1 - (y / height) * 2 }"
+                v-if="isVisible"
+              >
+                <div
+                  class="notes transition-colros hover:text-f leading-4 text-fg2 duration-300 [&>p]:leading-[1.4]"
+                >
+                  <MDC :value="props.notes" v-if="props.notes" />
+                </div>
+              </div>
+            </div>
             <div>
               <ActionButton
                 v-for="item in props.links"
@@ -50,33 +63,6 @@
       </div>
     </div>
   </div>
-  <div class="pb-4">
-    <div
-      class="notesframe right-0 z-[4] mx-auto w-full max-w-full pt-4 text-center text-tiny delay-1000 duration-1000 sm:pt-4 starting:!opacity-0"
-      :style="{ opacity: 1 - (y / height) * 2 }"
-      v-if="isVisible"
-    >
-      <div
-        class="notes transition-colros hover:text-f leading-4 text-fg2 duration-300 [&>p]:leading-[1.4]"
-      >
-        <MDC :value="props.notes" v-if="props.notes" />
-      </div>
-    </div>
-  </div>
-  <!-- <div
-    class="sticky top-12 left-0 z-20 hidden transition-all duration-300 lg:block up:top-28"
-  >
-    <div class="">
-      <NuxtLink
-        :to="`#${item.id}`"
-        class="mb-3 block cursor-pointer text-xs font-semibold tracking-wider text-fg2 no-underline hover:text-link"
-        v-for="item in submenu"
-      >
-        {{ item.text }}
-      </NuxtLink>
-      <Icon name="mdi:chevron-down" class="-ml-0.5 text-sm text-fg2" />
-    </div>
-  </div> -->
 </template>
 
 <script lang="ts" setup>
@@ -134,6 +120,11 @@ const getSlotChildrenText = (children: any) => {
   /* max-width: 20em; */
   max-width: none;
   width: 100%;
+}
+
+.landing h1 {
+  /*@apply text-5xl! leading-14! font-extralight;*/
+  @apply xl:scale-110;
 }
 
 .animation-frame > .slot > p > a {

@@ -8,9 +8,9 @@
       <div class="self-center">
         <div class="left-align">
           <slot></slot>
-          <div class="mb-24 py-8 text-center">
+          <div class="mb-24 hidden py-8 text-center sm:block">
             <ActionButton link="/the-index">
-              Explore all {{ models.length }} models ->
+              Explore all <Counter :value="models.length" /> models ->
             </ActionButton>
           </div>
         </div>
@@ -19,16 +19,21 @@
         <slot name="right" />
       </div>
     </div>
+    <div class="mb-24 block py-8 text-center lg:hidden">
+      <ActionButton link="/the-index">
+        Explore all <Counter :value="models.length" /> models ->
+      </ActionButton>
+    </div>
   </section>
 </template>
 <script lang="ts" setup>
 const { models } = useModels();
 </script>
-<style>
-@reference "@/assets/css/tailwind.css";
+<style lang="postcss">
+@reference "../../assets/css/tailwind.css";
 .left-align {
   /*@apply ml-0 w-100 max-w-full;*/
-  @apply mx-auto w-100 max-w-full;
+  @apply mx-auto mb-24 w-100 max-w-full lg:min-h-100;
   p {
     @apply text-xl font-light;
   }

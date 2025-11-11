@@ -13,15 +13,15 @@
           :to="`/guides${item.path}`"
           v-for="(item, k) in visibleData"
           :key="item.path"
-          class="mb-8 flex w-100 flex-col py-0 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:text-link data-visible:opacity-100"
+          class="mb-8 flex w-100 flex-col py-0 text-center align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:text-link data-visible:opacity-100"
           v-visible
         >
+          <div class="title mb-3 text-2xl">{{ item.title }}</div>
           <div class="label-date mb-2">
             {{ useToDate(item.date) }} | by {{ item.author }}
           </div>
-          <div class="title mb-3 text-2xl">{{ item.title }}</div>
           <div
-            class="description text-normal mb-2 max-w-[20em] leading-5 text-fg2"
+            class="description text-normal mx-auto mb-2 max-w-[20em] leading-5 text-fg2"
           >
             {{ item.description }}
           </div>

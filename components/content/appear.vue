@@ -1,5 +1,9 @@
 <template>
-  <h1 ref="target" class="mx-auto font-display" style="filter: url(#textedit)">
+  <div
+    ref="target"
+    class="target mx-auto mb-24 w-140 text-center font-display text-4xl font-light"
+    style="filter: url(#textedit)"
+  >
     <span
       v-for="(word, index) in words"
       :key="index"
@@ -8,7 +12,7 @@
     >
       {{ word }}<span v-if="word.match(/\s+/)">&nbsp;</span>
     </span>
-  </h1>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -18,10 +22,6 @@ const props = defineProps<{
 }>();
 
 const text = ref("");
-
-onMounted(() => {
-  text.value = props.text;
-});
 
 const { x } = useMouse();
 const { width } = useWindowSize();
@@ -38,37 +38,42 @@ const words = computed(() => {
   return [];
 });
 
-// Use VueUse intersection observer
-const { stop } = useIntersectionObserver(
-  target,
-  ([{ isIntersecting }]) => {
-    if (isIntersecting) {
-      isVisible.value = true;
-      // Stop observing once animation is triggered
-      stop();
-    }
-  },
-  {
-    threshold: 0.1, // Trigger when 10% of the element is visible
-    rootMargin: "0px 0px -50px 0px", // Trigger slightly before element is fully in view
-  },
-);
+onMounted(() => {
+  text.value = props.text;
+  setTimeout(() => {
+    // Use VueUse intersection observer
+    const { stop } = useIntersectionObserver(
+      target,
+      (entries) => {
+        const entry = entries[0];
+        if (entry?.isIntersecting) {
+          isVisible.value = true;
+          stop();
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+  }, 0);
+});
 </script>
 
 <style scoped>
 @reference "@/assets/css/tailwind.css";
-h1 > span {
+.target > span {
   @apply relative inline-block;
-  clip-path: inset(0 100% 0 0);
   transform-origin: center;
+  transform: translateY(0.2em);
   opacity: 0;
   transition:
-    clip-path 0.1s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-h1 > span.animate {
-  clip-path: inset(0 0% 0 0);
+.target > span.animate {
+  transform: translateY(0);
   opacity: 1;
 }
 </style>
