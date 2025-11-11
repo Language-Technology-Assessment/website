@@ -5,11 +5,16 @@
     :class="{ loaded, finalpath: status !== 'pending' }"
   >
     <div class="mx-auto mb-24 text-center">
-      <h1
-        class="mx-auto mb-8 w-prose max-w-container-max font-display text-4xl font-light"
-      >
-        {{ data.title }}
-      </h1>
+      <Appear class="mb-12!" :text="data.title" />
+      <div class="mb-4 text-center">
+        <NuxtLink
+          to="/guides"
+          class="mx-auto inline-flex items-center gap-2 rounded-full border border-bc bg-bg px-3 py-1.5 text-xs leading-0 text-fg2 no-underline hover:text-link"
+        >
+          <Icon name="f7:doc-fill" />
+          <span>Guide</span>
+        </NuxtLink>
+      </div>
       <div class="mb-1 text-xs text-fg2">by {{ data.author }}</div>
       <div class="text-xs text-fg2">{{ useToDate(data.date) }}</div>
     </div>

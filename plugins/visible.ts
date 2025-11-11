@@ -13,6 +13,11 @@ export default defineNuxtPlugin((nuxtApp) => {
           el.toggleAttribute("data-visible", entry?.isIntersecting ?? false);
         });
       }
+      setTimeout(() => {
+        useIntersectionObserver(el, ([entry]) => {
+          el.toggleAttribute("data-visible", entry?.isIntersecting ?? false);
+        });
+      }, 0);
     },
   });
   nuxtApp.vueApp.directive("visiblecontainer", {

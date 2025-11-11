@@ -6,26 +6,14 @@
       v-visiblecontainer
       v-if="visibleData && status === 'success'"
     >
-      <div
-        class="mb-12 grid grid-cols-1 gap-12 overflow-auto sm:grid-cols-2 lg:grid-cols-3"
-      >
-        <NuxtLink
-          :to="`/guides${item.path}`"
-          v-for="(item, k) in visibleData"
-          :key="item.path"
-          class="mb-8 flex w-100 flex-col py-0 text-center align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:text-link data-visible:opacity-100"
-          v-visible
-        >
-          <div class="title mb-3 text-2xl">{{ item.title }}</div>
-          <div class="label-date mb-2">
-            {{ useToDate(item.date) }} | by {{ item.author }}
-          </div>
-          <div
-            class="description text-normal mx-auto mb-2 max-w-[20em] leading-5 text-fg2"
-          >
-            {{ item.description }}
-          </div>
-        </NuxtLink>
+      <div class="mb-12 overflow-auto">
+        <div class="mx-auto flex w-[70rem] max-w-full gap-12 overflow-auto">
+          <GuideCard
+            v-for="guide in visibleData"
+            :key="guide.id"
+            :item="guide"
+          />
+        </div>
       </div>
       <div class="text-center">
         <ActionButton link="/guides">Read all guides -></ActionButton>

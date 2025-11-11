@@ -2,12 +2,12 @@
   <section class="news z-3" id="latest-news">
     <div class="label">Latest news</div>
     <div
-      class="grid justify-start gap-4 overflow-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 xl:grid-cols-4"
+      class="mx-auto mb-12 grid w-[70rem] max-w-full justify-start gap-4 overflow-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 xl:grid-cols-3"
       v-visiblecontainer
       v-if="visibleData && status === 'success'"
     >
       <NuxtLink
-        class="group/card y-top mb-8 w-full flex-col px-0 py-0 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100"
+        class="group/card y-top w-full flex-col border-t border-bc px-0 py-0 pt-2 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 hover:border-link/30 data-visible:opacity-100 sm:mb-8"
         :to="'/news' + item.path"
         v-for="item in visibleData"
         :key="item.path"

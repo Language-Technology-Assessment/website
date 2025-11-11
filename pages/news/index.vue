@@ -1,8 +1,6 @@
 <template name="/news">
   <section class="mt-[14rem]">
-    <div class="mb-24 text-center font-display text-3xl font-light">
-      News overview:
-    </div>
+    <div class="label">News overview:</div>
     <div class="content mb-24">
       <NuxtLink
         class="group/card y-top mx-auto mb-8 block w-[32rem] max-w-container-max flex-col border-t border-bc py-3 align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 data-visible:opacity-100"

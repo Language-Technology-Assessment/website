@@ -32,12 +32,16 @@
           :style="{ opacity: 1 - (y * 2) / height + '!important' }"
         >
           <div
-            class="slot mb-2 max-w-[24em] font-[InterDisplay] text-4xl sm:mb-8 [&>p]:leading-[1.2]"
+            class="slot mb-2 max-w-[24em] font-display text-4xl sm:mb-8 [&>p]:leading-[1.2]"
           >
-            <Appear :text="props.title" v-if="props.title"></Appear>
+            <Appear
+              :text="props.title"
+              v-if="props.title"
+              class="mb-12!"
+            ></Appear>
             <div class="pb-4">
               <div
-                class="notesframe right-0 z-[4] mx-auto w-full max-w-full text-center text-xs delay-1000 duration-1000 starting:!opacity-0"
+                class="notesframe right-0 z-[4] mx-auto w-80 max-w-full text-center text-xs delay-1000 duration-1000 starting:!opacity-0"
                 :style="{ opacity: 1 - (y / height) * 2 }"
                 v-if="isVisible"
               >

@@ -3,7 +3,7 @@
     class="transition-opacity delay-500 duration-1000 starting:opacity-0"
     id="spotlight"
   >
-    <div class="label">Explore open source AI</div>
+    <!-- <div class="label">Explore open source AI</div> -->
     <div class="mx-auto w-[70rem] max-w-full gap-12 *:w-full lg:flex">
       <div class="self-center">
         <div class="left-align">
@@ -33,9 +33,9 @@ const { models } = useModels();
 @reference "../../assets/css/tailwind.css";
 .left-align {
   /*@apply ml-0 w-100 max-w-full;*/
-  @apply mx-auto mb-24 w-100 max-w-full lg:min-h-100;
+  @apply mx-auto mb-8 w-100 max-w-full sm:mb-24 lg:min-h-100;
   p {
-    @apply text-xl font-light;
+    @apply sm:text-xl sm:font-light;
   }
 }
 :deep(.the-index) {

@@ -37,13 +37,13 @@
           <div class="flex flex-wrap items-start justify-center gap-4">
             <NuxtLink
               :to="'/guides/' + model.slug"
-              class="inline-block w-80 max-w-full rounded-lg border border-bc px-5 py-8 no-underline hover:bg-bg hover:text-link"
+              class="inline-block w-60 max-w-full rounded-lg border border-bc bg-bg px-4 py-3 no-underline hover:bg-bg hover:text-link"
               v-for="model in modelsToGuide[String(route?.params?.model)]"
             >
               <div class="mb-1 text-lg leading-6">{{ model.title }}</div>
-              <div class="mb-1 text-xs text-fg2" v-if="model.author">
+              <!-- <div class="mb-1 text-xs text-fg2" v-if="model.author">
                 by {{ model.author }}
-              </div>
+              </div> -->
               <div class="text-xs text-fg2">{{ useToDate(model.date) }}</div>
             </NuxtLink>
           </div>
