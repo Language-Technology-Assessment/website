@@ -10,6 +10,15 @@
       >
         {{ data.title }}
       </h1>
+      <div class="mb-4 text-center">
+        <NuxtLink
+          to="/news"
+          class="mx-auto inline-flex items-center gap-2 rounded-full border border-bc bg-bg px-3 py-1.5 text-xs leading-0 text-fg2 no-underline hover:text-link"
+        >
+          <Icon name="f7:doc-fill" />
+          <span>News</span>
+        </NuxtLink>
+      </div>
       <div class="mb-1 text-xs text-fg2">by {{ data.author }}</div>
       <div class="text-xs text-fg2">{{ useToDate(data.date) }}</div>
     </div>

@@ -174,11 +174,11 @@ section {
   }
 
   &:after {
-    @apply absolute top-0 left-0 h-full w-full rounded-md bg-fg mix-blend-lighten content-[''];
+    /*@apply absolute top-0 left-0 h-full w-full rounded-md bg-fg mix-blend-lighten content-[''];*/
   }
   .dark & {
     &:after {
-      mix-blend-mode: darken;
+      /*mix-blend-mode: darken;*/
     }
   }
   &:hover {

@@ -2,7 +2,7 @@
   <section class="news z-3" id="latest-news">
     <div class="label">Latest news</div>
     <div
-      class="mx-auto mb-12 grid w-[70rem] max-w-full justify-start gap-4 overflow-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 xl:grid-cols-3"
+      class="mx-auto mb-12 grid w-[70rem] max-w-full justify-start gap-4 overflow-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3"
       v-visiblecontainer
       v-if="visibleData && status === 'success'"
     >

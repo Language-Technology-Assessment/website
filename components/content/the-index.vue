@@ -84,8 +84,11 @@
       </div>
       <!-- compare -->
       <div
-        class="sticky bottom-0 z-9 flex items-center gap-4 rounded-b-lg bg-bg3 py-0 sm:rounded-none"
+        class="sticky bottom-0 z-9 flex items-center gap-4 overflow-hidden bg-bg3 py-0"
         v-if="store.selected.length > 0"
+        :class="
+          props.hideFilters ? 'rounded-b-lg' : 'rounded-b-lg xl:rounded-bl-none'
+        "
       >
         <div
           class="sticky bottom-0 z-[99] m-0 flex w-full cursor-pointer items-center gap-4 rounded-none bg-bg3 px-6 py-4 text-fg hover:opacity-100 sm:px-8"

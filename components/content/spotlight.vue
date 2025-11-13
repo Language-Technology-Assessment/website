@@ -8,7 +8,7 @@
       <div class="self-center">
         <div class="left-align">
           <slot></slot>
-          <div class="mb-24 hidden py-8 text-center sm:block">
+          <div class="mb-24 hidden py-8 text-center lg:block">
             <ActionButton link="/the-index">
               Explore all <Counter :value="models.length" /> models ->
             </ActionButton>
