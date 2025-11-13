@@ -11,7 +11,7 @@
         Latest Guides:
       </div>
       <NuxtLink
-        class="group/card y-top mr-8 mb-1 block w-[16rem] flex-col border-t border-bc px-0 py-2 text-left align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 data-visible:opacity-100"
+        class="group/card y-top mr-8 mb-1 block w-[16rem] cursor-pointer flex-col border-t border-bc px-0 py-2 text-left align-top whitespace-normal no-underline opacity-0 transition-opacity duration-1000 data-visible:opacity-100"
         :to="'/guides' + item.path"
         :class="{
           'opacity-50!': $route.path === '/guides' + item.path,
@@ -26,7 +26,6 @@
         <div class="title mb-0 text-sm leading-5">{{ item.title }}</div>
       </NuxtLink>
     </div>
-    <div class="content"></div>
   </div>
 </template>
 
