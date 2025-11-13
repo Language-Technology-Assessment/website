@@ -1,5 +1,5 @@
 <template>
-  <div class="loaded finalpath max-w-full overflow-auto">
+  <div class="loaded finalpath mt-32 max-w-full">
     <div
       v-if="!modelsList"
       class="flex h-screen w-full items-center justify-center"
@@ -10,35 +10,99 @@
       </div>
     </div>
     <ClientOnly>
-      <div class="table rounded-none p-8 md:p-2">
+      <!-- quick comparison -->
+      <div class="row">
+        <div class="label mb-8 text-center">Quick Comparison</div>
         <div
-          class="names scroll-up:nottop:top-[3.2rem] scroll-up:nottop:delay-250 sticky top-0 z-20 bg-bg transition-all duration-200"
+          class="mx-auto mb-12 w-full max-w-200 rounded-xl border border-bc bg-bg p-6 sm:p-8"
         >
-          <NuxtLink
-            :to="`/model/${model.filename}`"
-            class="model-name relative block rounded border-b-2 border-bg bg-bg2 p-6 text-center text-xl no-underline"
-            v-for="(model, k) in modelsList"
-          >
-            <div class="name" v-if="model?.system">
-              {{ model.system.name || "(undefined)" }}
-            </div>
-            <div class="org text-sm text-fg2" v-if="model?.org">
-              by {{ model.org.name || "(undefined)" }}
+          <div v-for="item in modelsList" class="mb-6">
+            <div
+              class="mb-2 flex items-center max-sm:items-start"
+              @click="router.push(`/model/${item.filename}`)"
+            >
+              <div class="relative h-16 flex-1 sm:h-12">
+                <div class="absolute max-w-full max-sm:top-0">
+                  <div
+                    class="w-full overflow-hidden leading-[1.3] text-ellipsis whitespace-nowrap max-sm:block"
+                  >
+                    <span
+                      class="ellipsis mr-1 flex-1 cursor-pointer font-semibold group-hover:underline max-sm:block"
+                    >
+                      {{ item.system.name || "(undefined)" }}
+                    </span>
+                    <span
+                      class="ellipsis mr-2 whitespace-nowrap text-fg2 max-sm:block"
+                      v-if="item?.org"
+                    >
+                      by {{ item.org.name || "(undefined)" }}
+                    </span>
+                  </div>
+                  <div class="mb-2 w-full text-ellipsis whitespace-nowrap">
+                    <span
+                      class="text-xs text-fg2 before:opacity-50 before:content-['Base_models:_'] max-sm:mt-0.5"
+                    >
+                      {{ item.system.basemodelname || "unspecified" }}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
-              class="count absolute top-0 left-0 rounded-bl px-2 py-1 text-[0.65rem] text-fg2 opacity-50"
+              class="relative flex-1 text-left after:absolute after:top-full after:h-2 after:w-full after:content-['']"
+              :class="{
+                'opacity-100': !!open && open.filename === item.filename,
+              }"
+              @touchstart.stop
             >
-              {{ k + 1 }}/{{ modelsList.length }}
+              <scorebar
+                :score="item.score"
+                v-if="!isNaN(item?.score)"
+                :style="{
+                  '--fg': color(item.score),
+                  '--bg': 'var(--color-bg3)',
+                  '--sb-width': '100%',
+                  '--sb-height': '1rem',
+                }"
+                class="w-full"
+              ></scorebar>
             </div>
-          </NuxtLink>
+          </div>
         </div>
-        <div class="category" v-for="cat in categories">
-          <category
-            class="model-category"
-            :category="cat"
-            :model="model"
-            v-for="model in modelsList"
-          ></category>
+      </div>
+      <!-- detailed comparison -->
+      <div class="label mb-8 text-center">Detailed comparison</div>
+      <div class="w-full overflow-auto">
+        <div
+          class="sticky top-0 z-20 mx-auto table rounded-none px-4 md:p-2 lg:px-8"
+        >
+          <div class="names transition-all duration-200">
+            <NuxtLink
+              :to="`/model/${model.filename}`"
+              class="model-name relative block w-full max-w-100! min-w-100! rounded border-b-2 border-bg bg-bg p-6 text-center text-xl no-underline"
+              v-for="(model, k) in modelsList"
+            >
+              <div class="name" v-if="model?.system">
+                {{ model.system.name || "(undefined)" }}
+              </div>
+              <div class="org text-sm text-fg2" v-if="model?.org">
+                by {{ model.org.name || "(undefined)" }}
+              </div>
+              <div
+                class="count absolute top-0 left-0 rounded-bl px-2 py-1 text-[0.65rem] text-fg2 opacity-50"
+              >
+                {{ k + 1 }}/{{ modelsList.length }}
+              </div>
+            </NuxtLink>
+          </div>
+          <div class="category mb-0!" v-for="cat in categories">
+            <category
+              class="model-category mb-c! max-w-100! min-w-100!"
+              :category="cat"
+              :model="model"
+              v-for="model in modelsList"
+            ></category>
+          </div>
         </div>
       </div>
     </ClientOnly>
@@ -49,6 +113,7 @@
 import SEORaw from "~/repos/website/SEO.yml";
 import { getProperty } from "dot-prop";
 const route = useRoute();
+const router = useRouter();
 
 const interpolate = (template, data) => {
   return template.replace(
@@ -60,7 +125,7 @@ const interpolate = (template, data) => {
 const SEO = ref(SEORaw);
 
 const store = useMyComparisonStore();
-const { models, categories } = useModels(String(route.query?.version));
+const { models, categories, color } = useModels(String(route.query?.version));
 
 const modelsList = computed(() => {
   if (!route.query?.models || typeof route.query.models !== "string") {
@@ -129,7 +194,6 @@ useSeoMeta({
 </script>
 
 <style scoped>
-/* Additional scoped CSS for specific behaviors not easily covered by Tailwind */
 .table > div {
   display: flex;
   gap: 2rem;

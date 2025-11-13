@@ -84,23 +84,28 @@
       </div>
       <!-- compare -->
       <div
-        class="sticky bottom-0 z-9 flex items-center gap-4 overflow-hidden bg-bg3 py-0"
+        class="sticky bottom-0 z-9 flex items-center gap-4 overflow-hidden border-t border-bc py-0"
         v-if="store.selected.length > 0"
-        :class="
-          props.hideFilters ? 'rounded-b-lg' : 'rounded-b-lg xl:rounded-bl-none'
-        "
       >
         <div
-          class="sticky bottom-0 z-[99] m-0 flex w-full cursor-pointer items-center gap-4 rounded-none bg-bg3 px-6 py-4 text-fg hover:opacity-100 sm:px-8"
+          class="sticky bottom-0 z-[99] m-0 flex w-full cursor-pointer items-center gap-4 rounded-none bg-bg px-6 py-4 text-fg hover:opacity-100 sm:px-8"
         >
-          <div
+          <div class="grow">
+            <ActionButton :link="comparisonLink" class="ml-0"
+              >Compare selected model{{
+                store.selected.length > 1 ? "s" : ""
+              }}
+              ({{ store.selected.length }}) -></ActionButton
+            >
+          </div>
+          <!-- <div
             class="flex-1 cursor-pointer hover:underline"
             @click="openComparison()"
           >
             Compare selected model{{ store.selected.length > 1 ? "s" : "" }} ({{
               store.selected.length
             }}) ->
-          </div>
+          </div> -->
           <Icon
             class="clear m-0 cursor-pointer text-xl opacity-50 hover:text-fg hover:opacity-100"
             name="ic:round-close"
@@ -272,9 +277,10 @@ const searchQuery = computed(() => {
 });
 const store = useMyComparisonStore();
 
-function openComparison() {
-  router.push(`/compare?models=${store.selected.join(",")}`);
-}
+const comparisonLink = computed(() => {
+  return `/compare?models=${store.selected.join(",")}`;
+});
+
 function clearSelection() {
   const sure = confirm(
     "Are you sure you want to deselect all selected models?",
