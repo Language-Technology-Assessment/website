@@ -20,7 +20,7 @@
           :key="item.path"
           v-visible
         >
-          <div :class="{ 'opacity-50!': $route.path === '/news' + item.path }">
+          <div :class="{ 'opacity-50!': route.path === '/news' + item.path }">
             <div class="title mb-2 text-sm leading-5">{{ item.title }}</div>
             <!-- <div class="title text-xs leading-5 text-fg2">
           {{ item.description }}
@@ -39,6 +39,7 @@
 </template>
 
 <script lang="ts" setup>
+const route = useRoute();
 const { data, status } = await useAsyncData("news", () =>
   queryCollection("news")
     .where("status", "=", "published")

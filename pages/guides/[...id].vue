@@ -5,7 +5,7 @@
     :class="{ loaded, finalpath: status !== 'pending' }"
   >
     <div class="mx-auto mb-24 text-center">
-      <Appear class="mb-8!" :text="data.title" />
+      <Appear class="mb-8!" :text="data?.title" />
       <div class="mb-4 text-center">
         <NuxtLink
           to="/guides"
@@ -15,10 +15,10 @@
           <span>Guide</span>
         </NuxtLink>
       </div>
-      <div class="mb-1 text-xs text-fg2">by {{ data.author }}</div>
-      <div class="text-xs text-fg2">{{ useToDate(data.date) }}</div>
+      <div class="mb-1 text-xs text-fg2">by {{ data?.author }}</div>
+      <div class="text-xs text-fg2">{{ useToDate(data?.date) }}</div>
     </div>
-    <GuidesSidebar v-if="$route.path.startsWith('/guides')" />
+    <Sidebar type="guides" label="Latest guides" />
     <ContentRenderer
       :value="data"
       v-if="data"
@@ -96,7 +96,7 @@ useHead(
 const seo = computed(() => {
   const defaults = {
     title: data.value?.title || defaultMeta?.seo?.title,
-    description: data.value.description || defaultMeta?.seo?.description,
+    description: data.value?.description || defaultMeta?.seo?.description,
     ogImage: "/osai-index-logo.png",
     ogDescription: data.value?.description || defaultMeta?.seo?.description,
     twitterCard: "summary_large_image",

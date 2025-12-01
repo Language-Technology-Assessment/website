@@ -41,12 +41,12 @@
             ></Appear>
             <div class="pb-4">
               <div
-                class="notesframe right-0 z-[4] mx-auto w-80 max-w-full text-center text-xs delay-1000 duration-1000 starting:!opacity-0"
+                class="notesframe right-0 z-[4] mx-auto w-84 max-w-full text-center text-xs delay-1000 duration-1000 starting:!opacity-0"
                 :style="{ opacity: 1 - (y / height) * 2 }"
                 v-if="isVisible"
               >
                 <div
-                  class="notes transition-colros hover:text-f leading-4 text-fg2 duration-300 [&>p]:leading-[1.4]"
+                  class="notes transition-colros hover:text-f leading-4 tracking-wide text-fg2 duration-300 [&>p]:leading-[1.4]"
                 >
                   <MDC :value="props.notes" v-if="props.notes" />
                 </div>

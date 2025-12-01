@@ -1,6 +1,6 @@
 <template>
   <section
-    class="transition-opacity delay-500 duration-1000 starting:opacity-0"
+    class="relative z-10 transition-opacity delay-500 duration-1000 starting:opacity-0"
     id="spotlight"
   >
     <!-- <div class="label">Explore open source AI</div> -->

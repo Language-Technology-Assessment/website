@@ -30,7 +30,7 @@
         <div class="empty"></div>
       </template>
     </ContentRenderer>
-    <NewsSidebar v-if="$route.path.startsWith('/news')" />
+    <Sidebar type="news" label="Latest news" />
   </div>
 </template>
 

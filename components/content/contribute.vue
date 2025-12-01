@@ -7,7 +7,7 @@
       <slot>Is this information not up to date?</slot>
     </div>
     <ActionButton
-      :link="`https://github.com/${info.owner}/${info.repo}/blob/preview/${route.params.model}.yaml`"
+      :link="`https://codeberg.org/AI-technology-assessment/${info.repo}/src/branch/preview/${route.params.model}.yaml`"
       target="_blank"
     >
       Contribute here ->
