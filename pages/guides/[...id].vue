@@ -44,14 +44,13 @@ const pageKey = computed(() => {
 const { markdownPath } = useLanguage();
 
 const { data, error, status } = await useAsyncData(
-  "page" + route.path,
+  "guide" + route.path,
   async () => {
-    const res = await queryCollection("pages").path(markdownPath.value).first();
+    const res = await queryCollection("guides")
+      .path("/" + route.path.split("guides/")[1])
+      .first();
     if (import.meta.client) {
       document.documentElement.setAttribute("path", route.fullPath);
-    }
-    if (!res) {
-      return await queryCollection("pages").path(route.path).first();
     }
     return res;
   },
@@ -73,7 +72,7 @@ definePageMeta({
   },
 });
 
-const defaultMeta = await queryCollection("pages")
+const defaultMeta = await queryCollection("guides")
   .path("/")
   .first()
   .catch((err) => {
