@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pointer-events-none fixed top-0 left-0 z-[999] w-full from-bg2/100 to-bg2/0 py-4 text-fg opacity-0 transition-all duration-300 sm:py-8 lg:py-10 down:-translate-y-12 down:opacity-0"
+    class="pointer-events-none fixed top-0 left-0 z-[999] w-full from-bg2/100 to-bg2/0 py-4 text-fg opacity-0 transition-all duration-300 sm:py-4 lg:py-10 down:-translate-y-12 down:opacity-0"
     ref="menuelement"
     :class="{
       active,

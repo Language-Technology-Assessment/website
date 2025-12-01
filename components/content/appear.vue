@@ -1,7 +1,7 @@
 <template>
   <div
     ref="target"
-    class="target mx-auto mb-24 max-w-full text-center font-display text-3xl font-light sm:max-w-[14em] sm:text-4xl lg:text-5xl lg:leading-14 lg:font-light"
+    class="target mx-auto mb-24 max-w-container-max text-center font-display text-3xl font-light sm:max-w-[14em] sm:text-4xl lg:text-5xl lg:leading-14 lg:font-light"
     style="filter: url(#textedit)"
   >
     <span

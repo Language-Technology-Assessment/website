@@ -62,7 +62,6 @@
       <!-- content -->
       <div class="flex-1">
         <Icon name="eos-icons:three-dots-loading" v-if="loading"></Icon>
-        <!-- the View -->
         <TheIndexGridModels
           :models="models"
           :version="props.version"
@@ -88,10 +87,10 @@
         v-if="store.selected.length > 0"
       >
         <div
-          class="sticky bottom-0 z-[99] m-0 flex w-full cursor-pointer items-center gap-4 rounded-none bg-bg px-6 py-4 text-fg hover:opacity-100 sm:px-8"
+          class="sticky bottom-0 z-[99] m-0 flex w-full cursor-pointer items-center gap-4 rounded-none bg-bg px-4 py-4 text-fg hover:opacity-100 sm:px-12 lg:px-8 xl:px-12"
         >
           <div class="grow">
-            <ActionButton :link="comparisonLink" class="ml-0"
+            <ActionButton :link="comparisonLink" class="ml-0 py-2 leading-5!"
               >Compare selected model{{
                 store.selected.length > 1 ? "s" : ""
               }}

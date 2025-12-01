@@ -5,11 +5,7 @@
     :class="{ loaded, finalpath: status !== 'pending' }"
   >
     <div class="mx-auto mb-24 text-center">
-      <h1
-        class="mx-auto mb-8 w-prose max-w-container-max font-display text-4xl font-light"
-      >
-        {{ data.title }}
-      </h1>
+      <Appear class="mb-8!" :text="data.title" />
       <div class="mb-4 text-center">
         <NuxtLink
           to="/news"

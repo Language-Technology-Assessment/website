@@ -232,7 +232,7 @@ section {
   h4,
   h5,
   h6 {
-    @apply mx-auto mt-16 mb-4 w-prose max-w-container-max text-left text-lg leading-[1.2] font-semibold;
+    @apply mx-auto mt-16 mb-4 w-prose max-w-full text-left text-lg leading-[1.2] font-semibold;
     a {
       @apply no-underline;
     }

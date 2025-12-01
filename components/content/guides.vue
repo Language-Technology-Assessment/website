@@ -7,7 +7,9 @@
       v-if="visibleData && status === 'success'"
     >
       <div class="mb-12 overflow-auto">
-        <div class="mx-auto flex w-[70rem] max-w-full gap-12 overflow-auto">
+        <div
+          class="mx-auto flex w-[70rem] max-w-full justify-center gap-12 overflow-auto"
+        >
           <GuideCard
             v-for="guide in visibleData"
             :key="guide.id"
