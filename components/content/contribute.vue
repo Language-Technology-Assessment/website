@@ -23,18 +23,19 @@ const { data: commitDate } = await useAsyncData(
   "fileLastCommit" + route.params.model,
   async () => {
     const modelref = route.params.model;
-    // if (!modelref) return false;
-    const owner = "Language-Technology-Assessment";
+    const owner = "AI-technology-assessment";
     const repo = "main-database";
-    const path = modelref ? `&path=/${modelref}.yaml` : "";
+    const path = modelref ? `&path=${modelref}.yaml` : "";
 
     const data = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/commits?per_page=1${path}`,
+      `https://codeberg.org/api/v1/repos/${owner}/${repo}/commits?limit=1${path}`,
     )
       .then((response) => response.json())
       .catch((err) => console.warn(err));
-    if (!data[0]?.commit?.committer?.date) return false;
+
+    if (!data || !data[0]?.commit?.committer?.date) return false;
     const latestCommit = data[0];
+
     return useDateFormat(latestCommit.commit.committer.date, "DD MMMM YYYY");
   },
 );
