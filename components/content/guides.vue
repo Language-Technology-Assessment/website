@@ -1,92 +1,94 @@
 <template>
-  <section class="relative z-3" id="latest-guides">
-    <div class="label">Latest Guides</div>
-    <div
-      class="content"
-      v-visiblecontainer
-      v-if="visibleData && status === 'success'"
-    >
-      <div class="relative mb-12">
-        <!-- Carousel Container -->
-        <div class="mx-auto max-w-[70rem] overflow-hidden">
-          <div
-            ref="carouselContainer"
-            class="flex transition-transform duration-500 ease-in-out"
-            :style="{
-              transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
-            }"
-            @mouseenter="handleMouseEnter"
-            @mouseleave="handleMouseLeave"
-          >
+  <ClientOnly>
+    <section class="relative z-3" id="latest-guides">
+      <div class="label">Latest Guides</div>
+      <div
+        class="content"
+        v-visiblecontainer
+        v-if="visibleData && status === 'success'"
+      >
+        <div class="relative mb-12">
+          <!-- Carousel Container -->
+          <div class="mx-auto max-w-[70rem] overflow-hidden">
             <div
-              v-for="(guide, index) in visibleData"
-              :key="guide.id"
-              class="flex-shrink-0 px-3"
-              :class="cardWidthClass"
+              ref="carouselContainer"
+              class="flex transition-transform duration-500 ease-in-out"
+              :style="{
+                transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
+              }"
+              @mouseenter="handleMouseEnter"
+              @mouseleave="handleMouseLeave"
             >
-              <GuideCard :item="guide" class="mb-0!" />
+              <div
+                v-for="(guide, index) in visibleData"
+                :key="guide.id"
+                class="flex-shrink-0 px-3"
+                :class="cardWidthClass"
+              >
+                <GuideCard :item="guide" class="mb-0!" />
+              </div>
             </div>
           </div>
+
+          <!-- Navigation Arrows -->
+          <button
+            v-if="visibleData.length > cardsPerView"
+            @click="
+              previousSlide();
+              stopAutoSlide();
+            "
+            class="absolute top-1/2 -left-3 z-10 hidden h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-fg/20 bg-bg3/50 text-fg transition-all duration-200 hover:bg-bg3/80 md:-left-4 md:flex"
+            :disabled="currentIndex === 0"
+            :class="{ 'cursor-not-allowed opacity-50': currentIndex === 0 }"
+          >
+            <Icon name="mdi:chevron-left" class="h-5 w-5" />
+          </button>
+
+          <button
+            v-if="visibleData.length > cardsPerView"
+            @click="
+              nextSlide();
+              stopAutoSlide();
+            "
+            class="absolute top-1/2 -right-2 z-10 hidden h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-fg/20 bg-bg3/50 text-white transition-all duration-200 hover:bg-bg3/80 md:-right-4 md:flex"
+            :disabled="currentIndex >= maxIndex"
+            :class="{
+              'cursor-not-allowed opacity-50': currentIndex >= maxIndex,
+            }"
+          >
+            <Icon name="mdi:chevron-right" class="h-5 w-5" />
+          </button>
         </div>
 
-        <!-- Navigation Arrows -->
-        <button
-          v-if="visibleData.length > cardsPerView"
-          @click="
-            previousSlide();
-            stopAutoSlide();
-          "
-          class="absolute top-1/2 -left-3 z-10 hidden h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-fg/20 bg-bg3/50 text-fg transition-all duration-200 hover:bg-bg3/80 md:-left-4 md:flex"
-          :disabled="currentIndex === 0"
-          :class="{ 'cursor-not-allowed opacity-50': currentIndex === 0 }"
+        <!-- Dots Indicator -->
+        <div
+          v-if="visibleData.length > cardsPerView && totalPages > 1"
+          class="mb-8 flex justify-center gap-3"
         >
-          <Icon name="mdi:chevron-left" class="h-5 w-5" />
-        </button>
+          <button
+            v-for="page in totalPages"
+            :key="`dot-${page}`"
+            @click="
+              goToPage(page - 1);
+              stopAutoSlide();
+            "
+            class="h-2 w-2 cursor-pointer rounded-full transition-all duration-200"
+            :class="[
+              currentPage === page - 1
+                ? 'scale-110 bg-fg'
+                : 'bg-fg/20 hover:bg-link',
+            ]"
+          />
+        </div>
 
-        <button
-          v-if="visibleData.length > cardsPerView"
-          @click="
-            nextSlide();
-            stopAutoSlide();
-          "
-          class="absolute top-1/2 -right-2 z-10 hidden h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-fg/20 bg-bg3/50 text-white transition-all duration-200 hover:bg-bg3/80 md:-right-4 md:flex"
-          :disabled="currentIndex >= maxIndex"
-          :class="{
-            'cursor-not-allowed opacity-50': currentIndex >= maxIndex,
-          }"
-        >
-          <Icon name="mdi:chevron-right" class="h-5 w-5" />
-        </button>
+        <div class="text-center">
+          <ActionButton link="/guides" class="mr-0!"
+            >Read all guides -></ActionButton
+          >
+        </div>
       </div>
-
-      <!-- Dots Indicator -->
-      <div
-        v-if="visibleData.length > cardsPerView && totalPages > 1"
-        class="mb-8 flex justify-center gap-3"
-      >
-        <button
-          v-for="page in totalPages"
-          :key="`dot-${page}`"
-          @click="
-            goToPage(page - 1);
-            stopAutoSlide();
-          "
-          class="h-2 w-2 cursor-pointer rounded-full transition-all duration-200"
-          :class="[
-            currentPage === page - 1
-              ? 'scale-110 bg-fg'
-              : 'bg-fg/20 hover:bg-link',
-          ]"
-        />
-      </div>
-
-      <div class="text-center">
-        <ActionButton link="/guides" class="mr-0!"
-          >Read all guides -></ActionButton
-        >
-      </div>
-    </div>
-  </section>
+    </section>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
