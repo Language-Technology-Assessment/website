@@ -71,7 +71,7 @@
             goToPage(page - 1);
             stopAutoSlide();
           "
-          class="h-3 w-3 cursor-pointer rounded-full transition-all duration-200"
+          class="h-2 w-2 cursor-pointer rounded-full transition-all duration-200"
           :class="[
             currentPage === page - 1
               ? 'scale-110 bg-fg'
