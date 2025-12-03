@@ -139,7 +139,7 @@
 }
 
 section {
-  @apply mx-auto w-[var(--width)] max-w-full;
+  @apply mx-auto mb-32 w-[var(--width)] max-w-[var(--maxwidth)];
   > .label {
     @apply mx-auto mb-12 block pt-2 text-center font-semibold;
   }

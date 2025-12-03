@@ -8,7 +8,7 @@
     <ContentRenderer
       :value="data"
       v-if="data"
-      class="page transition-opacity duration-1000 starting:opacity-0"
+      class="transition-opacity duration-1000 starting:opacity-0"
     >
       <template #not-found>
         <div class="not-found">Page not found.</div>

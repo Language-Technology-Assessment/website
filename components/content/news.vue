@@ -25,7 +25,7 @@
       </NuxtLink>
     </div>
     <div class="row mx-auto text-center">
-      <ActionButton link="/news">Read all news -></ActionButton>
+      <ActionButton link="/news" class="mr-0!">Read all news -></ActionButton>
     </div>
   </section>
 </template>

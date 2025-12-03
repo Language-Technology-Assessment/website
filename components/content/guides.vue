@@ -18,7 +18,9 @@
         </div>
       </div>
       <div class="text-center">
-        <ActionButton link="/guides">Read all guides -></ActionButton>
+        <ActionButton link="/guides" class="mr-0!"
+          >Read all guides -></ActionButton
+        >
       </div>
     </div>
   </section>
