@@ -108,7 +108,7 @@ const visibleData = computed(() => {
 
 // Responsive cards per view
 const cardsPerView = computed(() => {
-  if (process.client) {
+  if (import.meta.client) {
     if (windowWidth.value >= 1400) return 3; // Desktop: 3 cards
     if (windowWidth.value >= 800) return 2; // Tablet: 2 cards
     return 1; // Mobile: 1 card
@@ -176,7 +176,7 @@ const stopAutoSlide = () => {
 
 // Handle window resize
 const handleResize = () => {
-  if (process.client) {
+  if (import.meta.client) {
     windowWidth.value = window.innerWidth;
     // Reset to first slide when screen size changes
     currentIndex.value = 0;
@@ -187,7 +187,8 @@ const handleResize = () => {
 
 // Auto-slide functionality
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
+    handleResize();
     windowWidth.value = window.innerWidth;
     window.addEventListener("resize", handleResize);
   }
@@ -234,7 +235,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   stopAutoSlide();
-  if (process.client) {
+  if (import.meta.client) {
     window.removeEventListener("resize", handleResize);
   }
 });
