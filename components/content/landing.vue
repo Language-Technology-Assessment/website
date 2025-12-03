@@ -21,18 +21,18 @@
 
       <!-- text -->
       <div
-        class="items-between relative z-0 flex w-full overflow-visible portrait:pb-8 portrait:max-[30rem]:pb-4 starting:translate-y-40 starting:opacity-0"
+        class="items-between relative z-0 flex overflow-visible portrait:pb-8 portrait:max-[30rem]:pb-4 starting:translate-y-40 starting:opacity-0"
         :style="{
           transform: `translateY(${y / 2}px)`,
           opacity: clamp(1 - (y * 2) / height, 0.1, 1),
         }"
       >
         <div
-          class="items-between mx-auto flex flex-col justify-between text-center"
+          class="items-between mx-auto flex max-w-full flex-col justify-between text-center"
           :style="{ opacity: 1 - (y * 2) / height + '!important' }"
         >
           <div
-            class="slot mb-2 max-w-[24em] font-display text-4xl sm:mb-8 [&>p]:leading-[1.2]"
+            class="slot mb-2 w-full max-w-[24em] font-display text-4xl sm:mb-8 [&>p]:leading-[1.2]"
           >
             <Appear
               :text="props.title"
