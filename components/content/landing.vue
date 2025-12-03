@@ -45,11 +45,12 @@
                 :style="{ opacity: 1 - (y / height) * 2 }"
                 v-if="isVisible"
               >
-                <div
-                  class="notes transition-colros hover:text-f leading-4 tracking-wide text-fg2 duration-300 [&>p]:leading-[1.4]"
+                <MDC
+                  class="notes transition-colros hover:text-f leading-4 tracking-wide text-fg2 duration-300 [&>p]:w-full! [&>p]:max-w-full! [&>p]:leading-[1.4]"
+                  :value="props.notes"
+                  v-if="props.notes"
                 >
-                  <MDC :value="props.notes" v-if="props.notes" />
-                </div>
+                </MDC>
               </div>
             </div>
             <div>

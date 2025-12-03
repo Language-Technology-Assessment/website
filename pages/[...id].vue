@@ -1,6 +1,6 @@
 <template>
   <div
-    class="main-element mt-[30vh] pt-0 md:mt-[14rem]"
+    class="page main-element mt-[30vh] mb-32 pt-0 md:mt-[14rem]"
     ref="element"
     :class="{ loaded, finalpath: status !== 'pending' }"
   >

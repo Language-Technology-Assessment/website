@@ -1,7 +1,9 @@
 <template name="/news">
   <section class="mt-[14rem] min-h-[80vh]">
     <div class="label">All guides:</div>
-    <div class="content flex items-start justify-center gap-12">
+    <div
+      class="content mx-auto flex max-w-full flex-wrap items-start justify-center gap-12"
+    >
       <GuideCard v-for="item in data" :key="item.path" :item="item" />
     </div>
   </section>

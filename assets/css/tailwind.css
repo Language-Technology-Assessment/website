@@ -193,7 +193,7 @@ section {
 }
 
 .page {
-  @apply mx-auto min-h-screen w-container max-w-container-max pb-12;
+  /*@apply mx-auto min-h-screen w-container max-w-container-max pb-12;*/
 
   section {
     @apply mb-32 scroll-mt-24;
@@ -202,13 +202,13 @@ section {
     /* @apply mt-[12rem]; */
   }
   p {
-    @apply mx-auto mb-4 w-full max-w-full sm:w-[30em];
+    @apply mx-auto mb-4 w-prose max-w-container-max;
     + #the-index {
       @apply mt-12;
     }
   }
   > p {
-    @apply mx-auto mb-4 w-prose max-w-full leading-[1.6] sm:max-w-container-max;
+    @apply mx-auto mb-4 w-prose max-w-container-max leading-[1.6];
     + .bars {
       margin-top: 4rem;
     }

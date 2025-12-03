@@ -38,7 +38,10 @@ const { models } = useModels();
     @apply sm:text-xl sm:font-light;
   }
 }
-:deep(.the-index) {
-  outline: 2px solid red !important;
+.right {
+  .the-index {
+    width: auto !important;
+    max-width: 100% !important;
+  }
 }
 </style>
