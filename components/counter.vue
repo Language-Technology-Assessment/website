@@ -62,7 +62,6 @@ onMounted(() => {
     useIntersectionObserver(
       el,
       (entries) => {
-        console.log("intersection");
         const entry = entries[0];
         if (entry?.isIntersecting) {
           animateCounter();
