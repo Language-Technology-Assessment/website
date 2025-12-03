@@ -1,5 +1,5 @@
 <template>
-  <div class="the-index mx-auto mb-12 flex items-start" id="the-index">
+  <section class="the-index mx-auto mb-12 flex items-start" id="the-index">
     <!-- filter menu -->
     <FilterMenu
       v-model:open="filterscreenOpen"
@@ -113,7 +113,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
