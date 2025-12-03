@@ -1,2 +1,2 @@
 # EU OSAI index
-UI for https://github.com/Language-Technology-Assessment/main-database.
+UI for [https://codeberg.org/AI-technology-assessment/main-database](https://codeberg.org/AI-technology-assessment/main-database).
