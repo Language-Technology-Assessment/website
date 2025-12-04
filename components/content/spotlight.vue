@@ -32,10 +32,9 @@ const { models } = useModels();
 <style lang="postcss">
 @reference "../../assets/css/tailwind.css";
 .left-align {
-  /*@apply ml-0 w-100 max-w-full;*/
   @apply mx-auto mb-8 w-100 max-w-full sm:mb-24 lg:min-h-100;
   p {
-    @apply sm:text-xl sm:font-light;
+    @apply mx-0 w-full max-w-full sm:text-xl sm:font-light;
   }
 }
 .right {
