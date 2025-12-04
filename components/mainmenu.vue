@@ -64,7 +64,7 @@
           :to="item.link"
           v-for="item in menu.menu"
           :target="item.target"
-          class="mb-4 block text-2xl text-fg no-underline hover:text-link"
+          class="mb-4 flex items-center justify-center gap-3 text-2xl text-fg no-underline hover:text-link"
           :class="{
             withIcon: !!item.icon,
             exact: $route.fullPath === item.link,
@@ -72,8 +72,8 @@
           :aria-label="item?.name"
           @click="menuopen = false"
         >
-          <span v-if="item.name">{{ item.name }}</span>
           <Icon :name="item.icon" v-if="item.icon" aria-hidden="true"></Icon>
+          <span v-if="item.name">{{ item.name }}</span>
         </NuxtLink>
       </div>
     </div>
