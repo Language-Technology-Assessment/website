@@ -1,5 +1,8 @@
 <template>
-  <section class="the-index mx-auto mb-12 flex items-start" id="the-index">
+  <section
+    class="the-index mx-auto mt-12! mb-12! flex items-start"
+    id="the-index"
+  >
     <!-- filter menu -->
     <FilterMenu
       v-model:open="filterscreenOpen"
