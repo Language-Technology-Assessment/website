@@ -20,6 +20,9 @@ let prevy = 0;
 const nottop = computed(() => {
   direction.value = y.value > prevy ? "scroll-down" : "scroll-up";
   prevy = y.value;
+  if (y.value < 5) {
+    direction.value = "scroll-up";
+  }
   return y.value > 150;
 });
 // end
