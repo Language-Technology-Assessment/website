@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="landing mt-0 mb-24 max-h-none overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:h-auto portrait:max-h-[46rem]"
+      class="landing mx-auto mt-0 mb-24 max-h-none max-w-container-max overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:h-auto portrait:max-h-[46rem]"
       :class="{ 'opacity-0': !isVisible, 'opacity-100': isVisible }"
       ref="mainelement"
     >
@@ -14,8 +14,12 @@
       >
         <img
           src="/sphere2.svg"
-          class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out lg:top-[60vh] lg:scale-100"
-          :class="{ 'translate-y-50 scale-100! opacity-0': !isVisible }"
+          class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-0 transition-all duration-2000 ease-out lg:top-[60vh] lg:scale-100"
+          :class="{
+            'translate-y-50 scale-100! opacity-0': !isVisible,
+            'opacity-30': svgLoaded,
+          }"
+          @load="svgLoaded = true"
         />
       </div>
 
@@ -54,7 +58,7 @@
               </div>
             </div>
             <div
-              class="flex flex-col items-center justify-center gap-2 sm:flex-row"
+              class="flex flex-col items-center justify-center gap-2 md:flex-row"
             >
               <ActionButton
                 v-for="item in props.links"
@@ -80,6 +84,9 @@ const props = defineProps({
   links: Array<{ text: string; link: string }>,
   notes: String,
 });
+
+const svgLoaded = ref(false);
+
 const mainelement = ref(null);
 const { y } = useWindowScroll();
 const { height } = useWindowSize();
@@ -113,6 +120,12 @@ const getSlotChildrenText = (children: any) => {
     id: result.find((item: any) => item.id)?.id || "",
   };
 };
+
+onMounted(() => {
+  setTimeout(() => {
+    svgLoaded.value = true;
+  }, 100);
+});
 </script>
 
 <style>
