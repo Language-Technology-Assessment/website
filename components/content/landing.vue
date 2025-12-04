@@ -32,7 +32,7 @@
           :style="{ opacity: 1 - (y * 2) / height + '!important' }"
         >
           <div
-            class="slot mb-2 w-full max-w-[24em] font-display text-4xl sm:mb-8 [&>p]:leading-[1.2]"
+            class="slot mb-2 w-full max-w-[32em] font-display text-4xl sm:mb-8 [&>p]:leading-[1.2]"
           >
             <Appear
               :text="props.title"
