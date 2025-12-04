@@ -17,7 +17,10 @@
       </div>
     </div>
     <div class="">
-      <div class="mb-2 max-w-full" :class="{ 'line-clamp-3': !open }">
+      <div
+        class="mb-2 max-w-full [&>p]:mx-0!"
+        :class="{ 'line-clamp-3': !open }"
+      >
         <slot></slot>
       </div>
       <button
