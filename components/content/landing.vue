@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="landing mt-0 mb-4 max-h-none min-h-[60vh] overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:h-auto lg:min-h-[calc(80vh-14rem)] portrait:max-h-[46rem]"
+      class="landing mt-0 mb-24 max-h-none overflow-visible transition-opacity duration-1000 max-[50rem]:mb-4 lg:h-auto portrait:max-h-[46rem]"
       :class="{ 'opacity-0': !isVisible, 'opacity-100': isVisible }"
       ref="mainelement"
     >
@@ -53,11 +53,13 @@
                 </MDC>
               </div>
             </div>
-            <div>
+            <div
+              class="flex flex-col items-center justify-center gap-2 sm:flex-row"
+            >
               <ActionButton
                 v-for="item in props.links"
                 :link="item.link"
-                class="block transition-opacity delay-1000 duration-1000 starting:opacity-0"
+                class="mx-auto! block transition-opacity delay-1000 duration-1000 sm:mx-0! starting:opacity-0"
                 v-if="isVisible"
               >
                 {{ item.text }} ->
