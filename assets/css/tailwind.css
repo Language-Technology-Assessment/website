@@ -266,7 +266,7 @@ section {
   }
 
   blockquote {
-    @apply mr-auto ml-leftplus w-prose max-w-container-max italic;
+    @apply mx-auto w-prose max-w-container-max italic;
     p {
       @apply border-l-2 border-bc pl-4;
     }
