@@ -215,7 +215,7 @@ section {
   }
 
   h1 {
-    @apply mt-4 mb-12 max-w-container-max text-center text-3xl leading-9 font-light sm:text-4xl sm:leading-11;
+    @apply mx-auto mt-4 mb-12 max-w-container-max text-center text-3xl leading-9 font-light sm:text-4xl sm:leading-11;
   }
 
   > h1 {
@@ -232,7 +232,7 @@ section {
   h4,
   h5,
   h6 {
-    @apply mx-auto mt-16 mb-4 w-prose max-w-full text-left text-lg leading-[1.2] font-semibold;
+    @apply mx-auto mt-16 mb-4 w-prose max-w-container-max text-left text-lg leading-[1.2] font-semibold;
     a {
       @apply no-underline;
     }
