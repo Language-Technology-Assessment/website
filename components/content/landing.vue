@@ -20,7 +20,7 @@
           }"
         />
         <img
-          src="/spherev2.png"
+          src="/spherev3.png"
           class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out md:hidden lg:top-[60vh] lg:scale-100"
           :class="{
             'translate-y-50 scale-100! opacity-0': !isVisible,
