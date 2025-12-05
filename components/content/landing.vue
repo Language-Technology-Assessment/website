@@ -14,12 +14,17 @@
       >
         <img
           src="/sphere2.svg"
-          class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-0 transition-all duration-2000 ease-out lg:top-[60vh] lg:scale-100"
+          class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] hidden w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out md:flex lg:top-[60vh] lg:scale-100"
           :class="{
             'translate-y-50 scale-100! opacity-0': !isVisible,
-            'opacity-30': svgLoaded,
           }"
-          @load="svgLoaded = true"
+        />
+        <img
+          src="/spherev2.png"
+          class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out md:hidden lg:top-[60vh] lg:scale-100"
+          :class="{
+            'translate-y-50 scale-100! opacity-0': !isVisible,
+          }"
         />
       </div>
 
