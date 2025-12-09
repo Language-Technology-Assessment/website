@@ -12,13 +12,20 @@
           opacity: clamp(1 - y / height, 0.3, 1),
         }"
       >
-        <img
+        <div
+          v-html="sphere2"
+          class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] hidden w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out md:flex lg:top-[60vh] lg:scale-100"
+          :class="{
+            'translate-y-50 scale-100! opacity-0': !isVisible,
+          }"
+        ></div>
+        <!-- <img
           src="/sphere2.svg"
           class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] hidden w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out md:flex lg:top-[60vh] lg:scale-100"
           :class="{
             'translate-y-50 scale-100! opacity-0': !isVisible,
           }"
-        />
+        /> -->
         <img
           src="/spherev3.png"
           class="sphere pointer-events-none absolute top-[90vh] -right-[30vw] z-[-1] flex w-full scale-200 overflow-visible opacity-30 transition-all duration-2000 ease-out md:hidden lg:top-[60vh] lg:scale-100"
@@ -82,6 +89,7 @@
 </template>
 
 <script lang="ts" setup>
+import sphere2 from "@/public/sphere2.svg?raw";
 import { useWindowScroll, useWindowSize, clamp } from "@vueuse/core";
 const slots = useSlots();
 const props = defineProps({
