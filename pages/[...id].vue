@@ -82,7 +82,7 @@ useHead(
 const seo = computed(() => {
   const defaults = {
     title: data.value?.title || defaultMeta?.seo?.title,
-    description: data.value.description || defaultMeta?.seo?.description,
+    description: data.value?.description || defaultMeta?.seo?.description,
     ogImage: "/osai-index-logo.png",
     ogDescription: data.value?.description || defaultMeta?.seo?.description,
     twitterCard: "summary_large_image",
