@@ -50,11 +50,6 @@ export default defineNuxtConfig({
       posthogHost: "https://eu.i.posthog.com",
     },
   },
-  router: {
-    options: {
-      strict: true,
-    },
-  },
   postcss: {
     plugins: {
       "@tailwindcss/postcss": true,
@@ -65,7 +60,6 @@ export default defineNuxtConfig({
     url: "https://osai-index.eu",
     name: "European Open Source AI Index",
     defaultOgImage: "/osai-index-logo.png",
-    trailingSlash: true,
   },
 
   modules: [
@@ -316,10 +310,10 @@ export default defineNuxtConfig({
       },
     },
   },
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      autoSubfolderIndex: true,
+  routeRules: {
+    // Redirect trailing slash URLs
+    "/**/**/": {
+      redirect: { to: (path) => path.slice(0, -1), statusCode: 301 },
     },
   },
   vite: {
