@@ -6,7 +6,7 @@ export const useLanguage = () => {
   // });
   const markdownPath = computed(() => {
     // disabled
-    return route.path;
+    return route.path.replace(/\/$/, "") || "/";
     // const pad = route.path === '/' ? '/index' : route.path
     // return languageCode.value ? pad + '.' + languageCode.value : route.path
   });
