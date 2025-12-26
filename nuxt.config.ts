@@ -60,6 +60,7 @@ export default defineNuxtConfig({
     url: "https://osai-index.eu",
     name: "European Open Source AI Index",
     defaultOgImage: "/osai-index-logo.png",
+    trailingSlash: true,
   },
 
   modules: [
