@@ -5,7 +5,7 @@
     v-if="models && models.length > 0"
   >
     <table
-      class="w-full min-w-[30rem] overflow-hidden border-r border-l border-bg2"
+      class="gridtable w-full min-w-[30rem] overflow-visible border-r border-l border-bg2"
       @mouseleave="modelKey = null"
     >
       <thead class="sticky top-0 z-[1] transition-all duration-300 ease-in-out">

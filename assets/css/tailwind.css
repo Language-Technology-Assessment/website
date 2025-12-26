@@ -272,7 +272,7 @@ section {
     }
   }
 
-  table {
+  table:not(.gridtable) {
     @apply mx-auto my-12 rounded-xl border border-bc text-sm;
     th {
       @apply font-normal text-fg2;

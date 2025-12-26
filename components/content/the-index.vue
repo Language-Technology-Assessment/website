@@ -18,7 +18,10 @@
       :class="[
         {
           sticky: isvisible,
-          '!max-w-[50rem] rounded-lg': props.hideFilters,
+          '!max-w-[60rem] rounded-lg':
+            props.hideFilters && filters?.view === 'grid',
+          '!max-w-[50rem] rounded-lg':
+            props.hideFilters && filters?.view !== 'grid',
           'rounded-lg xl:rounded-l-none! xl:rounded-r-lg xl:border-l-0':
             !props.hideFilters,
         },
