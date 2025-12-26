@@ -50,6 +50,11 @@ export default defineNuxtConfig({
       posthogHost: "https://eu.i.posthog.com",
     },
   },
+  router: {
+    options: {
+      strict: true,
+    },
+  },
   postcss: {
     plugins: {
       "@tailwindcss/postcss": true,
@@ -309,6 +314,12 @@ export default defineNuxtConfig({
       map: {
         a: "a",
       },
+    },
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      autoSubfolderIndex: true,
     },
   },
   vite: {
