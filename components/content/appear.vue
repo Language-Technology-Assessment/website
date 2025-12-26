@@ -57,6 +57,10 @@ onMounted(() => {
       },
     );
   }, 0);
+
+  setTimeout(() => {
+    console.log(props.text);
+  }, 1000);
 });
 </script>
 
