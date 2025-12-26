@@ -39,7 +39,10 @@
     "vue": "latest"
   },
   "devDependencies": {
+    "@iconify-json/devicon-plain": "^1.2.50",
+    "@iconify-json/ic": "^1.2.4",
     "@iconify-json/iconamoon": "^1.2.2",
+    "@iconify-json/mdi": "^1.2.3",
     "@modyfi/vite-plugin-yaml": "^1.1.1",
     "@types/lodash-es": "^4.17.12",
     "tailwindcss": "^4"

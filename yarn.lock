@@ -598,10 +598,31 @@
   dependencies:
     tslib "^2.4.0"
 
+"@iconify-json/devicon-plain@^1.2.50":
+  version "1.2.50"
+  resolved "https://registry.yarnpkg.com/@iconify-json/devicon-plain/-/devicon-plain-1.2.50.tgz#cc70395dee4428ae2a3fbe6aebb7e88b2be5e5b4"
+  integrity sha512-cGxENeJBS9g08ePbygsxPRH0PJmH5w4JsfbaPFWpNPGlQ4p3b+8cKVEg40Z2mU/EgBXeLUK2wfj364ePx1poMA==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify-json/ic@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@iconify-json/ic/-/ic-1.2.4.tgz#bf7bfe6accbbf2bee6e1ba50ae2645efa41a7208"
+  integrity sha512-pzPMmrZrBQuwT7nmtrYdkttun8KalRGgZPIL1Ny9KpF2zjRGIUPN+npTfuD3lrgO/OnSwAoJWuekQwBpt/Cqrw==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify-json/iconamoon@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@iconify-json/iconamoon/-/iconamoon-1.2.2.tgz#403a6b745a99f9e11774b64f44007ea7e46c11dd"
   integrity sha512-Xn7YeSDniPgutPr0qil/iQwQelq975OYQ/i2twGjcK4DjGOXBrBC+6q45WtVuQbFfXzM7bgijv4yVnxy0OqUdQ==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify-json/mdi@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@iconify-json/mdi/-/mdi-1.2.3.tgz#5e4ee9d8c8aaad04381c8cc6c6edbe3327f031b5"
+  integrity sha512-O3cLwbDOK7NNDf2ihaQOH5F9JglnulNDFV7WprU2dSoZu3h3cWH//h74uQAB87brHmvFVxIOkuBX2sZSzYhScg==
   dependencies:
     "@iconify/types" "*"
 
