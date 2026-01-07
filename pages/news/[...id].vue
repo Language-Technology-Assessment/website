@@ -30,7 +30,8 @@
         <div class="empty"></div>
       </template>
     </ContentRenderer>
-    <Sidebar type="news" label="Latest news" />
+    <!-- <Sidebarv2 type="news" label="More news" /> -->
+    <News class="mt-24" />
   </div>
 </template>
 

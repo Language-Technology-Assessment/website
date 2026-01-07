@@ -16,7 +16,12 @@
         <div class="label-date mb-3 group-hover/card:text-link/50!">
           {{ useToDate(item.date) }}
         </div>
-        <div class="title mb-2 text-xl leading-6">{{ item.title }}</div>
+        <div
+          class="title mb-2 text-xl leading-6"
+          :class="{ 'text-fg2': $route.path === '/news' + item.path }"
+        >
+          {{ item.title }}
+        </div>
         <div
           class="title mb-4 text-xs leading-5 text-fg2 group-hover/card:text-link/50"
         >

@@ -18,7 +18,7 @@
       <div class="mb-1 text-xs text-fg2">by {{ data?.author }}</div>
       <div class="text-xs text-fg2">{{ useToDate(data?.date) }}</div>
     </div>
-    <Sidebar type="guides" label="Latest guides" />
+
     <ContentRenderer
       :value="data"
       v-if="data"
@@ -31,6 +31,8 @@
         <div class="empty"></div>
       </template>
     </ContentRenderer>
+    <!-- <Sidebar type="guides" label="Latest guides" /> -->
+    <Guides class="mt-24" />
   </div>
 </template>
 
