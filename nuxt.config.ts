@@ -316,6 +316,9 @@ export default defineNuxtConfig({
     "/**/**/": {
       redirect: { to: (path) => path.slice(0, -1), statusCode: 301 },
     },
+    "/the-index": {
+      redirect: { to: "/database", statusCode: 301 },
+    },
   },
   vite: {
     css: {},
