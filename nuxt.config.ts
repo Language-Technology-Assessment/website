@@ -312,10 +312,6 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    // Redirect trailing slash URLs
-    "/**/**/": {
-      redirect: { to: (path) => path.slice(0, -1), statusCode: 301 },
-    },
     "/the-index": {
       redirect: { to: "/database", statusCode: 301 },
     },
