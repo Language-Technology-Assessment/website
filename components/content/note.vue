@@ -1,6 +1,6 @@
 <template>
   <div
-    class="note mb-[1em] ml-leftplus w-[30em] max-w-container-max text-[0.75rem] font-semibold text-fg2"
+    class="note mx-auto mb-[1em] w-[30em] max-w-container-max text-[0.75rem] font-semibold text-fg2"
   >
     <slot mdc-unwrap="p"></slot>
   </div>
