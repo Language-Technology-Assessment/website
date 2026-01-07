@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="landing mx-auto mt-0 mb-24 max-h-none max-w-container-max overflow-visible transition-opacity duration-1000 lg:h-auto portrait:max-h-[46rem]"
+      class="landing mx-auto mt-0 mb-24 max-h-none max-w-container-max overflow-visible transition-opacity duration-1000 lg:h-74! portrait:max-h-[46rem]"
       :class="{ 'opacity-0': !isVisible, 'opacity-100': isVisible }"
       ref="mainelement"
     >
