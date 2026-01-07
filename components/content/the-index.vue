@@ -96,7 +96,10 @@
           class="sticky bottom-0 z-[99] m-0 flex w-full cursor-pointer items-center gap-4 rounded-none bg-bg px-4 py-4 text-fg hover:opacity-100 sm:px-12 lg:px-8 xl:px-12"
         >
           <div class="grow">
-            <ActionButton :link="comparisonLink" class="ml-0 py-2 leading-5!"
+            <ActionButton
+              :showAlways="true"
+              :link="comparisonLink"
+              class="ml-0 py-2 leading-5!"
               >Compare selected model{{
                 store.selected.length > 1 ? "s" : ""
               }}
