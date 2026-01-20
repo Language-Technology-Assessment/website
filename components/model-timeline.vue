@@ -8,7 +8,7 @@
       <div class="mb-6 text-center">
         <p class="text-tiny text-fg2/50">
           Models plotted by release date and openness score.<br />
-          The size is based on the performance class.
+          The size is based on the selected parameter.
         </p>
       </div>
 
@@ -49,27 +49,6 @@
               :class="{ 'rotate-180': filterDropdownOpen }"
             />
           </button>
-        </div>
-
-        <!-- Selected models pills -->
-        <div v-if="selectedModels.length > 0" class="mt-2 flex flex-wrap gap-1">
-          <span
-            v-for="model in selectedModels"
-            :key="model.filename"
-            class="inline-flex items-center gap-1 rounded-full border border-bg3 bg-bg px-2 py-0.5 text-xs text-fg"
-          >
-            <span
-              class="inline-block h-2 w-2 rounded-full"
-              :style="{ background: getColorMix(model.score) }"
-            ></span>
-            {{ model.name }}
-            <button
-              @mousedown.prevent="removeSelectedModel(model.filename)"
-              class="cursor-pointer leading-0 text-fg2 hover:text-link"
-            >
-              <Icon name="material-symbols:close-rounded" class="h-3 w-3" />
-            </button>
-          </span>
         </div>
 
         <!-- Dropdown -->
@@ -116,6 +95,27 @@
             </div>
           </div>
         </Transition>
+
+        <!-- Selected models pills -->
+        <div v-if="selectedModels.length > 0" class="mt-2 flex flex-wrap gap-1">
+          <span
+            v-for="model in selectedModels"
+            :key="model.filename"
+            class="inline-flex items-center gap-1 rounded-full border border-bg3 bg-bg px-2 py-0.5 text-xs text-fg"
+          >
+            <span
+              class="inline-block h-2 w-2 rounded-full"
+              :style="{ background: getColorMix(model.score) }"
+            ></span>
+            {{ model.name }}
+            <button
+              @mousedown.prevent="removeSelectedModel(model.filename)"
+              class="cursor-pointer leading-0 text-fg2 hover:text-link"
+            >
+              <Icon name="material-symbols:close-rounded" class="h-3 w-3" />
+            </button>
+          </span>
+        </div>
       </div>
 
       <!-- Chart Container -->
@@ -182,7 +182,7 @@
             <div
               class="rounded-full transition-opacity duration-200"
               :class="[
-                getSizeClass(point.performanceClass),
+                getSizeClass(point),
                 isModelSelected(point.filename)
                   ? 'opacity-100'
                   : 'opacity-80 group-hover:opacity-100',
@@ -262,7 +262,7 @@
 
       <!-- Legend -->
       <div
-        class="mt-12 flex flex-wrap items-center justify-center gap-4 text-xs"
+        class="mt-12 flex flex-col items-center justify-center gap-4 text-xs"
       >
         <div class="flex items-center gap-2">
           <span class="text-fg2">Openness:</span>
@@ -279,26 +279,108 @@
             <span>Open</span>
           </span>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-fg2">Performance class:</span>
-          <span class="flex items-center gap-1">
-            <span
-              class="inline-block h-2 w-2 rounded-full border border-fg2"
-            ></span>
-            <span>Limited</span>
-          </span>
-          <span class="flex items-center gap-1">
-            <span
-              class="inline-block h-3 w-3 rounded-full border border-fg2"
-            ></span>
-            <span>Full</span>
-          </span>
-          <span class="flex items-center gap-1">
-            <span
-              class="inline-block h-4 w-4 rounded-full border border-fg2"
-            ></span>
-            <span>Latest</span>
-          </span>
+
+        <!-- Size selector -->
+        <div class="relative flex items-center gap-2">
+          <span class="text-fg2">Size by:</span>
+          <button
+            @click.stop="toggleSizeDropdown"
+            class="flex cursor-pointer items-center gap-1 rounded border border-bg3 bg-bg2 px-2 py-1 transition-colors hover:bg-bg3"
+          >
+            <span>{{ selectedSizeOptionLabel }}</span>
+            <Icon
+              name="mdi:chevron-down"
+              class="h-4 w-4 transition-transform"
+              :class="{ 'rotate-180': sizeDropdownOpen }"
+            />
+          </button>
+
+          <!-- Size dropdown -->
+          <Transition
+            enter-active-class="transition duration-150 ease-out"
+            enter-from-class="opacity-0 translate-y-1"
+            enter-to-class="opacity-100 translate-y-0"
+            leave-active-class="transition duration-100 ease-in"
+            leave-from-class="opacity-100 translate-y-0"
+            leave-to-class="opacity-0 translate-y-1"
+          >
+            <div
+              v-if="sizeDropdownOpen"
+              class="absolute bottom-full left-0 z-50 mb-1 max-h-64 min-w-48 overflow-auto rounded border border-bc bg-bg shadow-lg"
+            >
+              <!-- Performance class option -->
+              <div
+                @mousedown.prevent="selectSizeOption('performanceclass')"
+                class="flex cursor-pointer items-center gap-2 px-3 py-2 transition-colors hover:bg-bg3"
+                :class="{
+                  'bg-bg2': selectedSizeOption === 'performanceclass',
+                }"
+              >
+                <span class="flex-1">Performance class</span>
+                <Icon
+                  v-if="selectedSizeOption === 'performanceclass'"
+                  name="mdi:check"
+                  class="shrink-0 text-link"
+                />
+              </div>
+
+              <!-- Category groups -->
+              <template v-for="cat in categories" :key="cat.ref">
+                <div
+                  @mousedown.prevent="selectSizeOption(`cat:${cat.ref}`)"
+                  class="flex cursor-pointer items-center gap-2 border-t border-bg3 px-3 py-1.5 text-tiny font-semibold uppercase transition-colors hover:bg-bg3"
+                  :class="{
+                    'bg-bg2 text-fg': selectedSizeOption === `cat:${cat.ref}`,
+                    'text-fg2': selectedSizeOption !== `cat:${cat.ref}`,
+                  }"
+                >
+                  <span class="flex-1">{{ cat.name }}</span>
+                  <Icon
+                    v-if="selectedSizeOption === `cat:${cat.ref}`"
+                    name="mdi:check"
+                    class="shrink-0 text-link"
+                  />
+                </div>
+                <div
+                  v-for="param in cat.params"
+                  :key="param.ref"
+                  @mousedown.prevent="selectSizeOption(param.ref)"
+                  class="flex cursor-pointer items-center gap-2 px-3 py-2 pl-5 transition-colors hover:bg-bg3"
+                  :class="{
+                    'bg-bg2': selectedSizeOption === param.ref,
+                  }"
+                >
+                  <span class="flex-1 truncate">{{ param.name }}</span>
+                  <Icon
+                    v-if="selectedSizeOption === param.ref"
+                    name="mdi:check"
+                    class="shrink-0 text-link"
+                  />
+                </div>
+              </template>
+            </div>
+          </Transition>
+          <!-- Size legend -->
+          <div class="flex items-center gap-2">
+            <span class="flex items-center gap-1">
+              <span
+                class="inline-block h-2 w-2 rounded-full border border-fg2"
+              ></span>
+              <span>{{ sizeLegendLabels.small }}</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <span
+                class="inline-block h-3 w-3 rounded-full border border-fg2"
+              ></span>
+              <span>{{ sizeLegendLabels.medium }}</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <span
+                class="inline-block h-4 w-4 rounded-full border border-fg2"
+              ></span>
+              <span>{{ sizeLegendLabels.large }}</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -310,7 +392,7 @@ const props = defineProps<{
   version?: string;
 }>();
 
-const { models, color } = useModels(props.version);
+const { models, color, categories } = useModels(props.version);
 const router = useRouter();
 
 const chartHeight = 600;
@@ -325,6 +407,55 @@ const filterDropdownOpen = ref(false);
 const selectedModels = ref<
   Array<{ filename: string; name: string; score: number }>
 >([]);
+
+// Size selector state
+const sizeDropdownOpen = ref(false);
+const selectedSizeOption = ref("performanceclass");
+
+function toggleSizeDropdown() {
+  sizeDropdownOpen.value = !sizeDropdownOpen.value;
+}
+
+function selectSizeOption(option: string) {
+  selectedSizeOption.value = option;
+  sizeDropdownOpen.value = false;
+}
+
+const selectedSizeOptionLabel = computed(() => {
+  if (selectedSizeOption.value === "performanceclass") {
+    return "Performance class";
+  }
+  // Check if it's a category
+  if (selectedSizeOption.value.startsWith("cat:")) {
+    const catRef = selectedSizeOption.value.replace("cat:", "");
+    const cat = (categories.value || []).find((c: any) => c.ref === catRef);
+    if (cat) {
+      return cat.name;
+    }
+  }
+  // Find the param name
+  for (const cat of categories.value || []) {
+    const param = cat.params?.find(
+      (p: any) => p.ref === selectedSizeOption.value,
+    );
+    if (param) {
+      return param.name;
+    }
+  }
+  return "Performance class";
+});
+
+const sizeLegendLabels = computed(() => {
+  if (selectedSizeOption.value === "performanceclass") {
+    return { small: "Limited", medium: "Full", large: "Latest" };
+  }
+  // For categories: show percentage ranges
+  if (selectedSizeOption.value.startsWith("cat:")) {
+    return { small: "0-33%", medium: "34-66%", large: "67-100%" };
+  }
+  // For params: closed (0) = small, partial (0.5) = medium, open (1) = large
+  return { small: "Closed", medium: "Partial", large: "Open" };
+});
 
 function openFilterDropdown() {
   filterFocused.value = true;
@@ -400,6 +531,8 @@ interface DataPoint {
   releaseDate: string;
   score: number;
   performanceClass: string;
+  params: Record<string, number>;
+  categories: Record<string, number>;
   x: number;
   y: number;
 }
@@ -471,6 +604,8 @@ const dataPoints = computed<DataPoint[]>(() => {
       releaseDate: m.system.releasedate,
       score: m.score,
       performanceClass: m.system?.performanceclass || "limited",
+      params: m.params || {},
+      categories: m.categories || {},
       x: Math.max(2, Math.min(98, x)), // Clamp to keep points visible
       y: Math.max(2, Math.min(98, y)),
     };
@@ -481,15 +616,40 @@ function getColorMix(score: number): string {
   return color(score);
 }
 
-function getSizeClass(performanceClass: string): string {
-  switch (performanceClass?.toLowerCase()) {
-    case "latest":
+function getSizeClass(point: DataPoint): string {
+  if (selectedSizeOption.value === "performanceclass") {
+    switch (point.performanceClass?.toLowerCase()) {
+      case "latest":
+        return "h-6 w-6";
+      case "full":
+        return "h-4 w-4";
+      case "limited":
+      default:
+        return "h-3 w-3";
+    }
+  }
+
+  // Check if it's a category
+  if (selectedSizeOption.value.startsWith("cat:")) {
+    const catRef = selectedSizeOption.value.replace("cat:", "");
+    const catValue = point.categories[catRef] ?? 0;
+    if (catValue >= 0.67) {
       return "h-6 w-6";
-    case "full":
+    } else if (catValue >= 0.34) {
       return "h-4 w-4";
-    case "limited":
-    default:
+    } else {
       return "h-3 w-3";
+    }
+  }
+
+  // For params: 0 = small, 0.5 = medium, 1 = large
+  const paramValue = point.params[selectedSizeOption.value];
+  if (paramValue === 1) {
+    return "h-6 w-6";
+  } else if (paramValue === 0.5) {
+    return "h-4 w-4";
+  } else {
+    return "h-3 w-3";
   }
 }
 
@@ -579,5 +739,6 @@ function handleTooltipTouch(filename: string, event: TouchEvent) {
 function handleOutsideClick(event: Event) {
   // Close tooltip when clicking outside
   activeTooltip.value = null;
+  sizeDropdownOpen.value = false;
 }
 </script>
