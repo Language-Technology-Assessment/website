@@ -133,6 +133,57 @@ function sortModels(ppp: any) {
   return prs;
 }
 
+function downloadCSV() {
+  // Helper to escape CSV values
+  const escapeCSV = (value: any): string => {
+    if (value === null || value === undefined) return "";
+    const str = String(value);
+    if (str.includes(",") || str.includes('"') || str.includes("\n")) {
+      return `"${str.replace(/"/g, '""')}"`;
+    }
+    return str;
+  };
+
+  // Get all param refs for headers
+  const paramRefs = params.value.map((p) => p.ref);
+  const paramNames = params.value.map((p) => p.name || p.ref);
+
+  // Create headers: Model Name, URL, Total Score, then all params
+  const headers = ["Model Name", "URL", "Total Score", ...paramNames];
+
+  // Create rows for each model
+  const rows = latestModels.value.map((model) => {
+    const modelName = model.system?.name || model.filename || "";
+    const modelUrl = model.filename
+      ? `https://osai-index.eu/model/${model.filename}`
+      : "";
+    const totalScore = model.score !== undefined ? model.score.toFixed(4) : "";
+
+    // Get all param scores
+    const paramScores = paramRefs.map((ref) => {
+      const score = model.params?.[ref];
+      return score !== undefined ? score : "";
+    });
+
+    return [modelName, modelUrl, totalScore, ...paramScores];
+  });
+
+  // Build CSV content
+  const csvContent = [
+    headers.map(escapeCSV).join(","),
+    ...rows.map((row) => row.map(escapeCSV).join(",")),
+  ].join("\n");
+
+  // Create blob and trigger download
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "models.csv";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 async function downloadData(version: string) {
   if (version in cache) {
     return cache[version];
@@ -279,5 +330,6 @@ export const useModels = (version?: string) => {
     color,
     params,
     descriptions,
+    downloadCSV,
   };
 };

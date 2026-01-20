@@ -199,6 +199,15 @@
           </div>
         </div>
       </div>
+      <div>
+        <button
+          @click="downloadCSV()"
+          class="mx-auto flex cursor-pointer items-center gap-3 rounded-xl border border-bg3 bg-bg text-xs text-fg2 hover:bg-bg3 hover:text-link"
+        >
+          <div class="py-2 pl-5">Download model scores as CSV</div>
+          <Icon name="material-symbols:download" class="mr-3 text-lg" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -210,6 +219,7 @@ import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
 const props = defineProps(["categories", "originalModels"]);
 const open = defineModel("open");
+const { downloadCSV } = useModels();
 
 const searchFocus = ref(false);
 
