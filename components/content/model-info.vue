@@ -1,6 +1,5 @@
 <template>
   <div class="">
-    <ParametersDescriptions></ParametersDescriptions>
     <div class="row">
       <div class="py-0 pb-8 text-fg">
         <h1 class="mb-12 w-full text-center text-5xl" v-if="model?.system">

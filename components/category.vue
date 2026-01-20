@@ -57,11 +57,7 @@
             <div class="min-w-0 flex-1 truncate">
               {{ param.name }}
             </div>
-            <Icon
-              @click="bus.emit(param.ref)"
-              name="mage:question-mark-circle-fill"
-              class="flex-shrink-0 cursor-pointer text-fg2 opacity-50 transition-all duration-200 ease-in-out group-hover:opacity-100"
-            ></Icon>
+            <ParamTooltip :param-ref="param.ref" />
           </div>
 
           <!-- param content -->
@@ -96,12 +92,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useEventBus } from "@vueuse/core";
 import openIcon from "@/assets/icons/open.svg?raw";
 import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
 
-const bus = useEventBus("description");
 const { color } = useModels();
 const { model, category } = defineProps(["model", "category"]);
 </script>

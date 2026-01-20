@@ -28,8 +28,6 @@
       ]"
       ref="el"
     >
-      <!-- parameters descriptions -->
-      <ParametersDescriptions :descriptions="descriptions" :params="params" />
       <!-- metadata -->
       <div
         class="left-0 z-10 mb-2 flex w-full items-center gap-4 bg-transparent py-0 text-[0.65rem] text-fg2 sm:mb-6"

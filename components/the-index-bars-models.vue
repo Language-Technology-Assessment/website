@@ -150,12 +150,10 @@
                 <div class="mr-2 inline">
                   {{ params.find((x) => x.ref === openParam).name }}
                 </div>
-                <button
-                  @click="bus.emit(openParam)"
-                  class="m-0 p-0 text-fg2 hover:bg-transparent hover:text-blue-500 [&_svg]:m-0 [&_svg]:align-baseline"
-                >
-                  <Icon name="mage:question-mark-circle-fill"></Icon>
-                </button>
+                <ParamTooltip
+                  :param-ref="openParam"
+                  class="inline-flex align-middle"
+                />
               </div>
               <div
                 class="max-w-[30em] text-fg2"
@@ -197,13 +195,11 @@
 import openIcon from "@/assets/icons/open.svg?raw";
 import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
-import { useEventBus } from "@vueuse/core";
 const store = useMyComparisonStore();
 const router = useRouter();
 const { models, version } = defineProps(["models", "version"]);
 const open = ref();
 const openParam = ref();
-const bus = useEventBus("description");
 
 const { color, params, categories } = useModels(version);
 

@@ -18,10 +18,13 @@
             :class="[{ '!text-fg': column === pk }, `z-[${100 - pk}]`]"
           >
             <div
-              class="absolute bottom-2 left-3 w-32 origin-bottom-left -rotate-45 cursor-pointer text-tiny text-ellipsis whitespace-nowrap hover:text-fg"
-              @click="bus.emit(param.ref)"
+              class="absolute bottom-2 left-3 w-32 origin-bottom-left -rotate-45 text-tiny text-ellipsis whitespace-nowrap"
             >
-              {{ param.name }}
+              <ParamTooltip :param-ref="param.ref">
+                <span class="cursor-pointer hover:text-fg">{{
+                  param.name
+                }}</span>
+              </ParamTooltip>
             </div>
           </td>
           <td></td>
@@ -115,11 +118,9 @@
               class="absolute -top-4 -z-[1] w-full animate-[slidedown_0.3s_ease-out] rounded-b bg-bg p-2 px-4 pb-4 text-xs shadow-[0_0.125rem_0.125rem_var(--shadow)] dark:bg-bg3"
               v-if="column !== null && item[paramsFiltered[column].ref]"
             >
-              <div
-                class="mb-1 cursor-pointer"
-                @click="bus.emit(paramsFiltered[column].ref)"
-              >
-                {{ paramsFiltered[column].name }}
+              <div class="mb-1 flex items-center gap-1">
+                <span>{{ paramsFiltered[column].name }}</span>
+                <ParamTooltip :param-ref="paramsFiltered[column].ref" />
               </div>
               <div
                 class="mb-1 text-fg2"
@@ -160,7 +161,6 @@
 import openIcon from "@/assets/icons/open.svg?raw";
 import closedIcon from "@/assets/icons/closed.svg?raw";
 import partialIcon from "@/assets/icons/partial.svg?raw";
-import { useEventBus } from "@vueuse/core";
 import { intersection } from "lodash-es";
 const store = useMyComparisonStore();
 const router = useRouter();
@@ -174,7 +174,6 @@ const { models, version, filters } = defineProps([
 const open = ref();
 const openParam = ref();
 const modelKey = ref();
-const bus = useEventBus("description");
 
 const { color, params, categories } = useModels(version);
 const paramsFiltered = computed(() => {
