@@ -12,6 +12,112 @@
         </p>
       </div>
 
+      <!-- Filter Box -->
+      <div class="relative mx-auto mb-6 max-w-md">
+        <div
+          class="flex items-center gap-2 rounded border border-bg3 bg-bg2 px-3 py-2 transition-colors"
+          :class="{
+            'bg-bg3': filterFocused,
+            'hover:bg-bg3': !filterFocused,
+          }"
+        >
+          <Icon name="iconamoon:search-bold" class="shrink-0 text-fg2/50" />
+          <input
+            ref="filterInput"
+            type="text"
+            v-model="filterQuery"
+            @focus="openFilterDropdown"
+            @blur="handleFilterBlur"
+            @input="openFilterDropdown"
+            placeholder="Filter models..."
+            class="min-w-0 flex-1 bg-transparent text-sm leading-6 text-fg outline-none placeholder:text-fg2/50"
+          />
+          <button
+            v-if="selectedModels.length > 0 || filterQuery"
+            @mousedown.prevent="clearFilter"
+            class="shrink-0 cursor-pointer rounded-full p-0.5 leading-0 text-fg2 transition-colors hover:bg-bg3 hover:text-link"
+          >
+            <Icon name="material-symbols:close-rounded" class="h-4 w-4" />
+          </button>
+          <button
+            @mousedown.prevent="toggleFilterDropdown"
+            class="shrink-0 cursor-pointer leading-0 text-fg2 transition-colors hover:text-link"
+          >
+            <Icon
+              name="mdi:chevron-down"
+              class="h-5 w-5 transition-transform"
+              :class="{ 'rotate-180': filterDropdownOpen }"
+            />
+          </button>
+        </div>
+
+        <!-- Selected models pills -->
+        <div v-if="selectedModels.length > 0" class="mt-2 flex flex-wrap gap-1">
+          <span
+            v-for="model in selectedModels"
+            :key="model.filename"
+            class="inline-flex items-center gap-1 rounded-full border border-bg3 bg-bg px-2 py-0.5 text-xs text-fg"
+          >
+            <span
+              class="inline-block h-2 w-2 rounded-full"
+              :style="{ background: getColorMix(model.score) }"
+            ></span>
+            {{ model.name }}
+            <button
+              @mousedown.prevent="removeSelectedModel(model.filename)"
+              class="cursor-pointer leading-0 text-fg2 hover:text-link"
+            >
+              <Icon name="material-symbols:close-rounded" class="h-3 w-3" />
+            </button>
+          </span>
+        </div>
+
+        <!-- Dropdown -->
+        <Transition
+          enter-active-class="transition duration-150 ease-out"
+          enter-from-class="opacity-0 -translate-y-1"
+          enter-to-class="opacity-100 translate-y-0"
+          leave-active-class="transition duration-100 ease-in"
+          leave-from-class="opacity-100 translate-y-0"
+          leave-to-class="opacity-0 -translate-y-1"
+        >
+          <div
+            v-if="filterDropdownOpen"
+            class="absolute left-0 z-50 mt-1 max-h-64 w-full overflow-auto rounded border border-bc bg-bg shadow-lg"
+          >
+            <div
+              v-if="filteredDropdownModels.length === 0"
+              class="p-3 text-center text-xs text-fg2"
+            >
+              No models found
+            </div>
+            <div
+              v-for="model in filteredDropdownModels"
+              :key="model.filename"
+              @mousedown.prevent="toggleModelSelection(model)"
+              class="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-bg3"
+              :class="{
+                'bg-bg2': isModelSelected(model.filename),
+              }"
+            >
+              <span
+                class="inline-block h-3 w-3 shrink-0 rounded-full"
+                :style="{ background: getColorMix(model.score) }"
+              ></span>
+              <span class="flex-1 truncate">{{ model.name }}</span>
+              <span class="shrink-0 text-tiny text-fg2">
+                {{ Math.round(model.score * 100) }}%
+              </span>
+              <Icon
+                v-if="isModelSelected(model.filename)"
+                name="mdi:check"
+                class="shrink-0 text-link"
+              />
+            </div>
+          </div>
+        </Transition>
+      </div>
+
       <!-- Chart Container -->
       <div class="relative" :style="{ height: `${chartHeight}px` }">
         <!-- Y-axis labels -->
@@ -57,8 +163,15 @@
           <div
             v-for="point in dataPoints"
             :key="point.filename"
-            class="group absolute -translate-x-1/2 translate-y-1/2 cursor-pointer no-underline transition-transform duration-200 hover:z-50 hover:scale-125"
-            :class="{ 'z-50 scale-125': activeTooltip === point.filename }"
+            class="group absolute -translate-x-1/2 translate-y-1/2 cursor-pointer no-underline transition-all duration-200 hover:z-50 hover:scale-125"
+            :class="{
+              'z-50 scale-125': activeTooltip === point.filename,
+              'z-40 scale-110':
+                isModelSelected(point.filename) &&
+                activeTooltip !== point.filename,
+              'opacity-30':
+                selectedModels.length > 0 && !isModelSelected(point.filename),
+            }"
             :style="{
               left: `${point.x}%`,
               bottom: `${point.y}%`,
@@ -67,13 +180,27 @@
             @click.stop="handlePointClick(point, $event)"
           >
             <div
-              class="rounded-full opacity-80 transition-opacity duration-200 group-hover:opacity-100"
-              :class="[getSizeClass(point.performanceClass)]"
+              class="rounded-full transition-opacity duration-200"
+              :class="[
+                getSizeClass(point.performanceClass),
+                isModelSelected(point.filename)
+                  ? 'opacity-100'
+                  : 'opacity-80 group-hover:opacity-100',
+              ]"
               :style="{ background: getColorMix(point.score) }"
             ></div>
+            <!-- Highlight label for selected models -->
+            <div
+              v-if="isModelSelected(point.filename)"
+              class="pointer-events-none absolute left-1/2 -translate-x-1/2 rounded bg-fg px-1.5 py-0.5 text-tiny font-medium whitespace-nowrap text-bg shadow-sm"
+              :class="[point.y > 85 ? 'top-full mt-1' : 'bottom-full mb-1']"
+            >
+              {{ point.name }}
+            </div>
             <!-- Connector line -->
             <div
-              class="absolute left-1/2 h-2 w-px -translate-x-1/2 bg-bc transition-opacity duration-200"
+              v-if="!isModelSelected(point.filename)"
+              class="absolute left-1/2 h-2 w-px -translate-x-1/2 bg-fg2 transition-opacity duration-200"
               :class="[
                 activeTooltip === point.filename
                   ? 'opacity-100'
@@ -83,6 +210,7 @@
             ></div>
             <!-- Tooltip -->
             <div
+              v-if="!isModelSelected(point.filename)"
               class="absolute mb-2 rounded border border-bc bg-bg px-2 py-1 text-xs whitespace-nowrap shadow-lg transition-opacity duration-200"
               :class="[
                 activeTooltip === point.filename
@@ -188,6 +316,83 @@ const router = useRouter();
 const chartHeight = 600;
 const activeTooltip = ref<string | null>(null);
 const cutoffDate = new Date("2022-01-01");
+
+// Filter state
+const filterInput = ref<HTMLInputElement | null>(null);
+const filterQuery = ref("");
+const filterFocused = ref(false);
+const filterDropdownOpen = ref(false);
+const selectedModels = ref<
+  Array<{ filename: string; name: string; score: number }>
+>([]);
+
+function openFilterDropdown() {
+  filterFocused.value = true;
+  filterDropdownOpen.value = true;
+}
+
+function handleFilterBlur() {
+  filterFocused.value = false;
+  // Delay closing to allow click events on dropdown items
+  setTimeout(() => {
+    filterDropdownOpen.value = false;
+  }, 150);
+}
+
+function toggleFilterDropdown() {
+  filterDropdownOpen.value = !filterDropdownOpen.value;
+  if (filterDropdownOpen.value) {
+    filterInput.value?.focus();
+  }
+}
+
+function clearFilter() {
+  filterQuery.value = "";
+  selectedModels.value = [];
+  filterDropdownOpen.value = false;
+}
+
+function isModelSelected(filename: string): boolean {
+  return selectedModels.value.some((m) => m.filename === filename);
+}
+
+function toggleModelSelection(model: {
+  filename: string;
+  name: string;
+  score: number;
+}) {
+  if (isModelSelected(model.filename)) {
+    removeSelectedModel(model.filename);
+  } else {
+    selectedModels.value.push({
+      filename: model.filename,
+      name: model.name,
+      score: model.score,
+    });
+  }
+}
+
+function removeSelectedModel(filename: string) {
+  selectedModels.value = selectedModels.value.filter(
+    (m) => m.filename !== filename,
+  );
+}
+
+const filteredDropdownModels = computed(() => {
+  const query = filterQuery.value.toLowerCase().trim();
+  return validModels.value
+    .map((m: any) => ({
+      filename: m.filename,
+      name: m.system?.name || "(undefined)",
+      score: m.score,
+    }))
+    .filter((m) => {
+      if (!query) return true;
+      return m.name.toLowerCase().includes(query);
+    })
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .slice(0, 50); // Limit for performance
+});
 
 interface DataPoint {
   filename: string;
