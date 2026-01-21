@@ -12,109 +12,134 @@
         </p>
       </div>
 
-      <!-- Filter Box -->
-      <div class="relative mx-auto mb-6 max-w-md">
-        <div
-          class="flex items-center gap-2 rounded border border-bg3 bg-bg2 px-3 py-2 transition-colors"
-          :class="{
-            'bg-bg3': filterFocused,
-            'hover:bg-bg3': !filterFocused,
-          }"
-        >
-          <Icon name="iconamoon:search-bold" class="shrink-0 text-fg2/50" />
-          <input
-            ref="filterInput"
-            type="text"
-            v-model="filterQuery"
-            @focus="openFilterDropdown"
-            @blur="handleFilterBlur"
-            @input="openFilterDropdown"
-            placeholder="Filter models..."
-            class="min-w-0 flex-1 bg-transparent text-sm leading-6 text-fg outline-none placeholder:text-fg2/50"
-          />
-          <button
-            v-if="selectedModels.length > 0 || filterQuery"
-            @mousedown.prevent="clearFilter"
-            class="shrink-0 cursor-pointer rounded-full p-0.5 leading-0 text-fg2 transition-colors hover:bg-bg3 hover:text-link"
-          >
-            <Icon name="material-symbols:close-rounded" class="h-4 w-4" />
-          </button>
-          <button
-            @mousedown.prevent="toggleFilterDropdown"
-            class="shrink-0 cursor-pointer leading-0 text-fg2 transition-colors hover:text-link"
-          >
-            <Icon
-              name="mdi:chevron-down"
-              class="h-5 w-5 transition-transform"
-              :class="{ 'rotate-180': filterDropdownOpen }"
-            />
-          </button>
-        </div>
-
-        <!-- Dropdown -->
-        <Transition
-          enter-active-class="transition duration-150 ease-out"
-          enter-from-class="opacity-0 -translate-y-1"
-          enter-to-class="opacity-100 translate-y-0"
-          leave-active-class="transition duration-100 ease-in"
-          leave-from-class="opacity-100 translate-y-0"
-          leave-to-class="opacity-0 -translate-y-1"
-        >
+      <!-- Filter Box and Model Type Selector -->
+      <div
+        class="mx-auto mb-6 flex max-w-2xl flex-col items-start gap-3 sm:flex-row"
+      >
+        <!-- Filter Box -->
+        <div class="relative w-full max-w-md flex-1">
           <div
-            v-if="filterDropdownOpen"
-            class="absolute left-0 z-50 mt-1 max-h-64 w-full overflow-auto rounded border border-bc bg-bg shadow-lg"
+            class="flex h-8.5 items-center gap-2 rounded border border-bg3 bg-bg2 px-3 py-2 transition-colors"
+            :class="{
+              'bg-bg3': filterFocused,
+              'hover:bg-bg3': !filterFocused,
+            }"
+          >
+            <Icon name="iconamoon:search-bold" class="shrink-0 text-fg2/50" />
+            <input
+              ref="filterInput"
+              type="text"
+              v-model="filterQuery"
+              @focus="openFilterDropdown"
+              @blur="handleFilterBlur"
+              @input="openFilterDropdown"
+              placeholder="Filter models..."
+              class="min-w-0 flex-1 bg-transparent text-sm leading-3 text-fg outline-none placeholder:text-fg2/50"
+            />
+            <button
+              v-if="selectedModels.length > 0 || filterQuery"
+              @mousedown.prevent="clearFilter"
+              class="shrink-0 cursor-pointer rounded-full px-0.5 leading-0 text-fg2 transition-colors hover:bg-bg3 hover:text-link"
+            >
+              <Icon name="material-symbols:close-rounded" class="text-xs" />
+            </button>
+            <button
+              @mousedown.prevent="toggleFilterDropdown"
+              class="shrink-0 cursor-pointer leading-0 text-fg2 transition-colors hover:text-link"
+            >
+              <Icon
+                name="mdi:chevron-down"
+                class="h-5 w-5 transition-transform"
+                :class="{ 'rotate-180': filterDropdownOpen }"
+              />
+            </button>
+          </div>
+
+          <!-- Dropdown -->
+          <Transition
+            enter-active-class="transition duration-150 ease-out"
+            enter-from-class="opacity-0 -translate-y-1"
+            enter-to-class="opacity-100 translate-y-0"
+            leave-active-class="transition duration-100 ease-in"
+            leave-from-class="opacity-100 translate-y-0"
+            leave-to-class="opacity-0 -translate-y-1"
           >
             <div
-              v-if="filteredDropdownModels.length === 0"
-              class="p-3 text-center text-xs text-fg2"
+              v-if="filterDropdownOpen"
+              class="absolute left-0 z-50 mt-1 max-h-64 w-full overflow-auto rounded border border-bc bg-bg shadow-lg"
             >
-              No models found
+              <div
+                v-if="filteredDropdownModels.length === 0"
+                class="p-3 text-center text-xs text-fg2"
+              >
+                No models found
+              </div>
+              <div
+                v-for="model in filteredDropdownModels"
+                :key="model.filename"
+                @mousedown.prevent="toggleModelSelection(model)"
+                class="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-bg3"
+                :class="{
+                  'bg-bg2': isModelSelected(model.filename),
+                }"
+              >
+                <span
+                  class="inline-block h-3 w-3 shrink-0 rounded-full"
+                  :style="{ background: getColorMix(model.score) }"
+                ></span>
+                <span class="flex-1 truncate">{{ model.name }}</span>
+                <span class="shrink-0 text-tiny text-fg2">
+                  {{ Math.round(model.score * 100) }}%
+                </span>
+                <Icon
+                  v-if="isModelSelected(model.filename)"
+                  name="mdi:check"
+                  class="shrink-0 text-link"
+                />
+              </div>
             </div>
-            <div
-              v-for="model in filteredDropdownModels"
-              :key="model.filename"
-              @mousedown.prevent="toggleModelSelection(model)"
-              class="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-bg3"
-              :class="{
-                'bg-bg2': isModelSelected(model.filename),
-              }"
-            >
-              <span
-                class="inline-block h-3 w-3 shrink-0 rounded-full"
-                :style="{ background: getColorMix(model.score) }"
-              ></span>
-              <span class="flex-1 truncate">{{ model.name }}</span>
-              <span class="shrink-0 text-tiny text-fg2">
-                {{ Math.round(model.score * 100) }}%
-              </span>
-              <Icon
-                v-if="isModelSelected(model.filename)"
-                name="mdi:check"
-                class="shrink-0 text-link"
-              />
-            </div>
-          </div>
-        </Transition>
+          </Transition>
 
-        <!-- Selected models pills -->
-        <div v-if="selectedModels.length > 0" class="mt-2 flex flex-wrap gap-1">
-          <span
-            v-for="model in selectedModels"
-            :key="model.filename"
-            class="inline-flex items-center gap-1 rounded-full border border-bg3 bg-bg px-2 py-0.5 text-xs text-fg"
+          <!-- Selected models pills -->
+          <div
+            v-if="selectedModels.length > 0"
+            class="mt-2 flex flex-wrap gap-1"
           >
             <span
-              class="inline-block h-2 w-2 rounded-full"
-              :style="{ background: getColorMix(model.score) }"
-            ></span>
-            {{ model.name }}
-            <button
-              @mousedown.prevent="removeSelectedModel(model.filename)"
-              class="cursor-pointer leading-0 text-fg2 hover:text-link"
+              v-for="model in selectedModels"
+              :key="model.filename"
+              class="inline-flex items-center gap-1 rounded-full border border-bg3 bg-bg px-2 py-0.5 text-xs text-fg"
             >
-              <Icon name="material-symbols:close-rounded" class="h-3 w-3" />
-            </button>
-          </span>
+              <span
+                class="inline-block h-2 w-2 rounded-full"
+                :style="{ background: getColorMix(model.score) }"
+              ></span>
+              {{ model.name }}
+              <button
+                @mousedown.prevent="removeSelectedModel(model.filename)"
+                class="cursor-pointer leading-0 text-fg2 hover:text-link"
+              >
+                <Icon name="material-symbols:close-rounded" class="h-3 w-3" />
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <!-- Model Type Selector -->
+        <div
+          class="flex gap-0 overflow-hidden rounded border border-bg3 text-xs leading-4 font-semibold"
+        >
+          <button
+            v-for="type in modelTypes"
+            :key="type"
+            @click="toggleModelType(type.toLowerCase())"
+            class="cursor-pointer border-l border-bg3 bg-bg2 px-3 py-2 text-fg2/50 transition-colors first:border-l-0 hover:text-link"
+            :class="{
+              'bg-bg! text-fg!': isModelTypeActive(type.toLowerCase()),
+            }"
+          >
+            {{ type }}
+          </button>
         </div>
       </div>
 
@@ -393,6 +418,23 @@ const props = defineProps<{
 }>();
 
 const { models, color, categories } = useModels(props.version);
+
+// Model type filter - default to "text"
+const selectedModelTypes = ref<string[]>(["text"]);
+
+function toggleModelType(type: string) {
+  if (selectedModelTypes.value.includes(type)) {
+    selectedModelTypes.value = selectedModelTypes.value.filter(
+      (t) => t !== type,
+    );
+  } else {
+    selectedModelTypes.value = [...selectedModelTypes.value, type];
+  }
+}
+
+function isModelTypeActive(type: string): boolean {
+  return selectedModelTypes.value.includes(type);
+}
 const router = useRouter();
 
 const chartHeight = 600;
@@ -545,6 +587,15 @@ const validModels = computed(() => {
     if (isNaN(releaseDate.getTime())) return false;
     // Filter out models before 2022
     if (releaseDate < cutoffDate) return false;
+    // Filter by model type if any selected
+    if (selectedModelTypes.value.length > 0) {
+      const modelTypeArray = (m.system?.type || "")
+        .split(",")
+        .map((t: string) => t.trim().toLowerCase());
+      if (!selectedModelTypes.value.some((t) => modelTypeArray.includes(t))) {
+        return false;
+      }
+    }
     return true;
   });
 });
