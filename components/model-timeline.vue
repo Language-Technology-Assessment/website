@@ -198,8 +198,8 @@
                 selectedModels.length > 0 && !isModelSelected(point.filename),
             }"
             :style="{
-              left: `${point.x}%`,
-              bottom: `${point.y}%`,
+              left: `${point.adjustedX}%`,
+              bottom: `${point.adjustedY}%`,
             }"
             @touchend.stop.prevent="handlePointTouch(point, $event)"
             @click.stop="handlePointClick(point, $event)"
@@ -577,6 +577,11 @@ interface DataPoint {
   categories: Record<string, number>;
   x: number;
   y: number;
+  // Adjusted positions after collision detection
+  adjustedX: number;
+  adjustedY: number;
+  // Number of overlapping points at this location
+  overlapCount: number;
 }
 
 const validModels = computed(() => {
@@ -638,13 +643,82 @@ const yearMarkers = computed(() => {
   return markers;
 });
 
+// Collision detection threshold (in percentage units)
+const COLLISION_THRESHOLD = 2.5;
+
+function resolveCollisions(points: DataPoint[]): DataPoint[] {
+  // Group points that are too close together
+  const processed = new Set<number>();
+
+  for (let i = 0; i < points.length; i++) {
+    if (processed.has(i)) continue;
+
+    const pointI = points[i];
+    if (!pointI) continue;
+
+    // Find all points that overlap with point i
+    const cluster: number[] = [i];
+    for (let j = i + 1; j < points.length; j++) {
+      if (processed.has(j)) continue;
+
+      const pointJ = points[j];
+      if (!pointJ) continue;
+
+      const dx = Math.abs(pointI.x - pointJ.x);
+      const dy = Math.abs(pointI.y - pointJ.y);
+
+      if (dx < COLLISION_THRESHOLD && dy < COLLISION_THRESHOLD) {
+        cluster.push(j);
+      }
+    }
+
+    // If we have overlapping points, spread them out
+    if (cluster.length > 1) {
+      const centerX =
+        cluster.reduce((sum, idx) => sum + (points[idx]?.x ?? 0), 0) /
+        cluster.length;
+      const centerY =
+        cluster.reduce((sum, idx) => sum + (points[idx]?.y ?? 0), 0) /
+        cluster.length;
+
+      // Arrange in a circle around the center
+      const angleStep = (2 * Math.PI) / cluster.length;
+      const radius = Math.min(1.5, 0.8 * cluster.length); // Scale radius with cluster size
+
+      cluster.forEach((idx, posIndex) => {
+        const point = points[idx];
+        if (!point) return;
+
+        const angle = angleStep * posIndex - Math.PI / 2; // Start from top
+        point.adjustedX = Math.max(
+          2,
+          Math.min(98, centerX + radius * Math.cos(angle)),
+        );
+        point.adjustedY = Math.max(
+          2,
+          Math.min(98, centerY + radius * Math.sin(angle)),
+        );
+        point.overlapCount = cluster.length;
+        processed.add(idx);
+      });
+    } else {
+      pointI.adjustedX = pointI.x;
+      pointI.adjustedY = pointI.y;
+      pointI.overlapCount = 1;
+      processed.add(i);
+    }
+  }
+
+  return points;
+}
+
 const dataPoints = computed<DataPoint[]>(() => {
   if (validModels.value.length === 0) return [];
 
   const { min, max } = dateRange.value;
   const timeRange = max.getTime() - min.getTime();
 
-  return validModels.value.map((m: any) => {
+  const points = validModels.value.map((m: any) => {
     const releaseTime = new Date(m.system.releasedate).getTime();
     const x = ((releaseTime - min.getTime()) / timeRange) * 100;
     const y = m.score * 100;
@@ -659,8 +733,13 @@ const dataPoints = computed<DataPoint[]>(() => {
       categories: m.categories || {},
       x: Math.max(2, Math.min(98, x)), // Clamp to keep points visible
       y: Math.max(2, Math.min(98, y)),
+      adjustedX: 0,
+      adjustedY: 0,
+      overlapCount: 1,
     };
   });
+
+  return resolveCollisions(points);
 });
 
 function getColorMix(score: number): string {
