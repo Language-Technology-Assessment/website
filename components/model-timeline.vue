@@ -1,9 +1,10 @@
 <template>
   <div
-    class="overflow-x-auto border border-bc bg-bg p-4 pb-8 md:mx-8 md:rounded-lg"
+    class="border border-bc bg-bg p-4 pb-8 md:mx-8 md:rounded-lg"
+    :class="{ 'overflow-x-auto': !isPortrait }"
     @click="handleOutsideClick"
   >
-    <div class="min-w-[600px] px-0 md:px-12">
+    <div :class="isPortrait ? 'px-2' : 'min-w-[600px] px-0 md:px-12'">
       <!-- Header -->
       <div class="mb-6 text-center">
         <p class="text-tiny text-fg2/50">
@@ -127,15 +128,15 @@
 
         <!-- Model Type Selector -->
         <div
-          class="flex gap-0 overflow-hidden rounded border border-bg3 text-xs leading-4 font-semibold"
+          class="flex w-full flex-1 gap-0 overflow-hidden rounded border border-bg3 text-tiny font-semibold sm:w-auto sm:flex-none sm:text-xs"
         >
           <button
             v-for="type in modelTypes"
             :key="type"
             @click="toggleModelType(type.toLowerCase())"
-            class="cursor-pointer border-l border-bg3 bg-bg2 px-3 py-2 text-fg2/50 transition-colors first:border-l-0 hover:text-link"
+            class="flex-1 cursor-pointer border-l border-bg3 bg-bg2 px-2 py-2 text-fg2/50 transition-colors first:border-l-0 hover:text-link sm:flex-none sm:px-3"
             :class="{
-              'bg-bg! text-fg!': isModelTypeActive(type.toLowerCase()),
+              'bg-bg! text-link!': isModelTypeActive(type.toLowerCase()),
             }"
           >
             {{ type }}
@@ -143,8 +144,12 @@
         </div>
       </div>
 
-      <!-- Chart Container -->
-      <div class="relative" :style="{ height: `${chartHeight}px` }">
+      <!-- Chart Container - Landscape Mode -->
+      <div
+        v-if="!isPortrait"
+        class="relative"
+        :style="{ height: `${chartHeight}px` }"
+      >
         <!-- Y-axis labels -->
         <div
           class="absolute top-0 left-0 flex h-full w-12 flex-col justify-between pb-8 text-right text-xs text-fg2"
@@ -285,6 +290,160 @@
         </div>
       </div>
 
+      <!-- Chart Container - Portrait Mode (swapped axes, vertical scroll) -->
+      <div
+        v-else
+        class="relative"
+        :style="{ height: `${portraitChartHeight}px` }"
+      >
+        <!-- X-axis labels (openness score, now horizontal at top) -->
+        <div
+          class="sticky top-0 z-10 mb-2 flex justify-between bg-bg px-2 pb-2 text-xs text-fg2"
+        >
+          <span>0%</span>
+          <span>25%</span>
+          <span>50%</span>
+          <span>75%</span>
+          <span>100%</span>
+        </div>
+
+        <!-- Chart area -->
+        <div
+          class="relative mx-0 border-t border-l border-bc"
+          :style="{ height: `${portraitChartHeight - 40}px` }"
+        >
+          <!-- Vertical grid lines (openness) -->
+          <div
+            class="absolute top-0 h-full border-l border-bg3"
+            style="left: 0%"
+          ></div>
+          <div
+            class="absolute top-0 h-full border-l border-dashed border-bg3"
+            style="left: 25%"
+          ></div>
+          <div
+            class="absolute top-0 h-full border-l border-dashed border-bg3"
+            style="left: 50%"
+          ></div>
+          <div
+            class="absolute top-0 h-full border-l border-dashed border-bg3"
+            style="left: 75%"
+          ></div>
+          <div
+            class="absolute top-0 h-full border-l border-bg3"
+            style="left: 100%"
+          ></div>
+
+          <!-- Horizontal year markers with labels inside -->
+          <div
+            v-for="year in yearMarkersPortrait"
+            :key="year.year"
+            class="absolute left-0 w-full border-t border-dashed border-bg3"
+            :style="{ top: `${year.y}%` }"
+          >
+            <span
+              class="absolute left-1 -translate-y-1/2 rounded bg-bg/80 px-1 text-tiny font-medium text-fg2"
+            >
+              {{ year.year }}
+            </span>
+          </div>
+
+          <!-- Data points -->
+          <div
+            v-for="point in dataPointsPortrait"
+            :key="point.filename"
+            class="group absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer no-underline transition-all duration-200 hover:z-50 hover:scale-125"
+            :class="{
+              'z-50 scale-125': activeTooltip === point.filename,
+              'z-40 scale-110':
+                isModelSelected(point.filename) &&
+                activeTooltip !== point.filename,
+              'opacity-30':
+                selectedModels.length > 0 && !isModelSelected(point.filename),
+            }"
+            :style="{
+              left: `${point.adjustedX}%`,
+              top: `${point.adjustedY}%`,
+            }"
+            @touchend.stop.prevent="handlePointTouch(point, $event)"
+            @click.stop="handlePointClick(point, $event)"
+          >
+            <div
+              class="rounded-full transition-opacity duration-200"
+              :class="[
+                getSizeClass(point),
+                isModelSelected(point.filename)
+                  ? 'opacity-100'
+                  : 'opacity-80 group-hover:opacity-100',
+              ]"
+              :style="{ background: getColorMix(point.score) }"
+            ></div>
+            <!-- Highlight label for selected models -->
+            <div
+              v-if="isModelSelected(point.filename)"
+              class="pointer-events-none absolute left-1/2 w-32 -translate-x-1/2 rounded bg-fg px-1.5 py-0.5 text-center text-tiny font-medium text-bg shadow-sm"
+              :class="[point.y < 20 ? 'top-full mt-1' : 'bottom-full mb-1']"
+            >
+              {{ point.name }}
+            </div>
+            <!-- Connector line (vertical for portrait) -->
+            <div
+              v-if="!isModelSelected(point.filename)"
+              class="absolute left-1/2 h-3 w-px -translate-x-1/2 bg-fg2 transition-opacity duration-200"
+              :class="[
+                activeTooltip === point.filename
+                  ? 'opacity-100'
+                  : 'opacity-0 group-hover:opacity-100',
+                point.y < 20 ? 'top-full' : 'bottom-full',
+              ]"
+            ></div>
+            <!-- Tooltip -->
+            <div
+              v-if="!isModelSelected(point.filename)"
+              class="absolute z-50 w-44 rounded border border-bc bg-bg px-2 py-1 text-xs shadow-lg transition-opacity duration-200"
+              :class="[
+                activeTooltip === point.filename
+                  ? 'pointer-events-auto opacity-100'
+                  : 'pointer-events-none opacity-0 group-hover:opacity-100',
+                point.y < 20 ? 'top-full mt-3' : 'bottom-full mb-3',
+                point.x < 30
+                  ? 'left-0'
+                  : point.x > 70
+                    ? 'right-0'
+                    : 'left-1/2 -translate-x-1/2',
+              ]"
+              @touchend.stop.prevent="
+                handleTooltipTouch(point.filename, $event)
+              "
+              @click.stop="navigateToModel(point.filename)"
+            >
+              <!-- Close button (visible on touch/active) -->
+              <button
+                v-if="activeTooltip === point.filename"
+                class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full border border-bc bg-bg text-xs text-fg2 hover:bg-fg2 hover:text-bg"
+                @touchend.stop.prevent="closeTooltip"
+                @click.stop="closeTooltip"
+              >
+                <Icon name="material-symbols:close-rounded" />
+              </button>
+              <div class="mb-0.5 font-semibold break-words text-fg">
+                {{ point.name }}
+              </div>
+              <div class="text-tiny text-fg2">
+                {{ formatReleaseDate(point.releaseDate) }} •
+                {{ Math.round(point.score * 100) }}% open
+              </div>
+              <div
+                v-if="activeTooltip === point.filename"
+                class="mt-1 text-tiny text-link"
+              >
+                More info →
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Legend -->
       <div
         class="mt-12 flex flex-col items-center justify-center gap-4 text-xs"
@@ -306,7 +465,7 @@
         </div>
 
         <!-- Size selector -->
-        <div class="relative flex items-center gap-2">
+        <div class="relative flex flex-wrap items-center gap-2">
           <span class="text-fg2">Size by:</span>
           <button
             @click.stop="toggleSizeDropdown"
@@ -385,27 +544,28 @@
               </template>
             </div>
           </Transition>
-          <!-- Size legend -->
-          <div class="flex items-center gap-2">
-            <span class="flex items-center gap-1">
-              <span
-                class="inline-block h-2 w-2 rounded-full border border-fg2"
-              ></span>
-              <span>{{ sizeLegendLabels.small }}</span>
-            </span>
-            <span class="flex items-center gap-1">
-              <span
-                class="inline-block h-3 w-3 rounded-full border border-fg2"
-              ></span>
-              <span>{{ sizeLegendLabels.medium }}</span>
-            </span>
-            <span class="flex items-center gap-1">
-              <span
-                class="inline-block h-4 w-4 rounded-full border border-fg2"
-              ></span>
-              <span>{{ sizeLegendLabels.large }}</span>
-            </span>
-          </div>
+        </div>
+
+        <!-- Size legend -->
+        <div class="flex items-center gap-2">
+          <span class="flex items-center gap-1">
+            <span
+              class="inline-block h-2 w-2 rounded-full border border-fg2"
+            ></span>
+            <span>{{ sizeLegendLabels.small }}</span>
+          </span>
+          <span class="flex items-center gap-1">
+            <span
+              class="inline-block h-3 w-3 rounded-full border border-fg2"
+            ></span>
+            <span>{{ sizeLegendLabels.medium }}</span>
+          </span>
+          <span class="flex items-center gap-1">
+            <span
+              class="inline-block h-4 w-4 rounded-full border border-fg2"
+            ></span>
+            <span>{{ sizeLegendLabels.large }}</span>
+          </span>
         </div>
       </div>
     </div>
@@ -413,11 +573,23 @@
 </template>
 
 <script lang="ts" setup>
+import { useWindowSize } from "@vueuse/core";
+
 const props = defineProps<{
   version?: string;
 }>();
 
 const { models, color, categories } = useModels(props.version);
+
+// Detect portrait mode - start with false for SSR, update on client
+const { width, height } = useWindowSize();
+const isMounted = ref(false);
+onMounted(() => {
+  isMounted.value = true;
+});
+const isPortrait = computed(
+  () => isMounted.value && width.value < 768 && height.value > width.value,
+);
 
 // Model type filter - default to "text"
 const selectedModelTypes = ref<string[]>(["text"]);
@@ -438,6 +610,14 @@ function isModelTypeActive(type: string): boolean {
 const router = useRouter();
 
 const chartHeight = 600;
+const portraitChartHeight = computed(() => {
+  // Calculate height based on date range to allow comfortable scrolling
+  // Roughly 200px per year for comfortable touch targets
+  const years =
+    (dateRange.value.max.getTime() - dateRange.value.min.getTime()) /
+    (365 * 24 * 60 * 60 * 1000);
+  return Math.max(1000, Math.round(years * 250));
+});
 const activeTooltip = ref<string | null>(null);
 const cutoffDate = new Date("2022-01-01");
 
@@ -643,6 +823,26 @@ const yearMarkers = computed(() => {
   return markers;
 });
 
+// Year markers for portrait mode (y-axis)
+const yearMarkersPortrait = computed(() => {
+  const { min, max } = dateRange.value;
+  const timeRange = max.getTime() - min.getTime();
+  const markers: { year: number; y: number }[] = [];
+
+  const startYear = min.getFullYear();
+  const endYear = max.getFullYear();
+
+  for (let year = startYear; year <= endYear; year++) {
+    const yearDate = new Date(year, 0, 1);
+    if (yearDate >= min && yearDate <= max) {
+      const y = ((yearDate.getTime() - min.getTime()) / timeRange) * 100;
+      markers.push({ year, y });
+    }
+  }
+
+  return markers;
+});
+
 // Collision detection threshold (in percentage units)
 const COLLISION_THRESHOLD = 2.5;
 
@@ -742,6 +942,38 @@ const dataPoints = computed<DataPoint[]>(() => {
   return resolveCollisions(points);
 });
 
+// Data points for portrait mode (swapped axes)
+const dataPointsPortrait = computed<DataPoint[]>(() => {
+  if (validModels.value.length === 0) return [];
+
+  const { min, max } = dateRange.value;
+  const timeRange = max.getTime() - min.getTime();
+
+  const points = validModels.value.map((m: any) => {
+    const releaseTime = new Date(m.system.releasedate).getTime();
+    // Swap: x = score (openness), y = time
+    const x = m.score * 100;
+    const y = ((releaseTime - min.getTime()) / timeRange) * 100;
+
+    return {
+      filename: m.filename,
+      name: m.system?.name || "(undefined)",
+      releaseDate: m.system.releasedate,
+      score: m.score,
+      performanceClass: m.system?.performanceclass || "limited",
+      params: m.params || {},
+      categories: m.categories || {},
+      x: Math.max(2, Math.min(98, x)),
+      y: Math.max(2, Math.min(98, y)),
+      adjustedX: 0,
+      adjustedY: 0,
+      overlapCount: 1,
+    };
+  });
+
+  return resolveCollisions(points);
+});
+
 function getColorMix(score: number): string {
   return color(score);
 }
@@ -815,6 +1047,39 @@ function getTooltipPosition(point: DataPoint): Record<string, string> {
     style.left = "50%";
     style.right = "auto";
     style.transform = "translateX(-50%)";
+  }
+
+  return style;
+}
+
+function getTooltipPositionPortrait(point: DataPoint): Record<string, string> {
+  const style: Record<string, string> = {};
+
+  // Horizontal positioning: show left if point is near right edge
+  if (point.x > 70) {
+    style.right = "100%";
+    style.left = "auto";
+    style.marginRight = "0.5rem";
+    style.marginLeft = "0";
+  } else {
+    style.left = "100%";
+    style.right = "auto";
+    style.marginLeft = "0.5rem";
+  }
+
+  // Vertical positioning: adjust based on y position
+  if (point.y < 10) {
+    style.top = "0";
+    style.bottom = "auto";
+    style.transform = "translateY(0)";
+  } else if (point.y > 90) {
+    style.top = "auto";
+    style.bottom = "0";
+    style.transform = "translateY(0)";
+  } else {
+    style.top = "50%";
+    style.bottom = "auto";
+    style.transform = "translateY(-50%)";
   }
 
   return style;
