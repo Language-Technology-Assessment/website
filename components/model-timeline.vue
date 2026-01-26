@@ -273,9 +273,9 @@
 
           <!-- Data points -->
           <div
-            v-for="point in dataPoints"
+            v-for="(point, index) in dataPoints"
             :key="point.filename"
-            class="group absolute -translate-x-1/2 translate-y-1/2 cursor-pointer no-underline transition-all duration-200 hover:z-50 hover:scale-125"
+            class="group absolute -translate-x-1/2 translate-y-1/2 cursor-pointer no-underline transition-all hover:z-50 hover:scale-125"
             :class="{
               'z-50 scale-125': activeTooltip === point.filename,
               'z-40 scale-110':
@@ -287,6 +287,11 @@
             :style="{
               left: `${point.adjustedX}%`,
               bottom: `${point.adjustedY}%`,
+              transform: isAnimated
+                ? 'translateX(-50%) translateY(50%)'
+                : 'translateX(-50%) translateY(300%)',
+              opacity: isAnimated ? 1 : 0,
+              transition: `all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.01}s`,
             }"
             @touchend.stop.prevent="handlePointTouch(point, $event)"
             @click.stop="handlePointClick(point, $event)"
@@ -432,9 +437,9 @@
 
           <!-- Data points -->
           <div
-            v-for="point in dataPointsPortrait"
+            v-for="(point, index) in dataPointsPortrait"
             :key="point.filename"
-            class="group absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer no-underline transition-all duration-200 hover:z-50 hover:scale-125"
+            class="group absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer no-underline transition-all hover:z-50 hover:scale-125"
             :class="{
               'z-50 scale-125': activeTooltip === point.filename,
               'z-40 scale-110':
@@ -446,6 +451,11 @@
             :style="{
               left: `${point.adjustedX}%`,
               top: `${point.adjustedY}%`,
+              transform: isAnimated
+                ? 'translateX(-50%) translateY(-50%)'
+                : 'translateX(-250%) translateY(-50%)',
+              opacity: isAnimated ? 1 : 0,
+              transition: `all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.01}s`,
             }"
             @touchend.stop.prevent="handlePointTouch(point, $event)"
             @click.stop="handlePointClick(point, $event)"
@@ -617,6 +627,9 @@ watch(
 // Detect portrait mode - start with false for SSR, update on client
 const { width, height } = useWindowSize();
 const isMounted = ref(false);
+
+// Animation state - starts false, then triggers slide-in animation
+const isAnimated = ref(false);
 
 // Model type filter - computed from filters object
 const selectedModelTypes = computed({
@@ -1228,4 +1241,12 @@ function handleOutsideClick(event: Event) {
   activeTooltip.value = null;
   sizeDropdownOpen.value = false;
 }
+
+// Trigger animation on mount
+onMounted(() => {
+  // Small delay to ensure DOM is ready, then trigger slide-in animation
+  setTimeout(() => {
+    isAnimated.value = true;
+  }, 100);
+});
 </script>
