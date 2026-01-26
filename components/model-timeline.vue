@@ -15,7 +15,7 @@
 
       <!-- Filter Box and Model Type Selector -->
       <div
-        class="mx-auto mb-6 flex max-w-2xl flex-col items-start gap-3 sm:flex-row"
+        class="mx-auto mb-4 flex flex-col flex-wrap items-start justify-center gap-3 md:flex-row"
       >
         <!-- Filter Box -->
         <div class="relative w-full max-w-md flex-1">
@@ -142,12 +142,94 @@
             {{ type }}
           </button>
         </div>
+
+        <!-- Size selector -->
+        <div class="relative flex items-center gap-2">
+          <button
+            @click.stop="toggleSizeDropdown"
+            class="flex h-8.5 cursor-pointer items-center gap-1 rounded border border-bg3 bg-bg2 px-2 py-1 text-xs transition-colors hover:bg-bg3"
+          >
+            <span class="text-fg2">Size by:</span>
+            <span>{{ selectedSizeOptionLabel }}</span>
+            <Icon
+              name="mdi:chevron-down"
+              class="h-4 w-4 transition-transform"
+              :class="{ 'rotate-180': sizeDropdownOpen }"
+            />
+          </button>
+
+          <!-- Size dropdown -->
+          <Transition
+            enter-active-class="transition duration-150 ease-out"
+            enter-from-class="opacity-0 translate-y-1"
+            enter-to-class="opacity-100 translate-y-0"
+            leave-active-class="transition duration-100 ease-in"
+            leave-from-class="opacity-100 translate-y-0"
+            leave-to-class="opacity-0 translate-y-1"
+          >
+            <div
+              v-if="sizeDropdownOpen"
+              class="absolute top-full left-0 z-50 mb-1 max-h-64 min-w-48 overflow-auto rounded border border-bc bg-bg text-xs shadow-lg"
+            >
+              <!-- Performance class option -->
+              <div
+                @mousedown.prevent="selectSizeOption('performanceclass')"
+                class="flex cursor-pointer items-center gap-2 px-3 py-2 transition-colors hover:bg-bg3"
+                :class="{
+                  'bg-bg2': selectedSizeOption === 'performanceclass',
+                }"
+              >
+                <span class="flex-1">Performance class</span>
+                <Icon
+                  v-if="selectedSizeOption === 'performanceclass'"
+                  name="mdi:check"
+                  class="shrink-0 text-link"
+                />
+              </div>
+
+              <!-- Category groups -->
+              <template v-for="cat in categories" :key="cat.ref">
+                <div
+                  @mousedown.prevent="selectSizeOption(`cat:${cat.ref}`)"
+                  class="flex cursor-pointer items-center gap-2 border-t border-bg3 px-3 py-1.5 text-tiny font-semibold uppercase transition-colors hover:bg-bg3"
+                  :class="{
+                    'bg-bg2 text-fg': selectedSizeOption === `cat:${cat.ref}`,
+                    'text-fg2': selectedSizeOption !== `cat:${cat.ref}`,
+                  }"
+                >
+                  <span class="flex-1">{{ cat.name }}</span>
+                  <Icon
+                    v-if="selectedSizeOption === `cat:${cat.ref}`"
+                    name="mdi:check"
+                    class="shrink-0 text-link"
+                  />
+                </div>
+                <div
+                  v-for="param in cat.params"
+                  :key="param.ref"
+                  @mousedown.prevent="selectSizeOption(param.ref)"
+                  class="flex cursor-pointer items-center gap-2 px-3 py-2 pl-5 transition-colors hover:bg-bg3"
+                  :class="{
+                    'bg-bg2': selectedSizeOption === param.ref,
+                  }"
+                >
+                  <span class="flex-1 truncate">{{ param.name }}</span>
+                  <Icon
+                    v-if="selectedSizeOption === param.ref"
+                    name="mdi:check"
+                    class="shrink-0 text-link"
+                  />
+                </div>
+              </template>
+            </div>
+          </Transition>
+        </div>
       </div>
 
       <!-- Chart Container - Landscape Mode -->
       <div
         v-if="!isPortrait"
-        class="relative"
+        class="relative mb-12"
         :style="{ height: `${chartHeight}px` }"
       >
         <!-- Y-axis labels -->
@@ -443,111 +525,36 @@
           </div>
         </div>
       </div>
-
       <!-- Legend -->
       <div
-        class="mt-12 flex flex-col items-center justify-center gap-4 text-xs"
+        class="mb-4 flex flex-col items-start justify-start gap-2 text-xs sm:flex-row sm:items-center md:justify-center"
       >
-        <div class="flex items-center gap-2">
+        <div
+          class="flex items-center gap-2 rounded border border-bg3 px-2 py-1"
+        >
           <span class="text-fg2">Openness:</span>
-          <span class="flex items-center gap-1">
-            <span class="inline-block h-3 w-3 rounded-full bg-g1"></span>
-            <span>Closed</span>
-          </span>
-          <span class="flex items-center gap-1">
-            <span class="inline-block h-3 w-3 rounded-full bg-g2"></span>
-            <span>Partial</span>
-          </span>
-          <span class="flex items-center gap-1">
-            <span class="inline-block h-3 w-3 rounded-full bg-g3"></span>
-            <span>Open</span>
-          </span>
-        </div>
-
-        <!-- Size selector -->
-        <div class="relative flex flex-wrap items-center gap-2">
-          <span class="text-fg2">Size by:</span>
-          <button
-            @click.stop="toggleSizeDropdown"
-            class="flex cursor-pointer items-center gap-1 rounded border border-bg3 bg-bg2 px-2 py-1 transition-colors hover:bg-bg3"
-          >
-            <span>{{ selectedSizeOptionLabel }}</span>
-            <Icon
-              name="mdi:chevron-down"
-              class="h-4 w-4 transition-transform"
-              :class="{ 'rotate-180': sizeDropdownOpen }"
-            />
-          </button>
-
-          <!-- Size dropdown -->
-          <Transition
-            enter-active-class="transition duration-150 ease-out"
-            enter-from-class="opacity-0 translate-y-1"
-            enter-to-class="opacity-100 translate-y-0"
-            leave-active-class="transition duration-100 ease-in"
-            leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-0 translate-y-1"
-          >
+          <div class="flex items-center gap-2">
+            <span class="text-xs">Closed</span>
             <div
-              v-if="sizeDropdownOpen"
-              class="absolute bottom-full left-0 z-50 mb-1 max-h-64 min-w-48 overflow-auto rounded border border-bc bg-bg shadow-lg"
-            >
-              <!-- Performance class option -->
-              <div
-                @mousedown.prevent="selectSizeOption('performanceclass')"
-                class="flex cursor-pointer items-center gap-2 px-3 py-2 transition-colors hover:bg-bg3"
-                :class="{
-                  'bg-bg2': selectedSizeOption === 'performanceclass',
-                }"
-              >
-                <span class="flex-1">Performance class</span>
-                <Icon
-                  v-if="selectedSizeOption === 'performanceclass'"
-                  name="mdi:check"
-                  class="shrink-0 text-link"
-                />
-              </div>
-
-              <!-- Category groups -->
-              <template v-for="cat in categories" :key="cat.ref">
-                <div
-                  @mousedown.prevent="selectSizeOption(`cat:${cat.ref}`)"
-                  class="flex cursor-pointer items-center gap-2 border-t border-bg3 px-3 py-1.5 text-tiny font-semibold uppercase transition-colors hover:bg-bg3"
-                  :class="{
-                    'bg-bg2 text-fg': selectedSizeOption === `cat:${cat.ref}`,
-                    'text-fg2': selectedSizeOption !== `cat:${cat.ref}`,
-                  }"
-                >
-                  <span class="flex-1">{{ cat.name }}</span>
-                  <Icon
-                    v-if="selectedSizeOption === `cat:${cat.ref}`"
-                    name="mdi:check"
-                    class="shrink-0 text-link"
-                  />
-                </div>
-                <div
-                  v-for="param in cat.params"
-                  :key="param.ref"
-                  @mousedown.prevent="selectSizeOption(param.ref)"
-                  class="flex cursor-pointer items-center gap-2 px-3 py-2 pl-5 transition-colors hover:bg-bg3"
-                  :class="{
-                    'bg-bg2': selectedSizeOption === param.ref,
-                  }"
-                >
-                  <span class="flex-1 truncate">{{ param.name }}</span>
-                  <Icon
-                    v-if="selectedSizeOption === param.ref"
-                    name="mdi:check"
-                    class="shrink-0 text-link"
-                  />
-                </div>
-              </template>
-            </div>
-          </Transition>
+              class="h-3 w-24 rounded-full"
+              style="
+                background: linear-gradient(
+                  to right,
+                  var(--color-g1),
+                  var(--color-g2),
+                  var(--color-g3)
+                );
+              "
+            ></div>
+            <span class="text-xs">Open</span>
+          </div>
         </div>
 
         <!-- Size legend -->
-        <div class="flex items-center gap-2">
+        <div
+          class="flex items-center gap-2 rounded border border-bg3 px-2 py-1"
+        >
+          <div class="text-fg2">Size:</div>
           <span class="flex items-center gap-1">
             <span
               class="inline-block h-2 w-2 rounded-full border border-fg2"
@@ -571,43 +578,69 @@
     </div>
   </div>
 </template>
-
 <script lang="ts" setup>
 import { useWindowSize } from "@vueuse/core";
 
 const props = defineProps<{
   version?: string;
+  filters?: any;
+  hideFilters?: boolean;
 }>();
 
 const { models, color, categories } = useModels(props.version);
 
+const route = useRoute();
+const router = useRouter();
+
+// Filters object that syncs with query parameters
+const filters = ref<{
+  type?: string;
+  models?: string;
+  q?: string;
+  size?: string;
+}>({
+  type: "text",
+  size: "performanceclass",
+});
+
+// Watch filters and update router query
+watch(
+  filters,
+  (val) => {
+    if (!props.hideFilters) {
+      router.replace({ query: val });
+    }
+  },
+  { deep: true },
+);
+
 // Detect portrait mode - start with false for SSR, update on client
 const { width, height } = useWindowSize();
 const isMounted = ref(false);
-onMounted(() => {
-  isMounted.value = true;
-});
-const isPortrait = computed(
-  () => isMounted.value && width.value < 768 && height.value > width.value,
-);
 
-// Model type filter - default to "text"
-const selectedModelTypes = ref<string[]>(["text"]);
+// Model type filter - computed from filters object
+const selectedModelTypes = computed({
+  get: () => {
+    if (!filters.value.type) return [];
+    return filters.value.type.split(",").map((t) => t.trim());
+  },
+  set: (value: string[]) => {
+    filters.value.type = value.join(",");
+  },
+});
 
 function toggleModelType(type: string) {
-  if (selectedModelTypes.value.includes(type)) {
-    selectedModelTypes.value = selectedModelTypes.value.filter(
-      (t) => t !== type,
-    );
+  const types = selectedModelTypes.value;
+  if (types.includes(type)) {
+    selectedModelTypes.value = types.filter((t) => t !== type);
   } else {
-    selectedModelTypes.value = [...selectedModelTypes.value, type];
+    selectedModelTypes.value = [...types, type];
   }
 }
 
 function isModelTypeActive(type: string): boolean {
   return selectedModelTypes.value.includes(type);
 }
-const router = useRouter();
 
 const chartHeight = 600;
 const portraitChartHeight = computed(() => {
@@ -623,16 +656,53 @@ const cutoffDate = new Date("2022-01-01");
 
 // Filter state
 const filterInput = ref<HTMLInputElement | null>(null);
-const filterQuery = ref("");
+const filterQuery = computed({
+  get: () => filters.value.q || "",
+  set: (value: string) => {
+    filters.value.q = value;
+  },
+});
 const filterFocused = ref(false);
 const filterDropdownOpen = ref(false);
-const selectedModels = ref<
-  Array<{ filename: string; name: string; score: number }>
->([]);
+const selectedModels = computed({
+  get: () => {
+    if (!filters.value.models) return [];
+    // Convert comma-separated string to full objects for display
+    const filenames = filters.value.models
+      .split(",")
+      .map((f) => f.trim())
+      .filter(Boolean);
+    return filenames
+      .map((filename) => {
+        const model = validModels.value.find(
+          (m: any) => m.filename === filename,
+        );
+        if (!model) return null;
+        return {
+          filename: model.filename,
+          name: model.system?.name || "(undefined)",
+          score: model.score,
+        };
+      })
+      .filter(Boolean) as Array<{
+      filename: string;
+      name: string;
+      score: number;
+    }>;
+  },
+  set: (value: Array<{ filename: string; name: string; score: number }>) => {
+    filters.value.models = value.map((m) => m.filename).join(",");
+  },
+});
 
 // Size selector state
 const sizeDropdownOpen = ref(false);
-const selectedSizeOption = ref("performanceclass");
+const selectedSizeOption = computed({
+  get: () => filters.value.size || "performanceclass",
+  set: (value: string) => {
+    filters.value.size = value;
+  },
+});
 
 function toggleSizeDropdown() {
   sizeDropdownOpen.value = !sizeDropdownOpen.value;
@@ -642,6 +712,25 @@ function selectSizeOption(option: string) {
   selectedSizeOption.value = option;
   sizeDropdownOpen.value = false;
 }
+
+onMounted(() => {
+  isMounted.value = true;
+
+  // Initialize filters from props or route query
+  if (props.filters) {
+    filters.value = { ...filters.value, ...props.filters };
+  } else if (
+    !props.hideFilters &&
+    route.query &&
+    Object.keys(route.query).length > 0
+  ) {
+    filters.value = { ...filters.value, ...route.query };
+  }
+});
+
+const isPortrait = computed(
+  () => isMounted.value && width.value < 768 && height.value > width.value,
+);
 
 const selectedSizeOptionLabel = computed(() => {
   if (selectedSizeOption.value === "performanceclass") {
@@ -700,8 +789,8 @@ function toggleFilterDropdown() {
 }
 
 function clearFilter() {
-  filterQuery.value = "";
-  selectedModels.value = [];
+  filters.value.q = "";
+  filters.value.models = "";
   filterDropdownOpen.value = false;
 }
 
@@ -717,22 +806,25 @@ function toggleModelSelection(model: {
   if (isModelSelected(model.filename)) {
     removeSelectedModel(model.filename);
   } else {
-    selectedModels.value.push({
-      filename: model.filename,
-      name: model.name,
-      score: model.score,
-    });
+    const current = selectedModels.value;
+    selectedModels.value = [
+      ...current,
+      {
+        filename: model.filename,
+        name: model.name,
+        score: model.score,
+      },
+    ];
   }
 }
 
 function removeSelectedModel(filename: string) {
-  selectedModels.value = selectedModels.value.filter(
-    (m) => m.filename !== filename,
-  );
+  const current = selectedModels.value;
+  selectedModels.value = current.filter((m) => m.filename !== filename);
 }
 
 const filteredDropdownModels = computed(() => {
-  const query = filterQuery.value.toLowerCase().trim();
+  const query = (filters.value.q || "").toLowerCase().trim();
   return validModels.value
     .map((m: any) => ({
       filename: m.filename,
