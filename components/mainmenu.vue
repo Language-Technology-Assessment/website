@@ -12,10 +12,10 @@
     <div class="row relative z-10 flex items-center justify-between">
       <NuxtLink
         to="/"
-        class="group/logo pointer-events-auto flex origin-left scale-80 cursor-pointer items-center gap-2 self-start no-underline hover:text-link lg:scale-100"
+        class="group/logo pointer-events-auto flex origin-left scale-80 cursor-pointer items-center gap-0 self-start no-underline hover:text-link lg:scale-100"
       >
         <logo class="logo h-auto w-12" />
-        <div class="w-22 text-[0.75rem] leading-3.75 font-semibold">
+        <div class="w-22 text-center text-[0.75rem] leading-3.75 font-semibold">
           European Open Source AI Index
         </div>
       </NuxtLink>
